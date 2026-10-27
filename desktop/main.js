@@ -193,10 +193,10 @@ async function createWindow() {
   registerUpdateHandlers(ipcMain,localOrigin,()=>window,updateManager,
     async()=>{const folder=path.join(dataDirectory,'update-backups');fs.mkdirSync(folder,{recursive:true});
       const error=await shell.openPath(folder);if(error)throw new Error(error);return true;},
-    async()=>{const result=await dialog.showMessageBox(window,{type:'question',title:'回退软件版本',
-      message:`回退到 ${updateManager.snapshot().rollback_version}？`,
-      detail:'将保存当前数据库和设置备份，再重启安装旧版本。学习资料继续保留；旧版本对新数据结构的兼容性需核对。',
-      buttons:['取消','保存并回退'],defaultId:0,cancelId:0});return result.response===1;});
+    async()=>{const result=await dialog.showMessageBox(window,{type:'question',title:'恢复软件安装',
+      message:`使用已保存的 ${updateManager.snapshot().rollback_version} 安装包恢复安装？`,
+      detail:'将备份当前数据库和设置，再重新安装。学习资料继续保留；请确认所选安装包支持当前学习数据。',
+      buttons:['取消','保存并恢复安装'],defaultId:0,cancelId:0});return result.response===1;});
   updateManager.start();app.on('will-quit',()=>updateManager.dispose());
   if(smokeReport&&process.env.STUDYFORGE_SMOKE_STARTUP==='1'){
     await require('../scripts/smoke_desktop_startup').run({app,window,lifecycle:desktopLifecycle,backend,url,report:smokeReport,
@@ -252,7 +252,7 @@ async function openMainWindow(show=false,view) {
   attachWindowControls(window);
   window.on('closed',()=>{window=null;});
   if (!app.isPackaged) window.on('page-title-updated', (event, title) => {
-    event.preventDefault(); window.setTitle(`${title} · 源码验收版`);
+    event.preventDefault(); window.setTitle(`${title} · 源码运行`);
   });
   window.webContents.setWindowOpenHandler(({ url: target }) => {
     if (target.startsWith('https://')) require('electron').shell.openExternal(target);

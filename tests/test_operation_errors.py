@@ -26,7 +26,7 @@ def test_desktop_and_mobile_share_error_explanations_and_phone_updates_shell():
         source=(root/name).read_text(encoding='utf-8')
         assert '/operation_errors.js' in source and '/operation_errors.css' in source
     worker=(root/'web/mobile/sw.js').read_text(encoding='utf-8')
-    assert 'studyforge-mobile-shell-v90' in worker
+    assert 'studyforge-mobile-shell-0.0.1' in worker
     assert "'/operation_errors.js'" in worker and "'/operation_errors.css'" in worker
     assert '/api/jobs' not in worker
 

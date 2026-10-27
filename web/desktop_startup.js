@@ -19,12 +19,12 @@
     available=Boolean(value.available);
     if(!dirty){$('desktopAutoStart').checked=value.enabled;$('desktopStartHidden').checked=value.start_hidden;}
     controls();card.dataset.state=value.blocked_by_windows?'warning':value.enabled?'enabled':'disabled';
-    $('desktopStartupStatus').textContent=value.message+(value.source_build?' 当前登记的是源码验收版；请保留项目文件夹。':'');
+    $('desktopStartupStatus').textContent=value.message+(value.source_build?' 当前从源码运行；请保留项目文件夹。':'');
   }
   async function refresh(){
     if(busy)return;
     const current=++revision;
-    if(!bridge?.startupStatus){available=false;controls();$('desktopStartupStatus').textContent='请从托盘完全退出旧版，再打开“验收最新版”后设置开机启动。';return;}
+    if(!bridge?.startupStatus){available=false;controls();$('desktopStartupStatus').textContent='请通过 StudyForge 桌面应用设置 Windows 开机启动；若已在桌面应用中，请从托盘完全退出后重新打开。';return;}
     try{const value=await bridge.startupStatus();if(current===revision&&!busy)render(value);}
     catch(error){if(current===revision&&!busy)$('desktopStartupStatus').textContent='无法核对 Windows 开机启动设置：'+error.message;}
   }

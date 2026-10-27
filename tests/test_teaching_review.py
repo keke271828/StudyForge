@@ -15,7 +15,7 @@ def test_desktop_and_phone_load_shared_inspector_and_shell_contains_no_audit_con
         assert '/teaching_review.js' in source and '/teaching_review.css' in source
     worker = (ROOT / 'web/mobile/sw.js').read_text(encoding='utf-8')
     assert "'/teaching_review.js'" in worker and "'/teaching_review.css'" in worker
-    assert 'studyforge-mobile-shell-v90' in worker
+    assert 'studyforge-mobile-shell-0.0.1' in worker
     assert '/api/artifacts' not in worker
     with TestClient(server.app) as client:
         for asset in ('teaching_review.js', 'teaching_review.css'):

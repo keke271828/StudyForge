@@ -18,6 +18,7 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field, StrictInt, StrictBool
 
 from .ai import DeepSeekClient, clear_source_digest_cache, client_for, default_provider, explanation_batches, generate_explanation, parse_json_response, save_settings, settings, source_digest
+from . import __version__
 from .codex_bridge import bridge, bridge_for, close_chat_bridges
 from .scheduling import execution_scope, scheduler, wake_schedulers, run_local
 from .coding import AssignmentReviewError, create_assignment, grade_code, public_assignment_reviews
@@ -93,7 +94,7 @@ async def lifespan(app):
         await bridge.close()
 
 
-app = FastAPI(title="StudyForge", version="0.1.0", lifespan=lifespan)
+app = FastAPI(title="StudyForge", version=__version__, lifespan=lifespan)
 app.include_router(provider_router)
 from .library_routes import router as library_router
 app.include_router(library_router)
@@ -3516,7 +3517,7 @@ def list_lesson_feedback(project_id: str):
 @app.get('/api/lesson-feedback/by-job/{job_id}')
 def feedback_for_job(job_id: str):
     result = lesson_feedback.ensure_questionnaire(job_id)
-    if not result: raise HTTPException(404, '这项任务尚无可恢复对话的讲解；尚未完成或早期版本未保存对话时，请重新生成讲解')
+    if not result: raise HTTPException(404, '这项任务尚无可恢复对话的讲解；任务尚未完成或未保存对话上下文时，请重新生成讲解')
     return result
 
 

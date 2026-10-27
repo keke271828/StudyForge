@@ -11,7 +11,8 @@
   </nav><p class="guide-local">查看指南不调用 AI、不发送资料，也不插入聊天记录。电脑端按 F1 可再次打开。</p>
 </aside>
 <main id="guideMain" tabindex="-1">
-  <header class="guide-intro"><span class="eyebrow">不需要编程基础</span><h1>先完成一件小事，再学其他功能</h1><p>你可以直接提问，也可以上传资料让导师讲解。生成文档、做题和建书库都按需要使用，不必先完成所有设置。</p>
+  <header class="guide-intro"><span class="eyebrow">STUDYFORGE 0.0.1 · 初版</span><h1>先完成一件小事，再学其他功能</h1><p>你可以直接提问，也可以上传资料让导师讲解。生成文档、做题和建书库都按需要使用，不必先完成所有设置。</p>
+    <p class="guide-callout">这是新手使用 Codex 纯 vibe coding 制作的个人项目。软件和 AI 内容都可能出错，请保留重要资料原件并做好备份。</p>
     <div class="guide-task-grid" aria-label="按任务找操作步骤"><a href="#start"><strong>第一次使用</strong><span>连接一个 AI，收到第一条回复</span></a><a href="#materials"><strong>我想读一份资料</strong><span>上传文件或网址，选择要读的部分</span></a><a href="#outputs"><strong>我想下载讲解文件</strong><span>提要求、选格式，再生成</span></a><a href="#homework"><strong>我想练习或交作业</strong><span>先做题，完整提交后看解析</span></a><a href="#library"><strong>我有一整本教材</strong><span>先建目录，再选章节阅读</span></a><a href="#troubleshooting"><strong>我遇到了问题</strong><span>按现象找处理办法</span></a></div>
   </header>
   <p id="guideNoResults" class="guide-callout" hidden>没找到这几个词。换成短词试试，例如“页码”“答案”“超时”。<button id="clearGuideSearch" type="button">清空搜索</button></p>
@@ -161,7 +162,7 @@
 
   <section id="background" class="guide-section" data-search="关闭 托盘 退出 后台 开机 自动启动 更新 安装 版本">
     <div class="section-label">分清隐藏窗口和完全退出</div><h2>后台运行、开机启动与更新</h2><p>按关闭窗口设置，右上角 × 可隐藏到 Windows 托盘，任务继续。要停止软件，在托盘右键退出，或到“设置与联动 → 运行与更新”点“完全退出”。</p>
-    <details><summary>在哪里设置开机启动、通知、更新？</summary><p>“运行与更新”可设置开机启动、隐藏启动、Windows 通知和更新源。系统禁用通知时需在 Windows 设置允许。</p><p>自动更新需要有效的正式发布源。没有发布源时，检测更新不能自动取得新包；使用提供的安装包升级。安装前先从托盘彻底退出旧版，运行新包并选择原安装位置。</p></details><p class="guide-callout">不要为升级手动删除学习数据目录。便携版需保留整个文件夹，不能只把一个 EXE 拿出来运行。</p>
+    <details><summary>在哪里设置开机启动、通知、安装？</summary><p>“运行与更新”可设置开机启动、隐藏启动、Windows 通知和更新源。系统禁用通知时需在 Windows 设置允许。</p><p>当前请从发布页面下载 StudyForge 安装包。运行安装器前先从托盘完全退出软件，再按提示安装。自动安装需要正式更新源及发布者签名，目前没有启用。</p></details><p class="guide-callout">请保留学习数据目录及资料原件。直接运行版需保留整个文件夹，不能只把一个 EXE 拿出来运行。</p>
     <button class="guide-action" data-guide-action="system" type="button">打开运行与更新</button>
   </section>
 

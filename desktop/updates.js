@@ -148,7 +148,7 @@ function createUpdateManager({currentVersion,packaged,storageDirectory,publisher
   async function install(rollback=false){
     if(installPromise)return installPromise;
     requireInstalled();if(busy())throw new Error('更新操作正在进行');
-    const record=rollback?previous():downloaded();if(!record)throw new Error(rollback?'还没有可以退回的旧版本安装包':'尚无已下载的新版本');
+    const record=rollback?previous():downloaded();if(!record)throw new Error(rollback?'暂无可恢复安装包':'尚无已下载的新版本');
     installPromise=(async()=>{
     // Validate before closing the app so a bad cache cannot interrupt learning.
     const file=await verify(record);emit({status:'installing',error:'',candidate:record});

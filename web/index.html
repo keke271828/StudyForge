@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>StudyForge · 学习工作台</title>
+  <title>StudyForge 0.0.1 · 学习工作台</title>
   <link rel="stylesheet" href="/style.css" />
   <link rel="stylesheet" href="/operation_errors.css" />
   <script src="/operation_errors.js"></script>
@@ -131,6 +131,10 @@
           <div class="card-actions"><button id="saveDesktopNotifications" type="button">保存通知设置</button><button id="testDesktopNotification" type="button">发送测试通知</button></div>
           <p id="desktopNotifyStatus" class="small-note" role="status">Windows 通知需通过桌面版运行。若 Windows 开启了勿扰模式，可在通知中心查看；软件顶部也保留最近通知。</p>
         </div>
+        <div id="releaseIntroduction" class="settings-card">
+          <div class="settings-card-head"><span>STUDYFORGE 0.0.1</span><h3>初版</h3><p>本地 AI 学习工作台：管理资料、与导师讨论、生成讲解和练习。AI 服务需要自行配置。</p></div>
+          <p class="small-note">这是新手使用 Codex 纯 vibe coding 制作的个人项目，可能存在问题。请备份重要资料，并核对 AI 内容。</p>
+        </div>
         <div id="updateControls" class="settings-card update-card" hidden>
           <div class="settings-card-head"><span>05 / 版本与更新</span><h3>软件更新</h3><p>自动检查，可选后台下载。由你选择何时保存任务并重启安装。</p></div>
           <p id="updateVersion" class="small-note"></p><p id="updateModeNote" class="small-note"></p>
@@ -143,8 +147,8 @@
           <div id="updateProgress" class="progress" role="progressbar" aria-label="更新下载进度" aria-valuemin="0" aria-valuemax="100" hidden><i></i></div>
           <p id="updateTransfer" class="small-note"></p>
           <div class="card-actions"><button id="downloadUpdate" type="button" hidden>下载更新</button><button id="installUpdate" class="secondary" type="button" hidden>保存任务并重启更新</button></div>
-          <details id="updateNotes" hidden><summary>新版本说明</summary><pre></pre></details>
-          <details><summary>更新恢复</summary><p class="small-note">更新前会备份学习记录和设置，原文件仍保留。需要退回旧版时，可在这里检查可用版本；不会自动用旧记录覆盖现在的学习进度。</p><div class="card-actions"><button id="openUpdateRecovery" type="button">打开备份目录</button><button id="rollbackUpdate" type="button" disabled>暂无可回退版本</button></div></details>
+          <details id="updateNotes" hidden><summary>发布说明</summary><pre></pre></details>
+          <details><summary>安装恢复与备份</summary><p class="small-note">安装前会备份学习记录和设置，原文件仍保留。可检查已保存的安装包；恢复安装不会自动覆盖当前学习进度。</p><div class="card-actions"><button id="openUpdateRecovery" type="button">打开备份目录</button><button id="rollbackUpdate" type="button" disabled>暂无可恢复安装包</button></div></details>
         </div>
       </section>
     </main>

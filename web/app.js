@@ -1041,10 +1041,10 @@ let updateState=null,updateActionBusy=false;
 function renderUpdateState(value){
   updateState=value;$('updateControls').hidden=false;
   const cfg=value.settings,busy=updateActionBusy||['checking','downloading','installing'].includes(value.status);
-  $('updateVersion').textContent=`当前版本 ${value.current_version}${value.packaged?' · 安装版':' · 源码验收版，改动尚未打包'}`;
-  $('updateModeNote').textContent=!value.packaged?'当前入口直接运行源码，只预留更新设置；下载安装在包含更新功能的新安装版中启用。'
-    :!value.signature_configured?'正式发布者签名尚未配置，可检查版本；签名接入后才能自动安装。':'更新安装前核验发布者签名和文件校验值。';
-  const labels={unconfigured:'尚未配置更新源，正式发布时接入。',development:'更新设置可保存；源码模式不自动安装。',idle:'等待检查更新。',
+  $('updateVersion').textContent=`StudyForge ${value.current_version}${value.packaged?' · 安装版':' · 源码运行'}`;
+  $('updateModeNote').textContent=!value.packaged?'当前运行源码；请从发布页面下载安装包。'
+    :!value.signature_configured?'自动安装尚未启用，请从发布页面下载安装包。':'更新安装前核验发布者签名和文件校验值。';
+  const labels={unconfigured:'未配置自动更新源，请从发布页面下载。',development:'更新设置可保存；源码模式不自动安装。',idle:'等待检查更新。',
     checking:'正在检查更新…',current:'当前已是更新源提供的最新版本。',available:`发现新版本 ${value.candidate?.version||''}，可下载。`,
     downloading:`正在下载 ${value.candidate?.version||''}…`,downloaded:`版本 ${value.candidate?.version||''} 已下载，等待你重启安装。`,
     installing:'正在保存任务并准备重启安装…',error:'更新未完成，可核对设置后重试。'};
@@ -1057,7 +1057,7 @@ function renderUpdateState(value){
   $('saveUpdateSettings').disabled=busy;$('checkUpdates').disabled=busy||!value.packaged||!cfg.feed_url;
   $('downloadUpdate').hidden=!value.can_download;$('downloadUpdate').disabled=busy;
   $('installUpdate').hidden=!value.can_install;$('installUpdate').disabled=busy;
-  $('rollbackUpdate').disabled=busy||!value.can_rollback;$('rollbackUpdate').textContent=value.rollback_version?'回退到 '+value.rollback_version:'暂无可回退版本';
+  $('rollbackUpdate').disabled=busy||!value.can_rollback;$('rollbackUpdate').textContent=value.rollback_version?'恢复安装 '+value.rollback_version:'暂无可恢复安装包';
   $('updateNotes').hidden=!value.candidate?.notes;$('updateNotes').querySelector('pre').textContent=value.candidate?.notes||'';
 }
 async function refreshUpdateControls(){

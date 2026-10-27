@@ -5,7 +5,7 @@
   document.querySelector('.workspace-actions').prepend(trigger);
   const dialog=document.createElement('dialog');dialog.id='mobileConnectionDialog';dialog.className='mobile-connect-dialog';
   dialog.innerHTML=`<header><div><h2>把学习工作台带到手机</h2><small>电脑处理资料，手机专注阅读与交流</small></div><button type="button" id="closeMobileConnection">关闭</button></header>
-    <div class="mobile-connect-body"><section id="mobileRuntimeUpdate" class="mobile-runtime-update" role="alert" hidden><h3>请先重新打开最新版软件</h3><p>这个窗口仍在使用旧版桌面窗口或学习服务；只刷新页面不会更新软件本身。旧地址已隐藏，避免连接到仍限制局域网的服务。</p><p>点击下面按钮保存并退出当前旧版，再双击项目文件夹中的「验收最新版.vbs」。重新打开后启用跨网络连接。</p><button id="exitOldMobileRuntime" type="button">保存并退出旧版</button><p id="oldMobileExitStatus"></p></section>
+    <div class="mobile-connect-body"><section id="mobileRuntimeUpdate" class="mobile-runtime-update" role="alert" hidden><h3>请重新打开 StudyForge</h3><p>当前桌面窗口与学习服务未能提供完整的手机连接功能，连接地址暂不显示。</p><p>请保存并退出软件，再从 Windows 开始菜单或桌面快捷方式打开 StudyForge，然后重试。</p><button id="exitOldMobileRuntime" type="button">保存并退出软件</button><p id="oldMobileExitStatus"></p></section>
     <section class="mobile-private-connection"><div class="mobile-private-heading"><div><h3>固定网址，随时接着学</h3><p>电脑与手机各登录一次 Tailscale，之后换 Wi-Fi 或使用手机流量都用同一个私人地址。</p></div><span id="mobileTailscaleStatus" role="status">正在检测…</span></div><label class="setting-check"><input id="mobileUseTailscale" type="checkbox">同时启用 Tailscale 跨网络连接</label><p id="mobileTailscaleDetail" class="small-note"></p><div class="mobile-private-actions"><button id="setupMobileTailscale" type="button" title="启用固定连接、自动启动和长期记住设备；已有手机回复会停止">启用跨网络连接</button><button id="refreshMobileNetwork" type="button">重新检测</button><button id="installTailscaleWindows" type="button">电脑安装 / 登录说明</button><button id="installTailscaleAndroid" type="button">手机安装入口</button></div></section>
     <div class="mobile-connect-controls"><label>电脑连接地址<select id="mobileAddress"></select></label><label>连接端口<input id="mobilePort" type="number" min="1024" max="65535" value="18765"></label><button id="startMobileConnection" type="button">启用手机连接</button><button id="restartMobileConnection" type="button" title="切换网络或连接方式后刷新地址；正在进行的手机回复会停止" hidden>重新开启连接</button><button id="stopMobileConnection" type="button" hidden>停止连接</button></div>
     <div class="mobile-connect-preferences"><label class="setting-check"><input id="mobileAutoStart" type="checkbox">打开软件时自动启用手机连接</label><label>记住设备<select id="mobileRememberDays"><option value="365">长期记住 · 每次使用自动续期</option><option value="90">90 天 · 自动续期</option><option value="30">30 天 · 自动续期</option></select></label><button id="saveMobilePreferences" type="button">保存连接偏好</button></div><p class="small-note">已配对的同一浏览器无需每次扫码。固定网址可添加到手机主屏幕；清除浏览器数据或撤销设备后需要重新配对。</p><p id="mobileConnectionStatus" class="mobile-connect-status" role="status">局域网或已登录的 Tailscale 均可连接。</p>
@@ -42,8 +42,8 @@
     for(const id of ['startMobileConnection','restartMobileConnection','setupMobileTailscale','refreshMobileNetwork','saveMobilePreferences','diagnoseMobileConnection'])byId(id).disabled=!supported;
     if(!supported){
       qrKey='';byId('mobileConnectionDetails').hidden=true;byId('mobileConnectionQR').removeAttribute('src');byId('mobileConnectionURL').textContent='';
-      byId('mobileTailscaleStatus').textContent='旧版后台';byId('mobileTailscaleDetail').textContent='先保存并退出旧版，再打开最新版。';
-      notice('当前学习服务版本还不支持跨网络连接，请使用上方“保存并退出旧版”。');return;
+      byId('mobileTailscaleStatus').textContent='连接功能不可用';byId('mobileTailscaleDetail').textContent='请保存并退出软件，再重新打开 StudyForge。';
+      notice('当前无法启用跨网络连接，请使用上方“保存并退出软件”后重新打开。');return;
     }
     if(value.interfaces){select.replaceChildren();for(const item of value.interfaces){const option=document.createElement('option');option.value=item.address;option.dataset.kind=item.kind||'lan';option.textContent=item.name+' · '+item.address;select.append(option);}if(!addressManual&&value.preferred_address&&[...select.options].some(item=>item.value===value.preferred_address))select.value=value.preferred_address;else if([...select.options].some(item=>item.value===old))select.value=old;}
     if(diagnosedFor&&diagnosedFor!==select.value+'|'+value.port){diagnosticEpoch++;diagnosedFor='';byId('mobileDiagnosticResult').hidden=true;}
@@ -76,7 +76,7 @@
   byId('closeMobileConnection').onclick=()=>dialog.close();dialog.onclose=()=>{clearInterval(poll);poll=null;};
   byId('exitOldMobileRuntime').onclick=async()=>{
     const button=byId('exitOldMobileRuntime'),status=byId('oldMobileExitStatus');button.disabled=true;
-    try{if(!bridge.quit)throw new Error('请从 Windows 通知区托盘右键选择“退出 StudyForge”。');await bridge.quit();status.textContent='正在保存并退出；关闭后双击“验收最新版.vbs”。';}
+    try{if(!bridge.quit)throw new Error('请从 Windows 通知区托盘右键选择“退出 StudyForge”。');await bridge.quit();status.textContent='正在保存并退出；关闭后从 Windows 开始菜单或桌面快捷方式打开 StudyForge。';}
     catch(failure){status.textContent=failure.message;button.disabled=false;}
   };
   function options(){return {address:byId('mobileAddress').value,port:Number(byId('mobilePort').value),auto_start:byId('mobileAutoStart').checked,enable_tailscale:byId('mobileUseTailscale').checked,remember_days:Number(byId('mobileRememberDays').value)};}
@@ -101,7 +101,7 @@
   byId('exportMobileCertificate').onclick=async()=>{try{const result=await bridge.mobileCertificate();if(result.saved)notice('连接证书已导出：'+result.path+'。传到手机安装后再扫码。');}catch(failure){notice(failure.message);}};
   byId('diagnoseMobileConnection').onclick=async()=>{
     const button=byId('diagnoseMobileConnection'),result=byId('mobileDiagnosticResult'),token=++diagnosticEpoch;
-    if(!bridge.mobileDiagnostics)return notice('请退出旧版，从“验收最新版”重新打开后使用连接自检。');
+    if(!bridge.mobileDiagnostics)return notice('连接自检暂不可用，请从托盘完全退出后重新打开 StudyForge。');
     button.disabled=true;button.textContent='正在检查…';
     try{
       const report=await bridge.mobileDiagnostics({address:byId('mobileAddress').value,phone_ip:byId('mobilePhoneIP').value});

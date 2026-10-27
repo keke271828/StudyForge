@@ -12,6 +12,7 @@ import time
 from pathlib import Path
 from typing import Any, AsyncIterator
 
+from . import __version__
 from .config import data_dir
 from .runtime import background_process_options
 
@@ -107,7 +108,7 @@ class CodexBridge:
                                                          stderr=asyncio.subprocess.DEVNULL,
                                                          limit=16 * 1024 * 1024, **background_process_options())
         self.reader = asyncio.create_task(self._read())
-        await self.request("initialize", {"clientInfo": {"name": "studyforge", "title": "StudyForge", "version": "0.3.4"},
+        await self.request("initialize", {"clientInfo": {"name": "studyforge", "title": "StudyForge", "version": __version__},
                                           'capabilities': {'experimentalApi': True}})
         await self._send({"method": "initialized", "params": {}})
 

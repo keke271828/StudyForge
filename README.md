@@ -342,4 +342,350 @@ AI 服务与模型：
 
 提交前请删掉 API 密钥、令牌、账号凭据和私人资料。能够用一页脱敏文档或一个小例子复现的问题，通常更容易排查。
 
-欢迎直接指出功能、交互、文档和讲解中的问题。这个项目还有很多不足，具体的反馈比客气话更有用。
+欢迎直接指出功能、交互、文档和讲解中的问题。这个项目还有很多不足，具体的反馈将帮助这个项目走得越来越远，在此谢谢各位。
+
+---
+
+> ## Before you use it
+>
+> **This is something a complete beginner put together with Codex through pure vibe coding. I lack basic programming knowledge and familiarity with development tools, so there is a lot that could be improved, and many parts have not turned out the way I originally intended. I will keep learning and improving the project. Developers who are interested are welcome to build their own versions on top of it. Please point out any problems directly; I will make improvements from time to time.**
+>
+> Bugs, slowdowns, crashes, compatibility issues, failed generation, inexplicable error messages, and problems I have not discovered yet are all possible. Working on one computer does not mean it will work on another. Having tests and checks does not rule out vulnerabilities or data loss. **I cannot guarantee code quality, stability, compatibility, or data safety. Keep the original copies of important materials and make your own backups.**
+
+# StudyForge 0.0.1
+
+**A local learning workspace for Windows that brings study materials, AI discussions, explanatory documents, and practice together.**
+
+Add textbooks, lecture notes, images, audio, video, or web pages to a project, choose the parts you want to study, and use them to ask questions, organize notes, generate explanations, and practice. Materials and learning records are stored on your computer. AI capabilities come from the model services you configure yourself.
+
+## Contents
+
+- [What this project is trying to do](#what-this-project-is-trying-to-do)
+- [Main features](#main-features)
+- [Installation and requirements](#installation-and-requirements)
+- [Getting started](#getting-started)
+- [Working with your materials](#working-with-your-materials)
+- [Practice, feedback, and learning records](#practice-feedback-and-learning-records)
+- [Connecting your phone](#connecting-your-phone)
+- [Data, privacy, and file access](#data-privacy-and-file-access)
+- [Practical limitations and common problems](#practical-limitations-and-common-problems)
+- [Running from source](#running-from-source)
+- [Reporting problems](#reporting-problems)
+
+## What this project is trying to do
+
+Studying often means keeping a textbook, a chat window, notes, and assignment files open at the same time. You may need to paste the same material into a conversation again, generated explanations end up scattered across folders, and a few days later it can be hard to find the original question and context.
+
+StudyForge tries to bring these activities into one place: organize materials by course or topic, keep the learning process in separate conversations, turn discussions into documents, and use your answers and follow-up questions to identify what you have not yet understood.
+
+Some situations you might try it in:
+
+- Work through lecture notes or a textbook one section at a time.
+- Read an article and untangle its concepts, arguments, evidence, and conditions.
+- Get an overview of a topic, then choose particular parts to study in depth.
+- Turn scattered discussions into explanations you can save, print, or edit.
+- Practice using selected materials, then review your answers and feedback.
+- Run tasks on your computer and continue reading, asking questions, or downloading results on your phone.
+
+You still need to judge whether the materials are reliable, whether your question is clear, and whether an explanation makes sense. Producing a large collection of documents does not mean you have understood them.
+
+## Main features
+
+### Projects, materials, and separate conversations
+
+A project can represent a course, a book, or a study topic. Each project can contain several conversations: for example, separate discussions about limits and continuity within a mathematical analysis project.
+
+Conversations in the same project can use shared materials, while each conversation keeps its own selected references and chat history. Projects and conversations can be renamed, sorted, pinned, and managed. Deleted projects first go to the recycle bin and can be restored before permanent deletion.
+
+### Multiple material types and reading selected ranges
+
+Supported material types include:
+
+| Type | Common formats or content |
+| --- | --- |
+| Documents and text | PDF, DOCX, PPTX, TXT, Markdown, HTML, CSV, JSON, TeX |
+| Images | PNG, JPEG, WebP, and others, with text and image recognition |
+| Audio and video | Common local media files; subtitles, speech transcription, and sampled frames are processed where available |
+| Web pages | Save a link, then read the body of a page that can be accessed |
+| Mind maps and flashcards | XMind, FreeMind, OPML, Anki APKG, and others |
+| Programming and computational materials | Common source code, Jupyter Notebook, MATLAB, Mathematica, and other readable files |
+
+Supporting a format means there is an input path for it. It does not guarantee correct parsing of every complex layout, scanned page, encrypted file, or unusual document. Compare the original file, extracted content, and source locations.
+
+You can parse only a few PDF pages or use a selected passage. To get familiar with material first, run a reading task and inspect its notes. When discussing a specific issue, return to the relevant part of the original.
+
+### An AI tutor and different approaches to learning
+
+Choose a service, model, and learning mode in the workspace, then discuss the current materials. You can follow up on a particular sentence, formula, or connection between concepts.
+
+| Mode | What it is for |
+| --- | --- |
+| Overview | Understand a topic, its main questions, core ideas, and scope |
+| In-depth study | Work through concepts, reasoning, why a method was chosen, calculations, and conditions of use |
+| Research | Compare arguments, materials, evidence, and unresolved questions |
+
+You can also adjust explanation style, language, detail, and the reasoning level supported by the model. State specific requirements in the current conversation, such as “explain why this step was chosen,” “use only these materials,” or “do not include exercises this time.”
+
+### Explanatory documents and other outputs
+
+After a discussion, generate a separate explanatory document and view, download, rename, or manage it in **成果文档** (Outputs).
+
+Outputs cover Word, PDF, Markdown, HTML, presentations, mind maps, Anki flashcards, code, and computational files. Each format has its own uses. Code, notebooks, and computational files still need the appropriate environment to run.
+
+Document generation offers different review levels. More extensive review usually takes additional model processing and waiting time, and it can still miss mistakes. Check the results with a short passage before processing a long document.
+
+### Practice, feedback, and targeted explanations
+
+Generate problem sets, programming assignments, or understanding checks from your materials. After submitting a complete set of answers, review the solutions, feedback, and follow-up explanations. You can revisit the original problems or try exercises at the same difficulty or in a new context.
+
+The software tries to identify difficulties using your actual answers. If there is not enough information, it may ask how you approached a problem first. AI grading and its explanations of your mistakes can also be wrong; revisit the original question, your answer, and the supporting material when in doubt.
+
+### A shared library, knowledge structures, and learning plans
+
+The shared library stores PDF textbooks that can be referenced across projects. Read selected chapters, keep reading records, and find relevant content in later discussions.
+
+Knowledge structures help you inspect concepts and their connections. Learning plans let you organize topics for broad exploration, in-depth study, or independent inquiry. AI-generated connections still need checking. “Organized” means reading results exist, not that you have mastered the content.
+
+### Learning profiles, tasks, and interface settings
+
+The learning profile brings together subject questions, answers, self-assessments, difficulties, and teaching preferences. You can inspect the evidence, correct inaccurate records, and remove unrelated content.
+
+The task area shows queued, running, paused, and failed tasks. Some tasks can continue from completed steps. Independent tasks can run with limited concurrency, but running more tasks at once does not necessarily make them faster.
+
+You can adjust the theme, background, fonts, and reading area. Focus mode, an expanded conversation view, full screen, and notifications are also available.
+
+## Installation and requirements
+
+### Installer
+
+1. Open the [Releases download page](https://github.com/keke271828/StudyForge/releases/latest) and download the Windows installer (`.exe`).
+2. If a matching checksum file is provided, use SHA-256 to check the download's integrity.
+3. Run the installer and follow its instructions, then open StudyForge from the desktop or Start menu.
+4. If no window appears, check the Windows system tray and click the StudyForge icon to restore it.
+
+The installer targets **Windows x64**. Installation and compatibility on other operating systems are not guaranteed here. The installer has no commercial code-signing certificate, so Windows may show an unknown-publisher warning. Check where the file came from before running it.
+
+### What else you need
+
+- At least one AI service account or API key that you are authorized to use.
+- A working network connection for online models, web access, and related downloads.
+- Suitable recognition capabilities or an image-capable model for scanned pages and images.
+- Additional model resources may be needed for local speech recognition, retrieval, and similar features. Initial setup can take longer.
+- Isolated execution of programming assignments needs Docker and the appropriate language environment. Viewing or discussing code does not mean it has actually been run.
+
+Installing the app does not provide AI service credits. Available models, permissions, and pricing depend on your own service account.
+
+## Getting started
+
+### 1. Connect one AI service first
+
+Open **设置与联动 → 模型与语音** (Settings and integrations → Models and voice). Start with one service you already have permission to use.
+
+| Connection | Basic setup |
+| --- | --- |
+| DeepSeek | Enter the API key, save the settings, then click “检测 DeepSeek 连接” (Test DeepSeek connection) |
+| Local Codex | Install and sign in to Codex CLI first, check availability under “运行与更新 → 运行环境” (Runtime and updates → Runtime environment), then choose Codex in the workspace |
+| OpenAI-compatible API | Add a service in AI service management, enter the endpoint, model identifier, and key, then save and test it |
+| Gemini API | Add the corresponding service type, enter the key and model details, then save and test it |
+| Gemini · Google account | Follow the app's setup flow to install the official Gemini CLI and authorize your account, then test availability |
+
+An API endpoint is the service's calling interface. The URL of an ordinary chat website usually cannot be used in its place. The model name must also be an identifier accepted by that service.
+
+After setup, return to the workspace, select the service and model, and send a simple question without any materials attached. If even that fails, fix the connection before importing large files.
+
+### 2. Create a project and conversation
+
+Click **“＋ 新建学习项目”** (New learning project) in the left sidebar. For example, name it “Mathematical Analysis,” then create or select a conversation for the current topic.
+
+Return to the original project and conversation to continue studying. Creating a new project with the same name does not recover previous records, and a new conversation does not automatically select everything referenced in the previous one.
+
+### 3. Try the full workflow with a small sample
+
+1. Click **“＋ 文件”** (Add file) or drag a file into the materials area. Use the URL input for a web link.
+2. For a PDF, click **“范围”** (Range) and start with one page. For other documents, choose a passage you need.
+3. After parsing, select that range's material in the current conversation.
+4. Ask a specific question and check that the tutor is using the right content.
+5. Once that works, try reading tasks, document generation, or longer materials.
+
+This makes it easier to distinguish account and connection problems from parsing problems or issues with the model's answer.
+
+## Working with your materials
+
+### Uploading, parsing, reading, and generating are different actions
+
+| Action | What it does |
+| --- | --- |
+| Upload / save a link | Add a file or URL to the project and store it |
+| Parse | Extract text, images, transcriptions, or other usable content from the selected range |
+| Select / reference | Tell the current conversation which materials to use |
+| Read through | Ask AI to organize reading notes and knowledge cues from the selected range |
+| Send | Receive a tutor response in the conversation |
+| Generate an explanation | Create an output file you can read, download, and keep |
+
+Uploading a file does not automatically make the tutor read the entire book. Deselecting a file changes the current references without deleting it. If you want to study one page, also check that you have not selected a copy of the whole book that was previously parsed in full.
+
+PDF page numbers count from the first page of the file and may differ from printed page numbers. A range such as `3-5,8` means file pages 3, 4, 5, and 8. Recognized formulas, tables, and image content particularly need comparison with the original page.
+
+### Asking more useful questions
+
+Try to explain which passage you mean, what you already understand, and the exact step where you lose the thread. Adapt these examples to your own question:
+
+> Use only my selected materials. First explain what problem this concept addresses, then walk through the key reasoning, especially why this step was chosen. Give a small example and state the conditions under which it applies. Explain only; do not include exercises this time.
+
+> I can follow the calculation, but I do not understand why this auxiliary quantity is introduced. Start with what this step is trying to achieve, then connect it back to the original proof.
+
+> Check your explanation against this passage. Separate what the source explicitly says, what you have derived, and what cannot currently be confirmed.
+
+You can also use **“针对原句追问”** (Ask about a specific passage) beside a response, select a sentence or formula, and add your question. Selecting a passage prepares a reference; the tutor is called only after you check the draft and send it.
+
+### Generating and managing outputs
+
+1. Select the materials and state the requirements for this explanation in the current conversation.
+2. Expand the explanation and generation options, then choose the content, format, and review level.
+3. If you only want an explanation, turn off **“同步生成举一反三习题”** (Generate additional practice exercises).
+4. Click **“生成讲解”** (Generate explanation) and check progress in **“成果文档”** (Outputs).
+5. Read or download the completed result. It also appears in the project's quick material selection, where you can select it for further discussion.
+
+A tutor response you want to keep can also be saved as an output using the controls beside it.
+
+Pausing keeps progress for later continuation; canceling stops the current task. Some stages must finish the current request before they can pause. When a task fails, read the error details first. If **“重试未完成步骤”** (Retry unfinished steps) is available, continue the original task rather than repeatedly creating the same task again.
+
+### Using the shared library for textbooks
+
+Open **“全局书库”** (Shared library), add a PDF textbook, identify or correct its table of contents, choose chapters and check page ranges, then schedule reading.
+
+**“优先开始”** (Start with priority) puts the work into the queue. **“空闲时再读”** (Read when idle) gives chat and document tasks priority. If chapters depend heavily on earlier ones, read them in sequence.
+
+The library can follow the workspace model or use a separate choice under **“阅读模型”** (Reading model). Tasks already started retain their original settings. When referencing chapters or searching reading results later, return to the original pages for important conclusions.
+
+## Practice, feedback, and learning records
+
+Generate or open a problem set in **“练习与作业”** (Practice and assignments), complete it, and submit your answers. You can also use **“提交作业”** (Submit assignment) in the workspace. Review the solutions and feedback after submitting the complete assignment.
+
+- Recheck disputed scores against the original question and your submitted answer.
+- If the reason for a mistake is unclear, explain your approach when prompted, then continue the follow-up explanation.
+- To check whether you can apply something independently, start an understanding check or practice in a new context when needed.
+- Distinguish model commentary, static checks, and actual execution in programming tasks. Code that has not been run has not passed a runtime test.
+- When recovering an assignment task, use the continue or retry controls in its original record so results from a different assignment are not mixed in.
+
+**The learning profile is a supporting record, not a final verdict on your ability.** You can inspect sources and dates, correct inaccurate judgments, adjust self-assessments, and remove unrelated memories. Reading something, understanding an explanation, answering one question correctly, and retaining independent mastery over time are different things.
+
+## Connecting your phone
+
+Your phone uses a browser to access a page served by your computer. The computer still runs the tasks. The app's connection instructions currently focus on Android.
+
+1. Click **“连接手机”** (Connect phone) at the top of the desktop app, enable the connection, and use the current address or QR code.
+2. Follow the dialog's instructions to install and trust the computer's CA certificate on your phone, then open the HTTPS page.
+3. Enter the pairing code and approve the device on your computer.
+4. Select a project and conversation to chat, upload materials, check tasks, or download outputs.
+
+For the first attempt, put the computer and phone on the same Wi-Fi network. For access across networks, follow the app's Tailscale instructions and connect both devices to the same private network.
+
+The computer must stay on and its connection service must remain enabled. The certificate handles HTTPS trust; it cannot fix a wrong address, network isolation, or a sleeping computer. Tasks already started on the computer can continue after the phone page closes. Open the page again to check the results.
+
+## Data, privacy, and file access
+
+### Local storage and online processing
+
+Material copies, conversations, and outputs are mainly stored on your computer. The default data directory is:
+
+```text
+%LOCALAPPDATA%\StudyForge
+```
+
+If you have configured a different data directory, use that location instead.
+
+When calling an online AI service, relevant questions, selected material excerpts, and necessary context are sent to the service you choose. If background learning-memory organization is enabled, relevant learning excerpts may also be sent to the model selected for those records. Local storage does not mean all processing is offline or that content will never be sent to an external model.
+
+API keys saved through the app use the system credential-management mechanism. You need to understand and accept the chosen service's own rules for handling content sent to it.
+
+### Backups
+
+Keep original copies of important materials and export the outputs you need. Before backing up the app's data, fully exit StudyForge from the system tray, then copy the actual data directory. Copying the installation folder alone does not back up your learning data.
+
+Account credentials may not be included in a directory backup, so you may need to sign in again or re-enter keys after moving to another computer. Do not use this experimental app as the only storage location for important materials.
+
+### AI access to files
+
+Ordinary questions and references to selected materials do not require giving AI access to the entire computer.
+
+- **“只读” — Read-only:** read within the authorized scope without changing files.
+- **“需要审批” — Approval required:** operations that require approval are presented for you to decide.
+- **“完全访问” — Full access:** allow changes within the authorized scope under the tool rules; decide what scope you are comfortable granting.
+
+Web searches, web-video access, and image generation have their own tool settings. Enabling a capability does not provide an account, key, or access permission.
+
+Optional MCP integrations for external workspaces, including VS Code Codex and DeepSeek Harness, are available under **“设置与联动”** (Settings and integrations). They are not required to complete the ordinary learning workflow inside this app.
+
+## Practical limitations and common problems
+
+### Keep these limitations in mind
+
+- **A model can give a wrong explanation, omit conditions, or misunderstand a question, and review can miss those mistakes.** A source location does not mean every statement has been verified.
+- **Scans, formulas, tables, accents, and video frames can be recognized incorrectly.** Video processing uses available subtitles, transcriptions, and sampled frames; it does not guarantee frame-by-frame understanding of an entire video.
+- **Long materials, speech recognition, document generation, and multiple reviews take time.** Speed depends on hardware, network conditions, the model service, material length, and concurrent tasks.
+- **Different services do not have identical capabilities.** Working chat does not imply support for images, tools, or the same reasoning options.
+- **Format support does not mean outputs have been verified in every target application or on every device.** Open and check downloaded code, notebooks, mind maps, or presentations yourself.
+- **The project itself has maturity limitations.** Some problems need investigation while their details are still available. Repeatedly generating, retrying, or reinstalling may not help.
+
+### Troubleshooting by symptom
+
+| Symptom | What to check first |
+| --- | --- |
+| No window appears | Look for StudyForge in the Windows system tray and click its icon |
+| AI does not reply or the connection times out | Test the service connection, check the key, model identifier, quota, and network; try a short question without materials |
+| 429 / too many requests | Reduce concurrent tasks and wait as instructed by the service rather than retrying immediately |
+| The tutor says there are no materials after upload | Check that the material has been parsed and its range selected in the current project and conversation |
+| A web page or video cannot be read | Confirm you have access and have completed any page verification; try desktop browser reading or supply a local file and subtitles |
+| Generation is slow or memory usage is high | Check the current stage, try a smaller range, and reduce concurrency or unnecessary extra tasks |
+| A task fails even though progress reached 100% | Use the final task status and actual output as the result; read the error details rather than treating the progress bar as successful delivery |
+| Old conversations or outputs seem missing | Return to the original project and conversation, load older messages, and check project filters and the recycle bin |
+| The phone page keeps loading | Confirm the computer and connection service are running and the address is correct; check Tailscale on both devices for access across networks |
+
+Press **F1** or open the in-app guide for more detailed setup and troubleshooting instructions.
+
+## Running from source
+
+To use the app, you can download the installer. Running or modifying the source requires Python 3.12 or newer and Node.js 22 or newer.
+
+1. Download or clone this repository and enter the project root.
+2. Run `setup_studyforge.cmd` to install the Python and Node dependencies.
+3. After setup completes, run `start_studyforge.cmd`.
+
+If `dist/win-unpacked/StudyForge.exe` exists, `start_studyforge.cmd` opens that executable first. To explicitly run the current source, install the dependencies and run this command from the project root:
+
+```bash
+npm start
+```
+
+A rough guide to the directories:
+
+| Directory | Contents |
+| --- | --- |
+| `desktop/` | Electron desktop entry point, windows, runtime integration, and related functions |
+| `studyforge/` | Python backend, material processing, AI calls, and output generation |
+| `web/` | Desktop workspace, phone pages, and the in-app guide |
+| `scripts/` | Build and helper scripts |
+| `tests/` | Existing tests |
+| `docs/` | Topic-specific documentation and development records |
+
+## Reporting problems
+
+Report issues through [GitHub Issues](https://github.com/keke271828/StudyForge/issues). The following details are more useful for diagnosis than simply saying “it does not work”:
+
+```text
+What I was trying to do:
+Installer or source build:
+Windows version:
+AI service and model:
+Material type, size, and selected range:
+Steps I took or input I entered:
+Expected result:
+Actual behavior or full error:
+Does it happen every time?
+Screenshots or minimal reproduction materials:
+```
+
+Remove API keys, tokens, account credentials, and private content before submitting. Problems reproducible with one redacted page or a small example are usually easier to investigate.
+
+Please point out problems with the features, interface, documentation, or explanations. This project still has many shortcomings. Your specific feedback will help it grow and go further. Thank you, everyone.

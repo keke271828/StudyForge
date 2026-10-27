@@ -1,0 +1,14 @@
+.desktop-notice-bell{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.desktop-notice-badge{min-width:20px;line-height:20px;border-radius:10px;padding:0 5px;background:var(--accent,#286a55);color:#fff;font-size:11px}
+.desktop-notice-badge[hidden]{display:none}
+.desktop-notify-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(235px,1fr));gap:8px 22px;margin:18px 0}
+.desktop-notices-dialog{width:min(640px,90vw);max-height:82vh;padding:26px;border:1px solid var(--line,#d9ded4);border-radius:22px;background:var(--card,#fff);color:var(--ink,#263e37);box-shadow:0 24px 70px #0004}
+.desktop-notices-dialog::backdrop{background:#10271d44;backdrop-filter:blur(5px)}
+.desktop-notices-dialog header{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.desktop-notices-dialog h2{margin:4px 0 16px}.desktop-notices-dialog .notice-footer{margin-top:16px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.desktop-notice-list{display:grid;gap:9px;max-height:52vh;overflow:auto;padding:2px}
+.desktop-notice-item{display:flex;align-items:flex-start;gap:14px;width:100%;padding:15px;text-align:left;border:1px solid var(--line,#d9ded4);border-radius:14px;background:transparent;color:inherit}
+.desktop-notice-item:hover{background:color-mix(in srgb,var(--accent,#286a55) 8%,transparent)}
+.desktop-notice-item>span:last-child{display:grid;gap:6px;min-width:0}.desktop-notice-detail{white-space:pre-line;font-size:13px;overflow-wrap:anywhere;line-height:1.65}
+.desktop-notice-item small{opacity:.65;font-size:11px}.desktop-notice-icon{display:grid;place-items:center;flex:0 0 29px;height:29px;border-radius:9px;background:color-mix(in srgb,var(--accent,#286a55) 12%,transparent);font-weight:700}
+.notice-arrival{outline:2px solid var(--accent,#286a55);outline-offset:3px}

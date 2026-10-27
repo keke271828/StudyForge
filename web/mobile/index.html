@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content">
+  <meta name="theme-color" content="#f5f4ee">
+  <title>StudyForge · 随身学习</title>
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/vendor/katex.css">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/operation_errors.css">
+  <script defer src="/operation_errors.js"></script>
+  <link rel="stylesheet" href="/source_evidence.css">
+  <link rel="stylesheet" href="/library.css">
+  <script defer src="/vendor/marked.js"></script>
+  <script defer src="/vendor/purify.js"></script>
+  <script defer src="/vendor/katex.js"></script>
+  <script defer src="/lesson_render.js"></script>
+  <script defer src="/message_history.js"></script>
+  <script defer src="/source_scope.js"></script>
+  <script defer src="/task_retry.js"></script>
+  <script defer src="/source_evidence.js"></script>
+  <link rel="stylesheet" href="/teaching_review.css">
+  <script defer src="/teaching_review.js"></script>
+  <script defer src="/refresh_state.js"></script>
+  <link rel="stylesheet" href="/task_timing.css">
+  <script defer src="/task_timing.js"></script>
+  <script defer src="/app.js"></script>
+  <link rel="stylesheet" href="/document_exports.css">
+  <script defer src="/document_exports.js"></script>
+  <link rel="stylesheet" href="/message_focus.css">
+  <script defer src="/source_selection.js"></script>
+  <script defer src="/message_focus.js"></script>
+  <script defer src="/library_models.js"></script>
+  <script defer src="/library.js"></script>
+  <script defer src="/library_policy.js"></script>
+  <link rel="stylesheet" href="/library_mentions.css">
+  <script defer src="/library_mentions.js"></script>
+  <link rel="stylesheet" href="/homework_reader.css" />
+  <link rel="stylesheet" href="/repair_picker.css" />
+  <script defer src="/repair_picker.js"></script>
+  <link rel="stylesheet" href="/practice_hints.css">
+  <script defer src="/practice_hints.js"></script>
+  <script defer src="/homework_reader.js"></script>
+  <script defer src="/homework.js"></script>
+  <link rel="stylesheet" href="/lesson_passage.css">
+  <script defer src="/lesson_passage.js"></script>
+  <script defer src="/lesson-feedback.js"></script>
+  <script defer src="/learning-check.js"></script>
+  <link rel="stylesheet" href="/source_scope.css">
+  <link rel="stylesheet" href="/user_guide.css">
+  <script defer src="/user_guide.js"></script>
+</head>
+<body>
+  <section id="pairScreen" class="pair-screen">
+    <div class="pair-brand"><span class="brand-mark">∑</span><div><strong>StudyForge</strong><small>随身学习工作台</small></div></div>
+    <div class="pair-card"><span class="eyebrow">CONTINUE YOUR LEARNING</span><h1>连接电脑，<br>从这里接着学。</h1><p>手机负责交流与阅读，电脑处理资料并保存你的学习记录。</p>
+      <form id="pairForm"><label>电脑上的 8 位配对码<input id="pairCode" inputmode="numeric" pattern="[0-9]{8}" maxlength="8" autocomplete="off" required placeholder="00000000"></label><label>这台手机的名称<input id="deviceName" maxlength="60" value="我的安卓手机" required></label><button id="pairSubmit" class="primary" type="submit">请求连接</button></form>
+      <p id="pairStatus" role="status" class="helper">在电脑顶部点击“连接手机”，获取配对码。</p>
+      <button type="button" class="user-guide-entry" data-open-user-guide="phone" aria-haspopup="dialog">第一次连接？查看操作指南</button>
+    </div><p class="pair-footer">仅连接你自己的电脑 · 连接采用 HTTPS</p>
+  </section>
+
+  <div id="learningApp" class="learning-app" hidden>
+    <header class="topbar"><button id="openWorkspace" class="icon-button" type="button" aria-label="项目与对话">☰</button><div class="workspace-title"><span id="projectName">学习项目</span><strong id="conversationName">选择一个对话</strong></div><button id="focusMode" class="icon-button" type="button" aria-label="进入专注模式" title="专注模式">⛶</button><button id="openOptions" class="icon-button" type="button" aria-label="学习选项">⋯</button></header>
+    <nav class="workspace-strip" aria-label="学习工具"><button id="openMaterials" type="button">资料 <span id="materialCount">0</span></button><button id="openHomework" type="button">作业 <span id="homeworkCount">0</span></button><button id="openArtifacts" type="button">成果 <span id="artifactCount">0</span></button><button id="openTasks" type="button">任务 <span id="taskCount">0</span></button><button id="openGenerate" type="button">生成文档</button></nav>
+    <div id="connectionStatus" class="connection-status" role="status" hidden></div>
+    <main id="messages" class="messages" aria-label="学习对话" tabindex="0"><div class="empty-state"><span>∑</span><h2>今天想弄懂什么？</h2><p>上传资料，或从一个具体问题开始。</p></div></main>
+    <form id="composer" class="composer"><div id="uploadProgress" class="upload-progress" role="status" hidden></div><div id="replyStatus" class="reply-status" role="status" hidden></div><div id="retryBox" class="retry-box" hidden><span>上次发送状态尚未确认。</span><button id="retrySend" type="button">重试发送</button></div>
+      <div id="homeworkNotice" class="homework-notice" role="status" hidden><span id="homeworkNoticeText"></span><button id="homeworkNoticeOpen" type="button">填写问卷</button></div>
+      <div id="lessonFeedbackNotice" class="homework-notice" role="status" hidden><span id="lessonFeedbackNoticeText"></span><button id="lessonFeedbackNoticeOpen" type="button">理解反馈</button></div>
+      <textarea id="prompt" rows="1" maxlength="20000" placeholder="说说你的疑问或理解…" aria-label="给导师的消息"></textarea>
+      <div class="composer-tools"><button id="uploadFiles" class="icon-button" type="button" aria-label="上传手机文件" title="上传手机文件">＋</button><button id="cameraFile" class="icon-button" type="button" aria-label="拍照添加资料" title="拍照添加资料">▣</button><button id="selectedSources" class="source-chip" type="button">未引用资料</button><button id="focusExit" class="icon-button focus-only" type="button" aria-label="退出专注模式">⛶</button><button id="composerMore" class="icon-button" type="button" aria-label="生成与学习选项">⋯</button><button id="stopReply" class="send-button" type="button" aria-label="停止本次回复" hidden>■</button><button id="sendMessage" class="send-button" type="submit" aria-label="发送消息">↑</button></div>
+      <input id="fileInput" type="file" multiple hidden><input id="cameraInput" type="file" accept="image/*" capture="environment" hidden>
+    </form>
+  </div>
+
+  <dialog id="workspaceDialog" class="sheet"><header><div><span class="eyebrow">YOUR WORKSPACE</span><h2>项目与对话</h2></div><button class="icon-button" data-close type="button" aria-label="关闭">✕</button></header><div class="sheet-body"><label>项目文件夹<select id="projectSelect"></select></label><div class="row-actions"><button id="newProject" type="button">新建项目</button><button id="newConversation" class="primary" type="button">＋ 新对话</button></div><form id="projectForm" class="inline-form" hidden><input id="newProjectName" maxlength="120" required placeholder="项目名称"><button type="submit">创建</button></form><div id="conversationList" class="item-list"></div></div></dialog>
+  <dialog id="materialsDialog" class="sheet"><header><div><span class="eyebrow">SHARED PROJECT LIBRARY</span><h2>选择对话资料</h2></div><button class="icon-button" data-close type="button" aria-label="关闭">✕</button></header><div class="sheet-body"><p class="helper">这里是当前项目的文件和生成成果。勾选后，导师才能在这个对话中使用；不会影响其他对话。</p><div class="row-actions"><button id="uploadFromLibrary" class="primary" type="button">上传手机文件</button><button id="clearMaterials" type="button">清空引用</button></div><form id="urlForm" class="url-form"><input id="sourceUrl" type="url" placeholder="粘贴网页或视频链接" aria-label="导入网址"><button type="submit">导入</button></form><input id="sourceSearch" type="search" placeholder="搜索本项目资料" aria-label="搜索资料"><div id="sourceList" class="item-list"></div></div></dialog>
+  <dialog id="artifactsDialog" class="sheet"><header><div><span class="eyebrow">YOUR OUTPUTS</span><h2>项目成果</h2></div><button class="icon-button" data-close type="button" aria-label="关闭">✕</button></header><div class="sheet-body"><div class="row-actions"><select id="artifactSort" aria-label="成果排序"><option value="newest">最新生成</option><option value="name">名称</option><option value="format">格式</option></select><button id="refreshArtifacts" type="button">刷新</button></div><p class="helper">点击“下载”保存到手机。想询问某份成果，去“资料”里勾选它，再回对话提问。</p><div id="artifactList" class="item-list"></div></div></dialog>
+  <dialog id="tasksDialog" class="sheet"><header><div><span class="eyebrow">RUNNING ON YOUR COMPUTER</span><h2>电脑后台任务</h2></div><button class="icon-button" data-close type="button" aria-label="关闭">✕</button></header><div class="sheet-body"><p class="helper">生成任务在电脑后台执行。手机离开页面或暂时断网后，重新连接可以继续查看。</p><div id="taskList" class="item-list"></div></div></dialog>
+  <dialog id="optionsDialog" class="sheet"><header><div><span class="eyebrow">LEARN YOUR WAY</span><h2>学习选项</h2></div><button class="icon-button" data-close type="button" aria-label="关闭">✕</button></header><div class="sheet-body"><label>AI 服务<select id="provider"></select></label><label>模型<input id="model" list="mobileModels" placeholder="使用服务默认模型"><datalist id="mobileModels"></datalist></label><p id="modelNotice" class="helper"></p><label id="effortField" hidden>推理强度<select id="effort"><option value="">模型默认</option></select></label><label>学习模式<select id="learningMode"><option value="overview">概览 · 先了解重点</option><option value="deep">精学 · 讲清思路和每一步的理由</option><option value="research">研究 · 比较解释与成立条件</option></select></label><label>讲解风格<select id="explanationStyle"><option value="clear">通俗清晰 · 易懂的解释和具体例子</option><option value="balanced">直观与专业并重</option><option value="academic">学术专业</option></select></label><label>讲解语言<select id="outputLanguage"><option value="zh">中文</option><option value="bilingual">中英双语</option><option value="en">英语</option></select></label><label class="check-line"><input id="useMaterials" type="checkbox" checked>本次聊天引用选中的资料</label><label>手机外观<select id="phoneTheme"><option value="auto">跟随系统</option><option value="light">浅色</option><option value="dark">深色</option></select></label><p class="helper">这些选择只保存在当前对话。手机上的文件操作仍受电脑权限限制，需要批准的操作会先询问你。</p><div class="row-actions"><button id="generateFromOptions" class="primary" type="button">生成成果</button><button id="logout" type="button">断开并撤销这台手机</button></div></div></dialog>
+  <dialog id="generateDialog" class="sheet"><header><div><span class="eyebrow">TURN MATERIAL INTO UNDERSTANDING</span><h2>生成学习成果</h2></div><button class="icon-button" data-close type="button" aria-label="关闭">✕</button></header><form id="generateForm" class="sheet-body"><label>这次生成什么<select id="generationContent"><option value="explanation">讲解文档</option><option value="exercises">只生成习题</option></select></label><label>讲解格式<select id="outputFormat"></select></label><label class="check-line"><input id="withExercises" type="checkbox">同步生成配套习题（单独 DOCX，不含答案）</label><label>概括性强弱 <span id="summaryLabel">均衡详略</span><input id="summaryLevel" type="range" min="1" max="5" value="3"></label><label>讲解检查方式<select id="reviewMode"><option value="express">极速 · 由写作 AI 自查</option><option value="fast">快速 · 额外检查 1 次</option><option value="balanced">平衡 · 检查后修订重要问题</option><option value="strict">严谨 · 分项检查，修改后再查</option></select></label><p class="helper" id="reviewModeHint">这里选择生成后要检查到什么程度。检查越多通常越慢；AI 的思考强度另行设置。</p><label>对这份成果的要求<textarea id="generationInstructions" rows="3" maxlength="20000" placeholder="例如：先解释术语，再讲为什么想到这一步，不出题。留空则沿用当前对话的要求。"></textarea></label><p class="helper">使用当前对话选好的 AI 和资料。开始后可以关闭手机页面；电脑须保持开机并运行软件。</p><button id="startGeneration" class="primary wide" type="submit">在电脑上开始生成</button></form></dialog>
+  <dialog id="approvalDialog" class="sheet"><header><div><span class="eyebrow">WAITING FOR YOUR DECISION</span><h2>电脑文件操作审批</h2></div><button class="icon-button" data-close type="button" aria-label="稍后处理">✕</button></header><div id="approvalList" class="sheet-body"></div></dialog>
+  <dialog id="homeworkDialog" class="sheet homework-sheet">
+    <header><div><span class="eyebrow">PRACTICE · UNDERSTAND · IMPROVE</span><h2 id="homeworkHeading">作业与补讲</h2></div><button class="icon-button" data-close type="button" aria-label="关闭作业窗口">✕</button></header>
+    <div class="sheet-body">
+      <p id="homeworkContext" class="helper"></p>
+      <div id="homeworkBrowse"><p class="helper">先完成整套题再提交。提交后可立即下载参考解析，导师会另外批改、分析错因并重新讲解。</p><div id="homeworkList" class="item-list"></div></div>
+      <section id="homeworkDetail" hidden>
+        <button id="homeworkBack" class="text-button" type="button">← 本项目题单</button>
+        <h3 id="homeworkTitle"></h3>
+        <p id="homeworkDescription" class="helper"></p>
+        <form id="homeworkAnswerForm">
+          <div id="homeworkQuestions"></div>
+          <div class="homework-file-tools"><label id="homeworkFileLabel">导入已完成的作答<input id="homeworkFile" type="file" accept=".pdf,.docx,.txt,.md,.png,.jpg,.jpeg,.webp,.bmp,.tif,.tiff"></label><button id="homeworkExtract" type="button">识别到答题框 · 不提交</button><p id="homeworkFileStatus" class="helper" role="status">选择文件不会自动读取。点击后才识别，识别结果需逐题核对。</p></div>
+          <details id="homeworkAttemptOptions"><summary>作答条件与低分处理</summary><label>这次是否查阅笔记或解析？<select id="homeworkUsedNotes"><option value="">未说明</option><option value="false">没有查阅笔记或解析</option><option value="true">参考过笔记或解析</option></select></label><label>低于80分后<select id="homeworkRecoveryMode"><option value="adaptive">先诊断，自己选择补学方式</option><option value="strict">原有用自己的话讲解，再做进阶题</option></select></label><p class="helper">这只决定低分后怎样补学，不改变评分标准，80 分仍算通过。请如实说明有没有查笔记，帮助导师判断下一步怎么教。</p></details>
+          <label class="check-line"><input id="homeworkComplete" type="checkbox" required>已完成全部题目；不会的题已注明卡点。提交后解锁解析。</label>
+          <button id="homeworkSubmit" class="primary wide" type="submit">提交作业 · 立即提供解析</button>
+        </form>
+        <div id="homeworkResult" class="homework-result" aria-live="polite"></div>
+        <section id="homeworkCauses" hidden><h3>先确认错因，再继续补讲</h3><p class="helper">导师还不能确定这些题为什么做错。批改文档已暂停；请回忆作答时的理解，也可以选择“仍不确定”。</p><form id="homeworkCausesForm"><div id="homeworkCauseQuestions"></div><p id="homeworkCauseSave" class="helper" role="status"></p><button id="homeworkCauseSubmit" class="primary wide" type="submit">提交错因反馈 · 继续批改</button></form></section>
+        <section id="homeworkFeynman" hidden><h3 id="homeworkFeynmanHeading">用自己的话重新讲清楚</h3><p id="homeworkFeynmanDescription" class="helper"></p><details id="homeworkFeynmanPanel"><summary id="homeworkFeynmanToggle">可选：展开讲解与核查</summary><div id="homeworkFeynmanFeedback" class="markdown"></div><form id="homeworkFeynmanForm"><label>我的讲解<textarea id="homeworkFeynmanText" rows="6" maxlength="20000" required placeholder="从自己真正理解的地方讲起，也可以明确写出还不懂的部分。"></textarea></label><button id="homeworkFeynmanSubmit" class="primary wide" type="submit">提交我的讲解</button></form></details></section>
+      </section>
+    </div>
+  </dialog>
+  <dialog id="lessonFeedbackDialog" class="sheet lesson-feedback-sheet">
+    <header><div><span class="eyebrow">REVIEW · UNDERSTAND · KEEP LEARNING</span><h2>理解与内容反馈</h2></div><button class="icon-button" data-close type="button" aria-label="关闭讲解反馈">✕</button></header>
+    <div class="sheet-body">
+      <section id="lessonFeedbackBrowse"><p class="helper">这不是考试，不会打分。可以告诉导师哪里没懂、哪里可能讲错了；也可以只保存反馈，暂时不请导师回应。</p><div id="lessonFeedbackList" class="item-list"></div></section>
+      <section id="lessonFeedbackDetail" hidden>
+        <button id="lessonFeedbackBack" class="text-button" type="button">← 本项目讲解反馈</button><h3 id="lessonFeedbackTitle"></h3><div id="lessonFeedbackContext" class="lesson-feedback-context"></div>
+        <form id="lessonFeedbackForm">
+          <details class="questionnaire-focus"><summary>卡在哪一节或哪句话？（可选）</summary><label>讲解中的位置<select id="lessonFeedbackFocus"></select></label><p id="lessonFeedbackFocusInfo" class="helper"></p><div id="lessonFeedbackPassage"></div></details>
+          <fieldset><legend>理解困难或讲解疑点 · 可多选</legend><div id="lessonFeedbackChoices"></div></fieldset>
+          <label>其他补充<textarea id="lessonFeedbackOther" rows="4" maxlength="3000" placeholder="写下卡点或你怀疑有误的句子，也可以说明应核对的条件、页码或反例。"></textarea></label>
+          <p id="lessonFeedbackDraftStatus" class="helper" role="status"></p><button id="lessonFeedbackSubmit" class="primary wide" type="submit">提交并请导师回应</button>
+          <div class="row-actions lesson-feedback-secondary"><button id="lessonFeedbackSave" type="button">仅保存反馈</button><button id="lessonFeedbackSkip" class="text-button" type="button">暂时跳过</button></div>
+        </form>
+        <div id="lessonFeedbackResult" class="lesson-feedback-result" hidden></div><button id="lessonFeedbackRetry" class="primary wide" type="button" hidden>请导师补讲</button><button id="lessonFeedbackCheck" class="wide lesson-feedback-secondary" type="button" hidden>用 1 道题检查是否听懂</button><p id="lessonFeedbackCheckNotice" class="helper" hidden>可选：做一道新题检查是否听懂。不点击不会出题，提交后才能看解析。</p><button id="lessonFeedbackConversation" class="wide lesson-feedback-secondary" type="button" hidden>回到原对话 · 继续追问</button>
+      </section>
+    </div>
+  </dialog>
+  <div id="toast" class="toast" role="status" popover="manual" hidden></div>
+</body>
+</html>

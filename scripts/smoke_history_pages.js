@@ -1,0 +1,65 @@
+const {app,BrowserWindow}=require('electron'),fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
+const {X509Certificate}=require('node:crypto'),folder=path.resolve(__dirname,'../build',process.argv[2]),data=JSON.parse(fs.readFileSync(path.join(folder,'case.json'),'utf8'));
+app.setPath('userData',path.join(folder,'pages-browser'));app.disableHardwareAcceleration();
+const checks=[],errors=[],sleep=ms=>new Promise(r=>setTimeout(r,ms)),run=(w,c)=>w.webContents.executeJavaScript(c);let pc,phone;
+async function until(w,c){for(let i=0;i<220;i++){if(await run(w,c))return;await sleep(100);}throw Error('Timeout '+c);}
+function windowFor(width,height){const w=new BrowserWindow({show:false,width,height,webPreferences:{sandbox:true,contextIsolation:true,backgroundThrottling:false,offscreen:true}});w.webContents.on('console-message',e=>{if(e.level==='error'&&!/IPC channel/.test(e.message))errors.push(e.message);});return w;}
+const owner=(route,method='GET',value)=>`fetch(${JSON.stringify(route)},{method:'${method}',headers:{'x-studyforge-desktop-token':'${data.token}','Content-Type':'application/json'},body:${value===undefined?'undefined':JSON.stringify(JSON.stringify(value))}}).then(async r=>{if(!r.ok)throw Error(await r.text());return r.json()})`;
+async function note(w){await run(w,`libraryOpen('${data.book_id}')`);await until(w,`Boolean(document.querySelector('[data-book-notes="${data.annotation_node}"]'))`);await run(w,`document.querySelector('[data-book-notes="${data.annotation_node}"]').click()`);await until(w,"Boolean(document.querySelector('.book-note-review')) && !$('bookNotesDeepen').disabled");}
+app.whenReady().then(async()=>{try{
+ pc=windowFor(1440,950);await pc.loadURL(data.desktop_url);await until(pc,`state.ready&&state.conversation==='${data.conversation_id}'&&!conversationUI.restoring`);
+ assert.equal(await run(pc,"$('messages').querySelectorAll('.message').length"),60);
+ assert.equal(await run(pc,"Boolean($('messages').querySelector('.history-load-older'))"),true);
+ assert.equal(await run(pc,`Boolean($('messages').querySelector('[data-message-id="${data.message_ids[0]}"]'))`),false);
+ checks.push('Desktop initially renders the latest 60 of 155 messages, with an older-history control');
+ await run(pc,`$('messages').scrollTop=180;window.stableNode=$('messages').querySelector('[data-message-id="${data.message_ids[100]}"]');window.stableTop=stableNode.getBoundingClientRect().top;$('messages').querySelector('.history-load-older').click()`);
+ await until(pc,"$('messages').querySelectorAll('.message').length===120");
+ assert.equal(await run(pc,"stableNode.isConnected&&Math.abs(stableNode.getBoundingClientRect().top-stableTop)<3"),true);
+ await run(pc,"$('messages').querySelector('.history-load-older').click()");await until(pc,"$('messages').querySelectorAll('.message').length===155&&!$('messages').querySelector('.history-load-older')");
+ checks.push('All older records load without duplicates and prepending keeps the visible message at the same position');
+ // Force an older page to arrive after a newer poll; the poll has not seen its range.
+ await run(pc,`(async()=>{const part=await api('/api/conversations/${data.conversation_id}?project_id=${data.project_id}&history_limit=60');studyforgeHistoryPages.begin($('messages'),'${data.conversation_id}',part);studyforgeMessageHistory.sync($('messages'),part.messages,row=>makeMessage(row.role,row.content),{scope:'${data.conversation_id}'});installHistoryPager();window.pageApi=api;window.earlierReceived=false;window.earlierGate=new Promise(resolve=>window.releaseEarlier=resolve);api=async(...args)=>{const result=await pageApi(...args);if(String(args[0]).includes('/messages?')&&String(args[0]).includes('before=')){earlierReceived=true;await earlierGate;}return result;};$('messages').querySelector('.history-load-older').click();})()`);
+ await until(pc,'earlierReceived');await run(pc,owner('/__history_test__/amend_older','POST'));await run(pc,'refreshConversationMessages()');
+ await run(pc,'releaseEarlier()');await until(pc,"$('messages').querySelectorAll('.message').length===120");await run(pc,'api=pageApi;refreshConversationMessages()');
+ await until(pc,"$('messages').textContent.includes('AMENDED_OLDER_DURING_LOAD')");
+ await run(pc,"$('messages').querySelector('.history-load-older').click()");await until(pc,"$('messages').querySelectorAll('.message').length===155");
+ checks.push('Interleaved older-page and newer-poll responses recheck corrections outside the previous visible range');
+ await run(pc,"window.oldApi=api;window.historyReplies=[];api=async(...args)=>{const r=await oldApi(...args);if(String(args[0]).includes('/messages?'))historyReplies.push({bytes:JSON.stringify(r).length,unchanged:r.not_modified});return r;};refreshConversationMessages()");
+ assert.equal(await run(pc,"historyReplies.at(-1).unchanged&&historyReplies.at(-1).bytes<100"),true);
+ await run(pc,owner('/__history_test__/amend','POST'));await run(pc,'refreshConversationMessages()');await until(pc,"$('messages').textContent.includes('AMENDED_SAME_ID')");
+ const added=await run(pc,owner('/__history_test__/append','POST'));await run(pc,'refreshConversationMessages()');assert.equal(await run(pc,`Boolean($('messages').querySelector('[data-message-id="${added.id}"]'))&&$('messages').querySelectorAll('.message').length===156`),true);
+ checks.push('Small unchanged responses, same-ID corrections and new task results are reflected in the loaded range');
+ await run(pc,`selectProject({id:'${data.other_project_id}',name:'另一项目'})`);assert.equal(await run(pc,"$('messages').textContent.includes('PAGE_RECORD_')"),false);
+ await run(pc,`selectProject({id:'${data.project_id}',name:'原项目'},{conversationId:'${data.conversation_id}'})`);await until(pc,"$('messages').textContent.includes('AMENDED_SAME_ID')");
+ assert.equal(await run(pc,"$('messages').querySelectorAll('.message').length"),156);
+ checks.push('Desktop project isolation and the explicitly expanded history range survive switching');
+ await note(pc);await run(pc,"document.querySelector('[data-note-suspect]').checked=true;document.querySelector('[data-note-comment]').value='PC_CORRECTION：含1且减法封闭可推出含0。';document.querySelector('.book-note-review').requestSubmit()");
+ await until(pc,"document.querySelector('[data-note-status]').textContent.includes('已保存：')");
+ await run(pc,"$('bookNotesDialog').close()");await note(pc);
+ assert.equal(await run(pc,"document.querySelector('[data-note-suspect]').checked&&document.querySelector('[data-note-comment]').value.includes('PC_CORRECTION')&&$('bookNotesBody').textContent.includes('CORRECTION_RAW_RECORD')"),true);
+ await run(pc,"$('bookNotesDialog').close()");checks.push('Version-specific correction persists after reopen while original AI text stays available');
+ phone=windowFor(390,844);const ca=new X509Certificate(fs.readFileSync(data.certificate));phone.webContents.session.setCertificateVerifyProc((req,cb)=>{let ok=false;try{ok=req.hostname==='127.0.0.1'&&new X509Certificate(req.certificate.data).verify(ca.publicKey);}catch{}cb(ok?0:-3);});
+ const pairing=await run(pc,owner('/api/mobile/pairing','POST'));await phone.loadURL(data.mobile_url+'/#pair='+pairing.pairing_code);await until(phone,"$('pairScreen')&&!$('pairScreen').hidden");await run(phone,"$('deviceName').value='分页与校订验收手机';$('pairForm').requestSubmit()");
+ await until(pc,owner('/api/mobile/status')+".then(x=>x.devices.some(d=>d.status==='pending'))");const device=await run(pc,owner('/api/mobile/status')+".then(x=>x.devices.find(d=>d.status==='pending'))");await run(pc,owner('/api/mobile/devices/'+device.id+'/approve','POST',{approved:true}));
+ await until(phone,`mobile.authenticated&&mobile.chat?.id==='${data.conversation_id}'`);assert.equal(await run(phone,"$('messages').querySelectorAll('.message').length"),60);
+ await sleep(300);await run(phone,"$('messages').scrollTop=150;window.phoneStable=$('messages').querySelector('.message');window.phoneStableTop=phoneStable.getBoundingClientRect().top;$('messages').querySelector('.history-load-older').click()");await until(phone,"$('messages').querySelectorAll('.message').length===120");
+ const phonePosition=await run(phone,"({connected:phoneStable.isConnected,before:phoneStableTop,after:phoneStable.getBoundingClientRect().top,scroll:$('messages').scrollTop,behavior:getComputedStyle($('messages')).scrollBehavior})");
+ assert.ok(phonePosition.connected&&Math.abs(phonePosition.after-phonePosition.before)<3,JSON.stringify(phonePosition));
+ checks.push('Paired TLS phone uses bounded initial history and preserves its reading position when loading older messages');
+ await run(phone,"$('prompt').value='HISTORY_LIVE_TEST：继续讨论一个条件。';$('composer').requestSubmit()");await until(phone,"$('messages').textContent.includes('LIVE_CHUNK_ONE')");
+ await run(phone,"window.phoneLive=$('messages').querySelector('[data-live-reply]');$('messages').querySelector('.history-load-older').click()");await until(phone,"$('messages').textContent.includes('AMENDED_SAME_ID')");assert.equal(await run(phone,"phoneLive.isConnected&&phoneLive===$('messages').querySelector('[data-live-reply]')"),true);
+ await run(pc,owner('/__history_test__/release','POST'));await until(phone,"!mobile.runs.has(mobile.chat.id)&&!$('messages').querySelector('[data-live-reply]')&&$('messages').textContent.includes('LIVE_CHUNK_TWO')");
+ checks.push('Loading old messages during a phone reply keeps its live stream and final saved answer without duplicate bubbles');
+ await run(phone,"$('messages').scrollTop=260;window.phoneReturnPosition=$('messages').scrollTop");
+ await run(phone,`selectProject('${data.other_project_id}')`);assert.equal(await run(phone,"$('messages').textContent.includes('PAGE_RECORD_')"),false);
+ await run(phone,`selectProject('${data.project_id}')`);await until(phone,"$('messages').textContent.includes('AMENDED_SAME_ID')");
+ assert.equal(await run(phone,"Math.abs($('messages').scrollTop-phoneReturnPosition)<3&&$('messages').querySelectorAll('.message').length===158"),true);
+ checks.push('Phone switching restores its expanded range and reading position without retaining other conversation bodies');
+ await run(phone,`selectProject('${data.other_project_id}')`);await note(phone);
+ assert.equal(await run(phone,"document.querySelector('[data-note-suspect]').checked&&document.querySelector('[data-note-comment]').value.includes('PC_CORRECTION')"),true);
+ await run(phone,"document.querySelector('[data-note-clear]').click()");await until(phone,"document.querySelector('[data-note-status]').textContent.includes('已清除')");
+ assert.equal(await run(phone,"$('bookNotesBody').textContent.includes('CORRECTION_RAW_RECORD')&&!document.querySelector('[data-note-suspect]').checked"),true);
+ checks.push('Shared correction is visible from another project on the phone; clearing restores the unchanged navigation note');
+ assert.equal(await run(phone,"document.querySelectorAll('.katex-error').length"),0);assert.equal(errors.length,0);
+ fs.writeFileSync(path.join(folder,'phone-pages.png'),(await phone.webContents.capturePage()).toPNG());fs.writeFileSync(path.join(folder,'history-pages-ui-report.json'),JSON.stringify({passed:true,checks,console_errors:errors},null,2));phone.destroy();pc.destroy();app.quit();
+ }catch(error){fs.writeFileSync(path.join(folder,'history-pages-ui-report.json'),JSON.stringify({passed:false,checks,error:error.stack,console_errors:errors},null,2));for(const w of [pc,phone])if(w&&!w.isDestroyed()){fs.writeFileSync(path.join(folder,(w===pc?'pc':'phone')+'-failure.png'),(await w.webContents.capturePage()).toPNG());w.destroy();}app.exit(1);}});

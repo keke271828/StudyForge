@@ -1,0 +1,19 @@
+.profile-scoring{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:16px 18px;border:1px solid var(--line);border-radius:14px;background:var(--surface);margin:14px 0;}
+body .profile-grid{grid-template-columns:repeat(auto-fill,minmax(min(100%,280px),1fr));}
+.profile-scoring>div{flex:1;min-width:230px;max-width:470px;}
+.profile-scoring label{font-size:13px;color:var(--ink);}
+.profile-scoring output{float:right;font-weight:700;color:var(--accent-ink);}
+.profile-scoring input[type=range]{display:block;width:100%;margin-top:10px;accent-color:var(--accent);}
+.profile-scoring p{margin:6px 0 0;}
+#profileScoringStatus{flex-basis:100%;font-size:12px;color:var(--muted);}
+body .profile-card>small{display:block;line-height:1.8;margin-top:8px;}
+body .profile-card .profile-combined-score{display:block;font-size:27px;margin-top:9px;}
+body .profile-card .profile-combined-score small{font-size:12px;font-weight:400;margin-left:3px;}
+body .profile-card .profile-calibration{font-size:12px;color:var(--ink);padding:10px;border-radius:8px;background:var(--accent-soft);line-height:1.7;}
+body .profile-recent-assessments{margin-top:14px;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--surface);color:var(--ink);}
+.profile-recent-assessments h4{margin:0 0 8px;font-size:13px;}
+.profile-recent-assessments ol{margin:0;padding:0;list-style:none;}
+.profile-recent-assessments li{padding:8px 0;border-top:1px solid var(--line);}
+.profile-recent-assessments li>div{display:flex;align-items:baseline;justify-content:space-between;gap:8px;flex-wrap:wrap;font-size:13px;}
+.profile-recent-assessments time{font-size:11px;}
+.profile-recent-assessments small,.profile-recent-assessments p{display:block;margin:5px 0 0;font-size:12px;line-height:1.7;overflow-wrap:anywhere;}

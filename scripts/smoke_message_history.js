@@ -1,0 +1,53 @@
+const {app,BrowserWindow}=require('electron'),fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
+const {X509Certificate}=require('node:crypto'),folder=path.resolve(__dirname,'../build',process.argv[2]),data=JSON.parse(fs.readFileSync(path.join(folder,'case.json'),'utf8'));
+app.setPath('userData',path.join(folder,'history-browser'));app.disableHardwareAcceleration();
+const checks=[],errors=[],sleep=ms=>new Promise(r=>setTimeout(r,ms)),run=(w,c)=>w.webContents.executeJavaScript(c);let pc,phone;
+async function until(w,c){for(let i=0;i<200;i++){if(await run(w,c))return;await sleep(100);}throw new Error('Timeout '+c);}
+const owner=(route,method='GET',value)=>`fetch(${JSON.stringify(route)},{method:'${method}',headers:{'x-studyforge-desktop-token':'${data.token}','Content-Type':'application/json'},body:${value===undefined?'undefined':JSON.stringify(JSON.stringify(value))}}).then(async r=>{if(!r.ok)throw new Error(await r.text());return r.json()})`;
+app.whenReady().then(async()=>{
+ try{
+  pc=new BrowserWindow({show:false,width:1440,height:950,webPreferences:{sandbox:true,contextIsolation:true,backgroundThrottling:false}});
+  await pc.loadURL(data.desktop_url);await until(pc,`state.ready&&state.conversation==='${data.conversation_id}'&&$('messages').querySelectorAll('[data-message-id]').length===30`);
+  for(const w of [pc])w.webContents.on('console-message',e=>{if(e.level==='error')errors.push(e.message);});
+  await run(pc,`window.firstHistory=$('messages').querySelector('[data-message-id="${data.message_ids[1]}"]');window.oldMath=firstHistory.querySelector('.katex');$('messages').scrollTop=100;window.oldScroll=$('messages').scrollTop;$('chatSourceMode').value='none';$('prompt').value='HISTORY_LIVE_TEST：请继续解释这个条件。';$('sendMessage').click()`);
+  await until(pc,"liveChats.get(state.conversation)?.answer.includes('LIVE_CHUNK_ONE')");
+  await run(pc,"window.liveBody=liveChats.get(state.conversation).output;$('messages').scrollTop=100;window.oldScroll=$('messages').scrollTop");
+  await run(pc,owner('/__history_test__/append','POST'));await run(pc,'refreshConversationMessages()');
+  await until(pc,"$('messages').textContent.includes('BACKGROUND_RESULT')");
+  assert.deepEqual(await run(pc,"({stable:firstHistory===$('messages').querySelector('[data-message-id=\""+data.message_ids[1]+"\"]'),math:oldMath.isConnected,live:liveBody===liveChats.get(state.conversation).output&&liveBody.isConnected,scroll:Math.abs($('messages').scrollTop-oldScroll)<2,text:$('messages').textContent.includes('BACKGROUND_RESULT')})"),{stable:true,math:true,live:true,scroll:true,text:true});
+  checks.push('Desktop background completion retains old math DOM, reading position and the same live reply');
+  await run(pc,owner('/__history_test__/release','POST'));await until(pc,"!liveChats.has(state.conversation)&&$('messages').textContent.includes('LIVE_CHUNK_TWO')");
+  assert.equal(await run(pc,"firstHistory.isConnected&&oldMath.isConnected"),true);checks.push('The provider stream continues after refresh and its final saved answer remains visible');
+  await run(pc,owner('/__history_test__/amend','POST'));await run(pc,'refreshConversationMessages()');
+  await until(pc,"$('messages').querySelector('[data-message-id=\""+data.message_ids[1]+"\"]').textContent.includes('AMENDED_SAME_ID')");
+  assert.equal(await run(pc,"$('messages').querySelector('[data-message-id=\""+data.message_ids[1]+"\"]').textContent.includes('AMENDED_SAME_ID')"),true);
+  checks.push('Same-ID message corrections are displayed instead of skipped by the old ID-only signature');
+  await run(pc,`selectProject({id:'${data.other_project_id}',name:'另一个项目'})`);assert.equal(await run(pc,"$('messages').textContent.includes('PUBLIC_HISTORY_')"),false);
+  await run(pc,`selectProject({id:'${data.project_id}',name:'原项目'},{conversationId:'${data.conversation_id}'})`);await until(pc,"$('messages').textContent.includes('LIVE_CHUNK_TWO')");
+  checks.push('Project switching clears the other history and restores the original saved conversation');
+  phone=new BrowserWindow({show:false,width:390,height:844,webPreferences:{sandbox:true,contextIsolation:true,backgroundThrottling:false}});phone.webContents.on('console-message',e=>{if(e.level==='error')errors.push(e.message);});
+  const ca=new X509Certificate(fs.readFileSync(data.certificate));phone.webContents.session.setCertificateVerifyProc((req,cb)=>{let ok=false;try{ok=req.hostname==='127.0.0.1'&&new X509Certificate(req.certificate.data).verify(ca.publicKey);}catch{}cb(ok?0:-3);});
+  const pair=await run(pc,owner('/api/mobile/pairing','POST'));await phone.loadURL(data.mobile_url+'/#pair='+pair.pairing_code);await until(phone,"$('pairScreen')&&!$('pairScreen').hidden");
+  await run(phone,"$('deviceName').value='长对话刷新验收手机';$('pairForm').requestSubmit()");await until(pc,owner('/api/mobile/status')+".then(x=>x.devices.some(d=>d.status==='pending'))");
+  const device=await run(pc,owner('/api/mobile/status')+".then(x=>x.devices.find(d=>d.status==='pending'))");await run(pc,owner('/api/mobile/devices/'+device.id+'/approve','POST',{approved:true}));
+  await until(phone,`mobile.authenticated&&mobile.chat?.id==='${data.conversation_id}'&&$('messages').textContent.includes('LIVE_CHUNK_TWO')`);
+  await run(phone,"window.phoneFirst=$('messages').querySelector('.message.assistant');$('messages').scrollTop=80;window.phoneScroll=$('messages').scrollTop");
+  const firstAddition=await run(pc,owner('/__history_test__/append','POST'));await run(phone,'refresh()');await until(phone,`Boolean($('messages').querySelector('[data-message-id="${firstAddition.id}"]'))`);
+  assert.equal(await run(phone,"phoneFirst===$('messages').querySelector('.message.assistant')&&Math.abs($('messages').scrollTop-phoneScroll)<2"),true);
+  checks.push('Paired phone appends new public messages without rebuilding old answers or jumping its reading position');
+  await run(phone,"$('useMaterials').checked=false;$('prompt').value='HISTORY_LIVE_TEST：手机上的下一次追问。';send()");
+  await until(phone,"mobile.runs.get(mobile.chat.id)?.content?.includes('LIVE_CHUNK_ONE')&&Boolean($('messages').querySelector('[data-live-reply]'))");
+  await run(phone,"window.phoneLive=$('messages').querySelector('[data-live-reply]');$('messages').scrollTop=80;window.phoneScroll=$('messages').scrollTop");
+  const addition=await run(pc,owner('/__history_test__/append','POST'));await run(phone,'refresh()');
+  await until(phone,`Boolean($('messages').querySelector('[data-message-id="${addition.id}"]'))`);
+  assert.equal(await run(phone,"phoneLive.isConnected&&phoneLive===$('messages').querySelector('[data-live-reply]')&&Math.abs($('messages').scrollTop-phoneScroll)<2"),true);
+  await run(pc,owner('/__history_test__/release','POST'));await until(phone,"!mobile.runs.has(mobile.chat.id)&&!$('messages').querySelector('[data-live-reply]')");
+  checks.push('Phone also displays background completions during a live reply, then saves the final answer without duplicate bubbles');
+  await run(phone,`selectProject('${data.other_project_id}')`);assert.equal(await run(phone,"$('messages').textContent.includes('LIVE_CHUNK_TWO')"),false);
+  await run(phone,`selectProject('${data.project_id}')`);await until(phone,"$('messages').textContent.includes('AMENDED_SAME_ID')");
+  checks.push('Phone project histories remain isolated and restored after switching');
+  assert.equal(await run(phone,"document.querySelectorAll('.katex-error').length"),0);assert.equal(errors.length,0);
+  fs.writeFileSync(path.join(folder,'history-ui-report.json'),JSON.stringify({passed:true,checks,console_errors:errors},null,2));
+  fs.writeFileSync(path.join(folder,'phone-history.png'),(await phone.webContents.capturePage()).toPNG());phone.destroy();pc.destroy();app.quit();
+ }catch(error){fs.writeFileSync(path.join(folder,'history-ui-report.json'),JSON.stringify({passed:false,error:String(error.stack||error),checks,console_errors:errors},null,2));phone?.destroy();pc?.destroy();app.exit(1);}
+});

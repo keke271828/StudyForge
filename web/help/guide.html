@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>StudyForge · 零基础操作指南</title><link rel="stylesheet" href="/help/guide.css"><script defer src="/help/guide.js"></script></head>
+<body><div class="guide-layout">
+<aside class="guide-nav">
+  <div class="guide-brand"><span aria-hidden="true">∑</span><div><strong>需要帮助时来这里</strong><small>StudyForge 使用指南 · 零基础</small></div></div>
+  <label class="guide-search" for="guideSearch">你想做什么？<input id="guideSearch" type="search" placeholder="例如：上传 PDF、交作业、连不上…" autocomplete="off"></label>
+  <p id="guideSearchStatus" class="search-status" role="status" aria-live="polite">第一次来，先看“第一次使用”。其他内容用到再查。</p>
+  <nav id="guideContents" aria-label="操作指南目录">
+    <a href="#start">第一次使用：走通一遍</a><a href="#map">几个按钮有什么区别？</a><a href="#models">连接 AI / 选择模型</a><a href="#projects">新建项目 / 对话 / 找回记录</a><a href="#materials">上传资料 / 只读某几页</a><a href="#tutor">提问 / 追问公式 / 保存回答</a><a href="#teaching">选择讲解方式</a><a href="#outputs">生成 / 下载 / 暂停 / 删除</a><a href="#homework">出题 / 交作业 / 看解析</a><a href="#feedback">听不懂 / 发现讲解有误</a><a href="#profile">学习画像 / 自评 / 修改记忆</a><a href="#goals">广泛了解与重点精学</a><a href="#library">全局书库 / 教材按章阅读</a><a href="#teaching-review">查看讲解的核查记录</a><a href="#permissions">文件权限 / 联网 / 语音</a><a href="#phone">安卓手机连接与使用</a><a href="#background">后台运行 / 开机启动 / 更新</a><a href="#appearance">放大阅读区 / 外观 / 快捷键</a><a href="#troubleshooting">报错或卡住了怎么办？</a>
+  </nav><p class="guide-local">查看指南不调用 AI、不发送资料，也不插入聊天记录。电脑端按 F1 可再次打开。</p>
+</aside>
+<main id="guideMain" tabindex="-1">
+  <header class="guide-intro"><span class="eyebrow">不需要编程基础</span><h1>先完成一件小事，再学其他功能</h1><p>你可以直接提问，也可以上传资料让导师讲解。生成文档、做题和建书库都按需要使用，不必先完成所有设置。</p>
+    <div class="guide-task-grid" aria-label="按任务找操作步骤"><a href="#start"><strong>第一次使用</strong><span>连接一个 AI，收到第一条回复</span></a><a href="#materials"><strong>我想读一份资料</strong><span>上传文件或网址，选择要读的部分</span></a><a href="#outputs"><strong>我想下载讲解文件</strong><span>提要求、选格式，再生成</span></a><a href="#homework"><strong>我想练习或交作业</strong><span>先做题，完整提交后看解析</span></a><a href="#library"><strong>我有一整本教材</strong><span>先建目录，再选章节阅读</span></a><a href="#troubleshooting"><strong>我遇到了问题</strong><span>按现象找处理办法</span></a></div>
+  </header>
+  <p id="guideNoResults" class="guide-callout" hidden>没找到这几个词。换成短词试试，例如“页码”“答案”“超时”。<button id="clearGuideSearch" type="button">清空搜索</button></p>
+
+  <section id="start" class="guide-section" data-search="入门 新手 开始 安装 第一次 聊天 对话">
+    <div class="section-label">先完成这一节就能开始用</div><h2>第一次使用：走通一遍</h2><p>先不上传文件。用一句简单的问题确认 AI 能正常回复。</p>
+    <ol class="guide-steps"><li><strong>连接一个 AI。</strong>点下方“打开 AI 设置”，按<a href="#models">连接 AI</a>中的一种方式填写并保存。已经配置过就跳过。</li><li><strong>创建项目，进入对话。</strong>电脑左侧点“＋ 新建学习项目”，输入“我的学习”，点“创建”；进入该项目中的一个对话。手机在“项目与对话”中创建。</li><li><strong>选服务，发一句话。</strong>回工作台，在“AI 服务”中选刚配置的服务。输入“请用中文解释什么是函数”，点“发送”。手机可在“学习选项”里选服务。</li></ol>
+    <p class="guide-checkpoint"><strong>成功后你会看到：</strong>问题留在聊天区，导师在下面回复。离开页面再回来，进入同一项目、同一对话即可继续。</p>
+    <p>接下来，学自己的材料看<a href="#materials">上传资料</a>；要可下载的文件看<a href="#outputs">生成讲解</a>。仅聊天时不必点击“生成讲解”。</p>
+    <button class="guide-action" data-guide-action="models" type="button">打开 AI 设置</button><button class="guide-action" data-guide-action="study" type="button">回到学习工作台</button>
+    <details><summary>打开后没有窗口，或者没有回复？</summary><p>没窗口时看 Windows 右下角托盘，点 StudyForge 图标恢复。没回复时先看错误提示，再到 AI 设置检测连接。软件能打开，不代表模型服务已连通；详见<a href="#troubleshooting">报错处理</a>。</p></details>
+  </section>
+
+  <section id="map" class="guide-section" data-search="入库 解析 通读 生成 引用 勾选 区别 术语">
+    <div class="section-label">先分清这几个动作</div><h2>上传以后，为什么导师还没开始读？</h2>
+    <div class="guide-three"><div><b>放入资料＝保存文件</b><p>文件加入当前项目，不会自动读完整本书。“待解析”表示尚未提取内容。</p></div><div><b>解析＝提取要读的内容</b><p>例如从 PDF 第 3 页提取文字和公式。先指定范围，再开始。</p></div><div><b>通读＝让 AI 整理笔记</b><p>适合先熟悉资料再深入讨论。它是可选步骤，不是每次提问的前置要求。</p></div></div>
+    <p><strong>勾选 / 引用资料：</strong>表示“本次对话请参考它”。保存文件不等于已选用；“清空选择”只取消引用，不删除文件。新对话默认不选资料。</p>
+    <p><strong>发送：</strong>在聊天区得到回复。<strong>生成讲解：</strong>制作可下载的成果文件。两者参考当前对话的资料和要求，但发送消息不会自动导出 Word。</p>
+    <details><summary>各个页面用来做什么？</summary><div class="guide-table"><table><thead><tr><th>页面</th><th>什么时候打开</th></tr></thead><tbody><tr><td>学习工作台</td><td>平时提问、选资料、生成讲解、交作业。</td></tr><tr><td>资料库</td><td>整理当前项目文件、分类、选择解析范围。</td></tr><tr><td>成果文档</td><td>看任务进度，下载、重命名或删除成果。</td></tr><tr><td>练习与作业</td><td>找题单、作答、看反馈和复习。</td></tr><tr><td>学习画像 / 学习路线</td><td>查看学习困难与证据，安排想了解或学透的主题。</td></tr><tr><td>全局书库</td><td>保存跨项目共用的 PDF 教材，按章节阅读和引用。</td></tr><tr><td>设置与联动</td><td>配置模型、权限、外观、通知和更新。</td></tr></tbody></table></div></details>
+  </section>
+
+  <section id="models" class="guide-section" data-search="模型 密钥 API key DeepSeek Codex Gemini 第三方 接口 连接 登录 推理 额度">
+    <div class="section-label">只需先连接一种服务</div><h2>连接 AI，选择模型</h2><p>电脑打开“设置与联动 → 模型与语音”。先用你已取得调用权限的服务，完成下面对应的一种配置。</p>
+    <details open><summary>我用 DeepSeek</summary><ol><li>在“DeepSeek API 密钥”填写服务商给你的密钥。它是调用凭据，不是账号密码，也不是聊天网址。</li><li>模型先保留默认值，或点“刷新 DeepSeek 模型目录”选可用模型。</li><li>点“保存全部设置”，再点“检测 DeepSeek 连接”。</li><li>检测通过后回工作台，“AI 服务”选 DeepSeek，发一句简单问题验证。</li></ol><p>不必同时打开 Codex。服务商的 API 额度与网页聊天额度可能不同，以实际账号为准。</p></details>
+    <details><summary>我用本机 Codex</summary><p>先确保电脑的 Codex 运行环境已安装并登录，在“设置与联动 → 运行与更新 → 运行环境”查看是否可用。工作台选 Codex，再选账号可用的模型；留空沿用本机默认。仅打开本软件不会自动完成 Codex 登录。</p></details>
+    <details><summary>我用 Gemini 或其他第三方模型</summary><ol><li>打开 AI 服务管理，点“添加 AI 服务”。</li><li>按类型填写名称、API 接口地址、模型调用名和密钥。普通聊天网站地址不是 API 接口地址。</li><li>保存服务并检测连接，再到工作台“AI 服务”中选择。</li></ol><p>Gemini API 使用密钥；“Gemini · Google 账号”通过本机官方 Gemini CLI 登录，需按入口完成安装与授权。Gemini 客户端能聊天，不表示 CLI 或 API 已授权。失败时保留原提示。</p></details>
+    <p class="guide-checkpoint"><strong>配置成功的标志：</strong>工作台能选到服务，而且一句简单问题能得到回复。看到模型名称不等于连接成功。</p>
+    <h3>聊天时在哪里切换？</h3><p>电脑在工作台上方选“AI 服务”“模型”“推理强度”；手机打开“学习选项”。导师与文档生成沿用当前对话选择。已启动任务继续使用启动时设置。</p>
+    <details><summary>推理强度和 API 连接方式怎样选？</summary><p>首次先用默认模型、自动推理。复杂证明或复核再提高强度；高强度通常更慢，只对支持它的模型有效。连接超时时，按网络情况尝试“沿用环境配置”或“直接连接”后重新检测。需要代理的服务应保留可用代理；直连不关闭证书校验。</p></details>
+    <button class="guide-action" data-guide-action="models" type="button">打开 AI 设置</button>
+  </section>
+
+  <section id="projects" class="guide-section" data-search="历史 记录 丢失 项目 文件夹 删除 回收站 重命名 排序 草稿">
+    <div class="section-label">一个主题建项目，一个话题建对话</div><h2>项目、对话与历史记录</h2><p>例如建“数学分析”项目放教材，再分别建“极限”“连续性”两个对话。同项目共享文件，但各对话分别选资料、保存聊天和讲解要求。</p>
+    <ul><li><strong>新建项目：</strong>电脑左侧“＋ 新建学习项目”；手机打开“项目与对话”。</li><li><strong>新建对话：</strong>先选项目，再用“项目与对话”旁的“＋”。新对话不自动读取上个对话。</li><li><strong>找回聊天：</strong>展开原项目，点原对话；较早记录用“加载更早的消息”。</li><li><strong>改名、删除、固定、排序：</strong>电脑在条目上右键或用条目菜单；手机使用列表中的操作入口。</li></ul>
+    <p class="guide-checkpoint"><strong>关闭重开后：</strong>资料和聊天仍保存在电脑本机。回原对话继续，不用为了找历史新建同名项目。</p>
+    <details><summary>删除了怎么办？哪些内容共享？</summary><p>项目先进入回收站，可恢复；“彻底删除”不可恢复。成果按项目保存，标明来源对话。全局书库和学习画像可跨项目参考，但不会开放其他项目的聊天全文。</p></details>
+  </section>
+
+  <section id="materials" class="guide-section" data-search="上传 导入 文件 PDF Word 网址 URL 链接 图片 视频 B站 扫描 OCR 页码 范围 段落">
+    <div class="section-label">第一次建议只试 1 页</div><h2>放入资料，只读需要的部分</h2>
+    <ol class="guide-steps"><li><strong>上传。</strong>电脑点输入框“＋ 文件”或拖到“资料快选”；网址点“🔗 网址”。手机点输入栏“＋”或“资料 → 上传手机文件”。</li><li><strong>选择内容。</strong>PDF 旁点“范围”（资料库叫“选择解析范围”），选“指定 PDF 页码”，首次填 <code>1</code>，点“按此范围解析”。</li><li><strong>勾选后提问。</strong>解析完成后勾选这份范围资料，向导师提问；想先整理阅读笔记再点“通读资料”。</li></ol>
+    <p class="guide-checkpoint"><strong>成功后你会看到：</strong>资料不再是“待解析”，当前对话的已选资料出现本次范围。原文件仍保留。</p>
+    <p class="guide-callout">PDF 页码从文件第 1 页起数，可能不是书上印刷页码。<code>3-5,8</code> 表示第 3、4、5、8 页，一次最多 60 页。只读一段时不要先解析整本书。</p>
+    <details><summary>只读某一页的一段文字</summary><ol><li>在“范围”窗口填预览页码，点“只查看这一页”。</li><li>选中原文框中的一段，点“只使用我选中的文字”；手机可长按选文。</li><li>核对原文和来源位置，再点“按此范围解析”。</li></ol><p>扫描页预览没有文字时，可按该页解析后核对识别结果。其他文档可选“只读选中文字”，粘贴原文并填写位置；要整份内容时才选“全文解析”。</p></details>
+    <details><summary>网址、图片和视频怎么处理？</summary><p>它们上传后也先保存。网址点“解析网址”，图片点“解析图片”，无需选部分解析。公开网页失败时可试电脑端“浏览器读取”，完成登录或验证，正文显示后再读取。</p><p>视频依据可获得的字幕、语音转录和抽取画面，不把推荐、评论当正文；有时需临时下载。耗时取决于长度、硬件、画面识别和模型服务。访问被拒绝时先处理访问条件，或提供有权使用的本地视频、字幕；重复生成不能解决网址不可访问。</p></details>
+    <details><summary>支持哪些格式？如何分类？</summary><p>支持 PDF、DOCX、PPTX、图片、音视频、TXT / Markdown、XMind / FreeMind / OPML、Anki APKG、常见代码、Jupyter、MATLAB 和 Mathematica 等可解析脚本。特殊、加密或损坏文件可能需要转换。</p><p>在“资料库”填“新分类名称”并创建，把文件移入分类；工作台可一键选用分类。只读范围时，不要同时勾选已全文解析的整本书。</p></details>
+    <button class="guide-action" data-guide-action="sources" type="button">打开资料库</button>
+  </section>
+
+  <section id="tutor" class="guide-section" data-search="提问 追问 引用 原句 公式 Markdown 保存回答 通读 笔记">
+    <div class="section-label">把卡住的那一步说出来</div><h2>和导师交流，定制讲解</h2><p>勾选资料，再写要求并点“发送”。想先熟悉资料可点“通读资料”，完成后点“阅读笔记”；查看笔记不会往聊天里重复插入笔记。</p>
+    <div class="guide-example"><div><strong>复制后改成自己的要求</strong><button type="button" data-copy-example="firstQuestion">复制示例</button></div><pre id="firstQuestion">请只使用我选中的资料，先说清楚它要解决什么问题，再一步步解释关键推理，尤其是为什么想到这一步。适当给一个具体例子，不要省略关键条件。这次只讲解，不出题。</pre></div>
+    <p>还不懂时说“我看懂计算，但不知道为什么引入这个量”，比“再详细一点”更容易得到针对性解释。当前聊天中的要求也供后续生成讲解参考。</p>
+    <details><summary>通读时，可以切换对话或关闭窗口吗？</summary><p>可以切换对话或项目。回到原对话后，会显示原任务的进度；刷新界面也不需要重新通读。已暂停的任务会保持暂停，点“继续通读”才会继续。任务失败时，先看原因；可恢复的临时错误会提供“重试未完成的通读”。</p><p>窗口隐藏到托盘时仍可处理任务。选择托盘中的“退出”或关机，会停止处理。换了所选资料、模型或推理强度后，不会把旧任务当成这次选择的阅读进度；旧任务仍可在“成果文档”中查看。</p></details>
+    <details><summary>知识结构里的联系看不懂，怎样追问？</summary><p>通读完成后打开“知识结构”，选一个知识点。每条联系下方有“请导师讲清这条联系”：论证关系会追问为什么这样推，类比会追问共同点和不适用的地方。点击后会回到原对话，把问题和原文位置补入草稿，保留你已经写的内容；核对或修改后，点击“发送”才请导师回答。它不会自动发消息或布置习题。</p><p>再次选择同一条联系不会重复插入同一问题。随问题附带的图谱数据是 AI 整理的参考，不代表你的理解或掌握程度；导师仍需回查原文。</p></details>
+    <details><summary>长资料后面的内容，导师也能找到吗？</summary><p>较长资料仍先完成一次通读。之后提问时，软件从本次选中的原文件内容中寻找相关段落，并附上相邻的定义、条件或证明；不再固定只给导师原文开头。你可以写具体概念，或选中导师原句追问。</p><p>本次提供的是有来源位置的原文片段，不等于导师再次核对了整本书；笔记只帮助导航。没有找到明确段落、或完整段落太长时，请补充页码或选段，导师不能靠笔记猜原文。手机续聊也可沿用本对话保存且与文件一致的通读记录，不必重复通读。生成讲解文档仍使用完整所选范围。</p></details>
+    <details><summary>怎样针对一句话或一个公式追问？</summary><ol><li>在导师回答下打开“针对原句追问”。</li><li>默认“阅读 · 公式排版”可正常看公式；选中文字，点“使用选中原句”。</li><li>回输入框补上疑问，再发送。仅引用不会调用 AI。</li></ol><p>要精确选择公式源码时切“Markdown 原文”。长回答可翻前后段。引用的是导师原回答，不自动等于教材事实。</p></details>
+    <details><summary>满意的回答如何留下？</summary><p>用回答旁的保存入口，或提出整理要求后生成讲解文件。完成成果自动出现在本项目资料快选，可手动勾选继续问，不必下载再上传。</p></details>
+    <button class="guide-action" data-guide-action="study" type="button">回到学习工作台</button>
+  </section>
+
+  <section id="teaching" class="guide-section" data-search="模式 风格 通俗 直观 专业 概览 精学 研究 语言 概括 详细 审查 速度">
+    <div class="section-label">不知道怎么选，先用这些</div><h2>选择讲解方式</h2><p>首次可用：<strong>精学 + 通俗清晰 + 中文 + 快速审查</strong>。只想大致了解选“概览”。电脑展开“讲解与生成选项”改风格和语言；手机打开“学习选项”。</p>
+    <div class="guide-table"><table><thead><tr><th>选项</th><th>影响什么</th></tr></thead><tbody><tr><td>概览 / 精学 / 研究</td><td>概览抓问题与主干；精学展开动机和关键步骤；研究更重条件、边界和证据。</td></tr><tr><td>通俗清晰</td><td>解释术语，减小步骤，配必要例子或恰当比喻，保留关键条件。</td></tr><tr><td>直观与专业并重</td><td>先建立直觉，再给准确表述与推导，说明直觉怎样对应公式。</td></tr><tr><td>学术专业</td><td>更重定义、条件、符号和论证，默认基础更高。</td></tr><tr><td>概括性强弱</td><td>往“主干凝练”更简短；往“细节丰富”增加步骤、例子和细节。</td></tr></tbody></table></div>
+    <details><summary>讲解检查方式如何选？</summary><p>“极速”生成时自检，无额外审查调用；“快速”加一次综合核查；“平衡”发现问题后修订；“严谨”做三项审查和必要复核，通常更慢。它控制文档核查，不等于缩短聊天，也不保证零错误。</p></details>
+    <p class="guide-callout">工作台修改当前对话；设置里的默认值主要用于新对话。已启动任务不因改选项而重做。更具体的要求直接在聊天中说。</p>
+  </section>
+
+  <section id="outputs" class="guide-section" data-search="生成 导出 下载 Word DOCX PDF PPT 进度 暂停 继续 取消 删除 重命名 成果 文件">
+    <div class="section-label">把讨论整理成文件</div><h2>生成、下载和管理成果</h2>
+    <ol class="guide-steps"><li><strong>确定内容。</strong>选好资料，特殊要求先在当前聊天发送，例如“重点解释证明动机”。没提要求则用当前设置。</li><li><strong>选成果。</strong>电脑在输入框下选“生成内容”“讲解格式”；手机点“生成”。只讲解时不要勾选“同步生成举一反三习题”。</li><li><strong>开始制作。</strong>点“生成讲解”（只出题时按钮随选择变化）。在“成果文档”看当前项目任务进度。</li><li><strong>完成后下载。</strong>点成果下载入口；成品也会加入本项目资料快选，可勾选后继续问。</li></ol>
+    <p class="guide-checkpoint"><strong>你会得到：</strong>所选格式的讲解文件。同步出题时另有一份习题，默认 DOCX，与讲解格式独立。</p>
+    <details><summary>任务太久：暂停、继续、取消有什么区别？</summary><p>任务卡“暂停”保留进度，之后点“继续”；有些步骤需等待当前请求结束才暂停。取消是停止本次任务，可能要重新发起；删除记录不等于暂停。不要连续点多次生成，以免排重复任务。</p><p>独立任务可有限并行，共用同时处理上限。“同时生成多个部分”开启后，独立章节可以同时写；若原文标明“原文续接”或开头明确接续前文证明，后半部分仍要等前一部分完成及按所选强度核查后再写，避免衔接不上。文件名里出现“接上文”不代表两份资料有关。关闭“同时生成多个部分”时，章节会按顺序完成。讲解与配套习题按相应设置执行；并行不保证每项更快，内存紧张时减少同时运行数。</p></details>
+    <details><summary>任务失败后，能接着上次重试吗？</summary><p>讲解、习题生成、通读、知识整理或另存格式遇到可恢复的临时错误时，任务卡会显示“重试未完成步骤”。点击后核对原资料版本，保留同一个任务和已完成步骤；资料、模型、阅读范围和要求沿用这项任务开始时的选择。要换模型或改变要求，请新建生成任务。</p><p>如果没有这个按钮，任务卡会说明原因。内容检查未通过、原资料已改变、删除记录，或未完成的操作可能已经修改文件时，不能直接重复执行。作业评分和错因补讲请在作业历史使用“重试批改”，保留原提交记录。</p></details>
+    <details><summary>在哪里改名、删除、排序？</summary><p>打开“成果文档”先选项目文件夹。文件卡可下载、重命名、删除，列表可按时间、名称、格式排序；任务历史可展开查看或删除。先确认删除的是文件还是任务记录。</p></details>
+    <details><summary>其他格式需要什么软件？</summary><p>PDF、PPTX、思维导图、Anki、代码 / Jupyter、MATLAB、Mathematica 等需相应软件打开。代码和模型要核对运行条件；标为未实际运行的不等于已在目标软件验证。公式显示正常也不代表推导正确。</p></details>
+    <button class="guide-action" data-guide-action="artifacts" type="button">打开成果文档</button>
+  </section>
+
+  <section id="homework" class="guide-section" data-search="练习 习题 作业 提交 答案 解析 评分 批改 错因 费曼 80 复习 编程 提示">
+    <div class="section-label">先作答，再看解析和补讲</div><h2>出题、交作业与错题补讲</h2><p>只出题：工作台“生成内容”选“只生成习题”。讲解配练习：勾选“同步生成举一反三习题”。新题单完整提交前隐藏答案。</p>
+    <h3>交作业的完整流程</h3><ol class="guide-steps"><li><strong>打开题单。</strong>电脑工作台点“✓ 提交作业”，选本项目题单；手机点“作业”。</li><li><strong>逐题作答。</strong>直接填写，或上传已完成的文件，再点提取 / 识别到答题框。核对题号、文字和公式；上传文件本身不算提交。</li><li><strong>确认提交。</strong>不会的题注明卡点。勾选完成确认，再点“提交作业 · 立即输出解析”。</li><li><strong>分别看两份文件。</strong>先提供“原题与答案解析”；导师另行评分、分析错因，生成“批改与错题讲解”。</li></ol>
+    <p class="guide-checkpoint"><strong>批改出现问卷时：</strong>导师尚不能确定错因，批改文档等待你填写真实思路后继续；参考解析仍可先看。</p>
+    <details><summary>低于80分以后，要做什么？</summary><p>提交前展开“作答条件与低分处理”，可选择：先找出不懂的地方并补学，或先用自己的话讲解（费曼学习法），通过后再做进阶题。前一种方式允许先做同难度练习。两种方式都以80分为通过线；自评不会改写作业分数。</p></details>
+    <details><summary>怎样要提示、追问批改或复习？</summary><p>作答时可展开通用思考提示，它不提供参考答案；实际请求过的提示会记录，但不直接扣分。批改后可按错因再练，或主动加入复习队列。原对话直接问“某题单第2题为什么这样改”，不用重新上传反馈。</p><p>评分还需确认时复核原作答，仍是同一次作答，保留原帮助条件。题目或评分标准版本改变时，不把两次分数直接当同题进步。详细批改失败或取消时，先看原作业记录能否“继续原批改”。</p></details>
+    <details><summary>编程作业怎么用？</summary><p>在“练习与作业”先选语言，再点“根据选中资料布置编程作业”，按题意提交代码。Docker 和语言环境可用才运行隔离测试；只看代码得出的反馈不能视为实际运行通过。</p></details>
+    <details><summary>题单改过、批改中断，或想继续追问题目？</summary>
+    <p>题单已有提交记录时，可在习题页点“按题回看，再向导师追问”，选具体题目后回原对话继续问，不必复制整份批改。错因提问和诊断说明支持公式排版；你的作答引句保留原样供核对。切换项目或对话后，尚未完成的旧追问读取不会写入新草稿。</p>
+    <p>题单后来被修改时，旧作答仍按提交时保存的原题和参考解析回看，并显示“当前题单已变更”。旧问卷、重试批改与再练入口会停用，避免把旧成绩配到新题上；已交付的文档仍可下载。若原题版本未完整保存，软件会说明无法按题核对，不会用新题补猜。</p>
+    <p>如果在批改、容器判题、补讲或文档排版期间改动了题目或参考解，本阶段结果会停止交付，并提示核对版本。已经完整提交的作答与此前正确保存的评分保留；不会靠反复请求模型修复版本冲突。请先核对旧记录，需要按新题练习时另建题单。</p>
+    <p>异常中断后，可从作业历史点“重试批改”继续原任务。软件会核对这次作答、原题版本和已保存成绩，能对应时复用评分，只补做尚未完成的讲解，不会因恢复再次计分。若记录缺失或无法对应，会说明原因，不会拿“最近一次成绩”代替。“重新检查原作答”则是你主动要求再判断评分，与继续未完成任务不同。</p>
+    <p>只写“答案是4”“我选B”或一个最终公式，通常不足以判断为什么错。导师会先询问你当时怎样得到结果，不会仅凭结果断定是粗心或概念不懂。你填写的原因会标为你自己的说明；批改里的多行作答引句始终保持引用样式，与导师自己的讲解区分。</p>
+    </details>
+    <button class="guide-action" data-guide-action="exercises" type="button">打开作业</button>
+  </section>
+
+  <section id="feedback" class="guide-section" data-search="听不懂 理解 问卷 反馈 术语 前置 动机 方法 论证 计算 错误 补讲">
+    <div class="section-label">不必反复整篇重新生成</div><h2>听不懂，或怀疑导师讲错了</h2><p>读完讲解可填理解反馈：不懂术语、缺前置知识、不懂构造动机、不知道何时用方法、不能独立论证、计算或实现出错；“其他补充”写具体问题。问卷可选。</p><p>最好补充“第几节 / 哪句话，我理解到哪里，哪一步接不上”。在“卡在哪一节或哪句话”里选章节，再点“查看本节原句”，可正常阅读公式并选中具体片段；选不准公式或表格时切到“查看排版原文（Markdown）”。选完仍需填写疑问并提交，才请导师回应。</p>
+    <details><summary>不是我不懂，而是讲解可能有错</summary><p>用内容核对入口或在原对话指出原句、条件、页码、反例。需要解释就补充教学；需要纠错先核对事实。无法确认的地方保留疑点，核查次数不等于结论一定正确。</p></details>
+  </section>
+
+  <section id="profile" class="guide-section" data-search="用户 画像 记忆 自评 掌握度 分数 跨项目 困难 纠正">
+    <div class="section-label">帮助导师了解你，你也可以纠正它</div><h2>学习画像：查看与纠正</h2><p>“学习画像”记下你的知识疑问、理解、学习困难、作答、自评和教学偏好，帮助其他对话中的导师了解你的学习情况。闲聊、软件操作和任务进度不应作为知识水平判断。</p>
+    <ol><li>打开“学习画像”，搜知识点，查看判断来源和时间。</li><li>自评尽量沿用已有知识点名称，填掌握度与主观难度。</li><li>不准确就更正，或将无关记忆移出画像。</li></ol>
+    <p class="guide-checkpoint"><strong>自评有什么用：</strong>供导师调整讲解与题目，可按你选择的权重参与综合参考分；不会改写实际作业分数和80分通过线。</p>
+    <details><summary>画像会永远记我“不懂”吗？后台整理是什么？</summary><p>同时看近期作答与历史困难。读过不等于掌握，一次高分不证明独立、长期掌握，提示和笔记等条件分开看。共享的是学习记录与判断依据，不是所有项目聊天全文。</p><p>“后台学习记忆”可关闭自动整理、调间隔和开销限制。它向产生记录时所选模型发送少量学习片段，不是在本机永久训练一个模型。</p></details>
+    <button class="guide-action" data-guide-action="profile" type="button">打开学习画像</button>
+  </section>
+
+  <section id="goals" class="guide-section" data-search="目标 路线 广泛 精通 精学 探索 掌握 计划">
+    <div class="section-label">把想了解和想学透的主题分开安排</div><h2>广泛了解与重点精学</h2><p>“学习路线 → ＋ 新建学习目标”，填主题、领域和“学到什么程度”。例如“能解释高斯定律的条件，独立判断何时不能直接用它求场强”。</p>
+    <ul><li><strong>广泛了解：</strong>知道问题、核心观点与范围，再决定是否深入。</li><li><strong>重点精学：</strong>理解方法理由，独立论证或做题，检验迁移。</li><li><strong>独立探究：</strong>提出问题，比较资料、证据和边界。</li></ul><p>可从知识结构加入目标，也可暂缓。理解检查按需发起，保存目标不自动出题；重点多时先集中少量主题。</p>
+    <button class="guide-action" data-guide-action="goals" type="button">打开学习路线</button>
+  </section>
+
+  <section id="library" class="guide-section" data-search="全局 书库 教材 电子书 目录 章节 节点 范围 定位 后台 阅读 模型 检索 知识库">
+    <div class="section-label">适合整本 PDF，不必先读全文</div><h2>全局书库：按章节积累参考资料</h2><p>项目资料库服务当前项目；全局书库的书和阅读结果可给多个项目参考，不会把所有书一次塞入聊天，也不共享其他对话记录。</p>
+    <ol class="guide-steps"><li><strong>放书。</strong>打开“全局书库”，点“＋ 放入 PDF 教材”，仅保存文件。</li><li><strong>建目录。</strong>选书后按“自动找目录”识别章节；有误再展开手动指定目录页。</li><li><strong>选章节并核对范围。</strong>勾选章、节，也可点“全选本书目录”。软件先自动找页码；找不准时才请你查看原页确认，不必逐章手填。</li><li><strong>安排阅读。</strong>想现在开始，选“优先开始”；想让聊天先用 AI，选“空闲时再读”。再选阅读顺序和详细程度，点击开始。</li><li><strong>用于聊天。</strong>回工作台引用章节，或让自动检索找到相关已读章节作为参考，必要时回查原页。</li></ol>
+    <p class="guide-checkpoint"><strong>“AI已整理”表示：</strong>所选章节已有阅读笔记。可以点“查看阅读结果”对照原页；笔记可能出错，也不代表你已经学会。</p>
+    <details><summary>怎样让阅读更快，或少占用聊天资源？</summary><p>“优先开始”会直接排队，你仍可继续聊天；“空闲时再读”会先让聊天和文档任务使用 AI。前后衔接的教材适合依次阅读，独立章节可同时读。卡顿时先选“空闲时再读”和“按目录依次阅读”。任务卡可暂停、继续，离开页面不会停止任务，但软件需要保持运行。</p></details>
+    <details><summary>书库用哪个模型？能调吗？</summary><p>展开“阅读模型”，默认跟随点击阅读时工作台的服务、模型、推理强度，但不带入聊天上下文。选“为书库单独选择”并保存后即可另选模型；扫描页核对需支持图片的模型。已启动任务沿用原选择。</p></details>
+    <details><summary>自动参考、未读章节和智能检索</summary><p>工作台可开关书库自动参考，也可手动指定章节。未读章节只提示线索，由你决定是否读取，不会当作已读正文引用。检索结果可滚动，切回原对话恢复已找到记录。</p><p>“智能检索”可以按关键词查找，也可以帮助理解你提问的意思。后一种方式首次需要下载一个本地模型，只查已整理的范围；关闭后仍能按关键词查找。找到相似内容不代表条件相同，重要结论要回原页核对。</p></details>
+    <button class="guide-action" data-guide-action="library" type="button">打开全局书库</button>
+  </section>
+
+  <section id="teaching-review" class="guide-section" data-search="核查 审核 依据 原文 来源 修订 版本 疑点 证据">
+    <div class="section-label">重要结论回原文核对</div><h2>检查这份成果依据了什么</h2><p>成果附近的“核查记录”或来源入口可查看资料范围、模型、审查、疑点与修订。来源位置帮助回到文件页码、节点、视频时间，不把导师一句话当成原文证据。</p><p>“未核查”“待确认”或“历史记录缺少依据”仍需核对。核查记录保留在软件内，不要求每次另下载一份审查文件。</p>
+    <details><summary>教学核查记录能证明正确吗？为什么有多个版本？</summary><p>核查记录不是正确性认证；它保留检查依据和疑点，不写入学习画像，不自动把旧疑点算成新错误。补讲、纠错和原讲解分别保留版本与来源。先确认当前读的是哪份，不把旧版审查当新版已通过，也不把别份题单评分当当前题证据。</p></details>
+  </section>
+
+  <section id="permissions" class="guide-section" data-search="权限 审批 允许 只读 完全访问 文件 修改 删除 联网 视频 语音 麦克风 MCP DSH VSCode">
+    <div class="section-label">需要实际工具时再开启</div><h2>文件权限、联网与语音</h2><p>聊天框附近可选文件权限。普通提问与引用资料不需要授予整台电脑完全访问。</p><ul><li><strong>只读：</strong>在授权范围读取，不修改文件。</li><li><strong>需要审批：</strong>需要批准的操作先显示请求，任务等待你允许或拒绝，再继续。</li><li><strong>完全访问：</strong>在授权范围内按工具规则修改，确认可接受后再选。</li></ul>
+    <details><summary>联网、网页视频和生成图片</summary><p>工具设置中启用“允许联网查询与读取网页”；自主读取网页视频还需“是否允许 AI 读取网页视频”。图片生成需另有可用的绘图服务配置；勾选能力不代替密钥或网站访问权限。</p></details>
+    <details><summary>语音输入没有文字</summary><p>点“语音”开始并允许麦克风，结束后等本地识别。到模型与语音设置查语言、设备、转录模型；首次下载、长录音或 CPU 识别可能慢。</p></details>
+    <details><summary>在 VS Code Codex / DSH 中使用</summary><p>电脑设置的外部工作台区域有“配置 VS Code Codex”“配置 DSH Desktop”。完成后重启对应客户端，再复制示例指令。在工具列表看到 StudyForge MCP 即可，不一定有单独按钮；需使用同一 Windows 用户的数据环境。</p></details>
+    <button class="guide-action" data-guide-action="tools" type="button">打开工具与权限设置</button>
+  </section>
+
+  <section id="phone" class="guide-section" data-search="安卓 Android 手机 连接 扫码 配对 证书 CA HTTPS Tailscale 移动网络 下载 上传">
+    <div class="section-label">手机遥控，任务仍由电脑运行</div><h2>安卓手机连接与使用</h2><ol class="guide-steps"><li><strong>电脑开启连接。</strong>顶部点“连接手机”，启用连接，再用本次显示的网址或二维码。</li><li><strong>手机打开页面。</strong>按窗口提示安装并信任电脑提供的 CA 证书，再开 HTTPS 地址。证书解决信任问题，不解决网络不通。</li><li><strong>首次配对。</strong>手机使用配对码，在电脑批准设备；之后在同一浏览器保留站点数据，通常不用反复配对。</li><li><strong>使用。</strong>选项目和对话，“资料”上传文件，“生成”制作文档，“成果”下载。专注模式保留主要聊天和输入区。</li></ol>
+    <p class="guide-checkpoint"><strong>离开页面后：</strong>电脑上已启动任务继续，手机重新打开查结果。电脑必须保持运行且连接服务开启。</p>
+    <details><summary>不同 Wi-Fi 或移动网络能用吗？</summary><p>可用已配置的 Tailscale：电脑和手机登录同一私人网络并保持连接，电脑启用跨网络连接。收藏显示的私人地址，别复用旧 IP。Tailscale 在线不代表 StudyForge 服务已开启。</p></details>
+    <details><summary>每次要扫码吗？电脑更新后手机也要装吗？</summary><p>保留浏览器站点数据和电脑原数据目录，已批准设备在有效期内可继续用；换浏览器、清站点数据、撤销设备后要配对。手机界面由电脑提供，电脑更新后刷新手机页面即可；旧界面可关闭后重新打开。</p></details>
+    <button class="guide-action" data-guide-action="phone" type="button">在电脑打开连接手机</button>
+  </section>
+
+  <section id="background" class="guide-section" data-search="关闭 托盘 退出 后台 开机 自动启动 更新 安装 版本">
+    <div class="section-label">分清隐藏窗口和完全退出</div><h2>后台运行、开机启动与更新</h2><p>按关闭窗口设置，右上角 × 可隐藏到 Windows 托盘，任务继续。要停止软件，在托盘右键退出，或到“设置与联动 → 运行与更新”点“完全退出”。</p>
+    <details><summary>在哪里设置开机启动、通知、更新？</summary><p>“运行与更新”可设置开机启动、隐藏启动、Windows 通知和更新源。系统禁用通知时需在 Windows 设置允许。</p><p>自动更新需要有效的正式发布源。没有发布源时，检测更新不能自动取得新包；使用提供的安装包升级。安装前先从托盘彻底退出旧版，运行新包并选择原安装位置。</p></details><p class="guide-callout">不要为升级手动删除学习数据目录。便携版需保留整个文件夹，不能只把一个 EXE 拿出来运行。</p>
+    <button class="guide-action" data-guide-action="system" type="button">打开运行与更新</button>
+  </section>
+
+  <section id="appearance" class="guide-section" data-search="放大 全屏 阅读区 输入框 宽度 高度 工具 收起 隐藏 背景 透明 模糊 字体 快捷键">
+    <div class="section-label">先把阅读空间调舒服</div><h2>阅读区、外观与快捷键</h2><p>工作台可收起导师工具、资料栏和生成选项，放大对话或全屏；拖动阅读区与输入区之间的分隔线可以改变大小。手机可用专注模式。</p><p>“设置与联动 → 外观”可换主题、背景、字号，分别调阅读区、侧栏、输入区等透明度与模糊。背景太花时，先提高“文字背后的底色”的不透明度。</p><ul><li><strong>F1：</strong>打开指南；<strong>Esc：</strong>关闭帮助。</li><li><strong>F2：</strong>电脑侧栏选中条目后改名；右键有更多操作。</li><li><strong>换行：</strong>按输入框显示的快捷键操作；Enter 发送时，Shift+Enter 换行。</li></ul>
+    <button class="guide-action" data-guide-action="appearance" type="button">打开外观设置</button>
+  </section>
+
+  <section id="troubleshooting" class="guide-section" data-search="失败 报错 错误 卡住 慢 429 限流 超时 空白 JSON 网络 连接 内存 403 412">
+    <div class="section-label">按现象找处理办法</div><h2>遇到问题怎么办</h2>
+    <p class="guide-callout">失败提示或任务卡上有“查看处理办法与错误详情”时，点开先看中文原因和下一步操作。需要反馈问题，再展开“错误原文”复制；可识别的常见密钥会隐藏。打开说明不会重试任务。手机端若只是模型账号报错，无需重新配对电脑；只有连接失效时才按提示配对。</p>
+    <details><summary>没回复 / 空内容 / 网络超时</summary><p>确认工作台选了已配置的服务，到 AI 设置检测连接，核对密钥、模型调用名、额度和网络。先发不带资料的短问题；短问题也失败时先修连接，不要重读整本书。</p></details>
+    <details><summary>429 / Too Many Requests / 重试次数已用完</summary><p>服务限制了请求。减少同时运行的任务，按提示等待再试；反复立即点重试通常无效。不同服务的额度独立，保留错误时间与服务名称便于排查。</p></details>
+    <details><summary>上传了却不能用 / 导师说没资料</summary><p>看是否“待解析”：先解析需要的范围，再在当前对话勾选结果。检查是不是换了项目或新对话。PDF 用文件页码；图片和网址各有解析按钮。</p></details>
+    <details><summary>网页 / B站提示403、412或读取失败</summary><p>浏览器确认有权访问且完成验证，再试电脑端“浏览器读取”；仍不行就提供本地文件、字幕或截图。保存链接不代表正文可读，改播放时间参数通常无效。</p></details>
+    <details><summary>生成慢 / 界面卡 / 内存高</summary><p>看任务卡正排队、解析、转录、生成还是审查。先用一页或短片段对照；减少同时处理的任务，让聊天和生成先用 AI。只需讲解就取消同步出题，审查先选快速。扫描图片转文字、音频转文字、模型回复和检查都耗时，不只取决于输出字数。</p></details>
+    <details><summary>生成失败 / JSON或公式报错</summary><p>复制任务完整错误、服务模型、资料范围、格式和审查档位。先确认资料解析成功，再重试失败任务；重复失败别连续新建同样任务。100%但标失败不表示交付成功。</p></details>
+    <details><summary>手机一直加载 / 连接超时</summary><p>电脑确认连接服务开启，用当前显示地址；电脑不要睡眠。跨网络查两端 Tailscale 是否在线。CA 证书不能修复错误IP、防火墙或网络隔离。</p></details>
+    <details><summary>聊天或成果消失 / 帮助打不开</summary><p>回原项目、原对话；成果页先选原项目，旧消息加载更早；检查项目回收站。帮助用左侧入口或F1；手机配对页和学习选项也有入口，不需要 AI 在线。</p></details>
+    <div class="guide-example"><div><strong>需要反馈问题时，复制后填写</strong><button type="button" data-copy-example="issueTemplate">复制反馈模板</button></div><pre id="issueTemplate">我想完成：
+我点击了哪些按钮：
+实际现象 / 完整错误：
+AI 服务与模型：
+资料类型与范围：
+输出格式、审查强度：
+是否每次都发生：</pre></div><button class="guide-action" data-guide-action="models" type="button">检测 AI 连接</button><button class="guide-action" data-guide-action="study" type="button">返回工作台</button>
+  </section>
+  <footer class="guide-footer">指南随软件安装，不调用模型。找不到按钮时，检查相应工具区是否收起；电脑与手机的入口位置可能不同。</footer>
+</main></div>
+<button id="mobileGuideNav" class="mobile-guide-nav" type="button">目录 / 搜索</button><div id="guideCopyStatus" class="copy-status" role="status" aria-live="polite"></div>
+</body></html>

@@ -1,0 +1,18 @@
+.lesson-passage{margin:12px 0;min-width:0;padding:12px;border:1px solid var(--line,#d5e1d9);border-radius:14px;background:var(--panel,rgba(255,255,255,.96));color:var(--ink,#203c33)}
+.lesson-passage[hidden],.lesson-passage [hidden]{display:none!important}
+.lesson-passage textarea{display:block;box-sizing:border-box;width:100%;min-height:150px;max-height:420px;resize:vertical;line-height:1.8;white-space:pre-wrap;font:inherit;font-size:13px;margin-top:7px;background:var(--panel,#fff);color:inherit;border:1px solid var(--line,#c9d8cf);border-radius:10px;padding:10px}
+.lesson-passage label{display:block;font-size:13px}.lesson-passage-actions{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.lesson-passage-jump{display:flex!important;align-items:center;flex-wrap:wrap;gap:8px}.lesson-passage-jump input{width:100px;min-width:70px;max-width:130px;flex:0 1 100px}
+.lesson-passage blockquote{white-space:pre-wrap;max-height:160px;overflow:auto;overflow-wrap:anywhere;margin:8px 0;padding:10px 12px;border-left:3px solid var(--accent,#377762);background:var(--soft,#eef5f0);color:inherit;font-size:13px;line-height:1.8}
+.lesson-passage p{font-size:12px;line-height:1.8;overflow-wrap:anywhere}.lesson-passage button{white-space:normal;border:1px solid var(--line,#c9d8cf);border-radius:9px;padding:7px 10px;background:var(--soft,#eef5f0);color:inherit;font:inherit;font-size:12px;cursor:pointer}.lesson-passage button:hover{filter:brightness(.97)}.lesson-passage button:focus-visible{outline:2px solid var(--accent,#377762);outline-offset:2px}.lesson-passage button:disabled{opacity:.5;cursor:default}
+.lesson-passage-view{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.lesson-passage-view button[aria-pressed=true]{background:#28664e;color:white;border-color:#28664e}
+.lesson-passage-reading{box-sizing:border-box;width:100%;height:min(44dvh,420px);min-height:160px;max-height:65dvh;resize:vertical;overflow:auto;padding:14px 17px;border:1px solid var(--line,#c9d8cf);border-radius:10px;background:var(--panel,#fff);color:inherit;font:15px/1.9 "Segoe UI","Microsoft YaHei",sans-serif;user-select:text;overflow-wrap:anywhere;scrollbar-gutter:stable}
+.lesson-passage-reading:focus-visible{outline:2px solid var(--accent,#377762);outline-offset:2px}
+.lesson-passage-reading .lesson-explanation,.lesson-passage blockquote .lesson-explanation{color:inherit;font:inherit;white-space:normal}
+.lesson-passage-reading .lesson-explanation :is(p,li){font-size:inherit;line-height:inherit}
+.lesson-passage-reading .lesson-explanation :is(h1,h2,h3){font-size:1.2em;line-height:1.65}
+.lesson-passage :is(.lesson-math.display-math,pre){max-width:100%;overflow-x:auto}
+.lesson-passage blockquote .lesson-explanation p{margin:5px 0}
+:is(html[data-theme=dark],html[data-theme=night]) .lesson-passage{--panel:#22382e;--ink:#edf5ee;--line:#587261;--soft:#30483b;background:var(--panel);color:var(--ink)}
+@media(max-width:480px){.lesson-passage{padding:10px}.lesson-passage-reading{padding:12px;font-size:14px}.lesson-passage-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.lesson-passage-actions [data-passage-use]{grid-column:1/-1}.lesson-passage blockquote{font-size:14px}}

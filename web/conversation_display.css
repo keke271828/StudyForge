@@ -1,0 +1,33 @@
+.conversation-display-controls{display:flex;align-items:center;gap:6px;margin-left:auto;flex:none}
+.conversation-display-controls button{border:1px solid var(--line);border-radius:8px;background:var(--surface-alt);color:var(--ink);padding:5px 9px;font-size:11px;white-space:nowrap}
+.conversation-display-controls button:hover{border-color:var(--accent);color:var(--accent)}
+.conversation-display-controls button[aria-pressed=true]{background:var(--accent-soft);color:var(--accent-ink);border-color:var(--accent)}
+.conversation-display-controls button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.conversation-display-hint{display:none}
+body .conversation-heading{flex-wrap:wrap;gap:6px}
+body .conversation-heading #conversationTitle{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:55%}
+html[data-chat-expanded=true] body{overflow:hidden}
+html[data-chat-expanded=true] body .app-shell{display:flex;height:100dvh;min-height:0;overflow:hidden}
+html[data-chat-expanded=true] body .sidebar,html[data-chat-expanded=true] body .topbar,html[data-chat-expanded=true] body .context-panel{display:none!important}
+html[data-chat-expanded=true] body .main{height:100dvh;min-height:0;padding:10px;overflow:hidden}
+html[data-chat-expanded=true] body #view-study{height:100%;min-height:0;padding:0;overflow:hidden}
+html[data-chat-expanded=true] body .study-layout{display:grid;grid-template-columns:minmax(0,1fr);width:100%;height:100%;min-height:0;max-width:none;margin:0;gap:0}
+html[data-chat-expanded=true] body .conversation-panel{width:100%;height:100%;min-height:0;max-height:none}
+html[data-chat-expanded=true] body .conversation-heading{padding:10px 20px;flex:none}
+html[data-chat-expanded=true] body .conversation-display-hint{display:block;padding:0 20px 8px;color:var(--muted);font-size:10px;flex:none}
+html[data-chat-expanded=true] body .messages{flex:1;min-height:70px;padding-inline:clamp(20px,5vw,100px)}
+html[data-chat-expanded=true] body .composer{max-height:45dvh;overflow-y:auto;overscroll-behavior:contain}
+html[data-chat-expanded=true] body .composer:has(.advanced-generation[open]){max-height:none;overflow:visible}
+html[data-chat-tools=false] body .conversation-panel>.section-head,
+html[data-chat-tools=false] body .conversation-panel .model-toolbar,
+html[data-chat-tools=false] body .conversation-panel>.learning-mode-bar,
+html[data-chat-tools=false] body .conversation-panel>.reading-bar,
+html[data-chat-tools=false] body .composer>.generation-intro,
+html[data-chat-tools=false] body .composer>.generation-extras,
+html[data-chat-tools=false] body .composer>.web-video-toggle,
+html[data-chat-tools=false] body .composer .parallel-options,
+html[data-chat-tools=false] body #toggleGenerationOptions,
+html[data-chat-tools=false] body .generation-bar>:not(#generate){display:none!important}
+html[data-chat-tools=false] body .generation-bar{justify-content:flex-end;padding-top:7px;min-height:0}
+html[data-chat-expanded=true] body .conversation-panel .message{max-width:min(90%,1100px)}
+@media(max-width:650px){.conversation-display-controls{gap:4px}.conversation-display-controls button{padding:5px 6px;font-size:10px}html[data-chat-expanded=true] body .main{padding:4px}html[data-chat-expanded=true] body .conversation-heading{padding:8px 12px}html[data-chat-expanded=true] body .messages{padding-inline:14px}html[data-chat-expanded=true] body .conversation-display-hint{padding-inline:12px}}

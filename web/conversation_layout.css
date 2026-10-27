@@ -1,0 +1,15 @@
+body .conversation-panel>.composer{height:var(--chat-composer-height,auto);max-height:none;flex-shrink:0;display:flex;flex-direction:column;overflow:visible;position:relative;padding-top:8px}
+body .conversation-panel>.composer #prompt{resize:none;flex:1;min-height:32px;max-height:none;height:auto}
+body .conversation-panel>.composer>*:not(#prompt){flex-shrink:0}
+body .composer-actions{flex-wrap:wrap;row-gap:7px}
+.reading-resize-strip{display:flex;align-items:center;gap:8px;height:24px;min-height:24px;margin:-4px 0 4px}
+.reading-resize-handle{display:flex;flex:1;align-items:center;justify-content:center;gap:8px;height:22px;min-height:22px;cursor:ns-resize;touch-action:none;user-select:none;color:var(--muted);font-size:10px}
+.reading-resize-handle>span{width:36px;height:3px;border-radius:3px;background:var(--line)}
+.reading-resize-handle small{font-size:10px;opacity:.8}.reading-resize-handle:hover{color:var(--accent)}
+.reading-resize-handle:hover>span{background:var(--accent)}.reading-resize-handle:focus-visible{outline:2px solid var(--accent);outline-offset:1px;border-radius:5px}
+html[data-generation-options=false] body .generation-bar{display:flex;justify-content:flex-end;padding-top:7px;min-height:0}
+html[data-generation-options=false] body .generation-bar>:not(#generate),html[data-generation-options=false] body .generation-extras,html[data-generation-options=false] body .composer .web-video-toggle,html[data-generation-options=false] body .composer .parallel-options{display:none!important}
+html[data-generation-options=false] body .generation-bar #generate{margin-left:auto}
+body .composer #toggleGenerationOptions{font-size:11px;white-space:nowrap;padding:3px 7px;border:1px solid var(--line);border-radius:6px;color:var(--muted);background:var(--surface-alt)}
+body .conversation-panel .messages{min-height:80px}
+@media(max-width:900px){body .conversation-panel{height:calc(100dvh - 90px);min-height:580px}body .composer-key-hint{display:none}}

@@ -1,0 +1,9 @@
+const {app,BrowserWindow}=require('electron'),fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
+const folder=path.resolve(__dirname,'../build/chapter-continuity-acceptance-20261026');app.setPath('userData',path.join(folder,'report-browser'));app.disableHardwareAcceleration();
+app.whenReady().then(async()=>{const win=new BrowserWindow({show:false,width:1380,height:960,webPreferences:{sandbox:true,contextIsolation:true,offscreen:true}}),errors=[];
+win.webContents.on('console-message',event=>{if(event.level==='error'||event.level===3)errors.push(event.message);});const run=code=>win.webContents.executeJavaScript(code);
+try{await win.loadFile(path.join(folder,'章节续接与实际并行验收.html'));assert(await run("cases.length===3&&document.querySelectorAll('.lane').length===5&&byId('outcome').textContent.includes('核查完成后')"));
+for(const index of [1,2,0]){await run(`document.querySelectorAll('[data-case]')[${index}].click()`);assert(await run(`document.querySelectorAll('.bar').length===5&&byId('caseTitle').textContent===cases[${index}].title&&byId('download').querySelector('a').href===cases[${index}].word`));}
+await run("byId('choices').scrollIntoView({block:'start'})");win.webContents.debugger.attach('1.3');const shot=await win.webContents.debugger.sendCommand('Page.captureScreenshot',{format:'png'});fs.writeFileSync(path.join(folder,'实际时间线.png'),Buffer.from(shot.data,'base64'));
+assert(!errors.length,JSON.stringify(errors));fs.writeFileSync(path.join(folder,'report-view.json'),JSON.stringify({passed:true,checks:['three actual plans','five request spans each','case switching','correct Word link','no console errors'],console_errors:errors},null,2));win.destroy();app.exit(0);
+}catch(error){fs.writeFileSync(path.join(folder,'report-view.json'),JSON.stringify({passed:false,error:error.stack,console_errors:errors},null,2));win.destroy();app.exit(1);}});

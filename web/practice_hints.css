@@ -1,0 +1,6 @@
+.practice-scaffold{margin:12px 0;border:1px solid var(--line,#cddbd1);border-radius:14px;background:var(--panel,#f7faf6);color:var(--ink,#213d32);padding:10px 14px}
+.practice-scaffold summary{cursor:pointer;font-weight:650;line-height:1.65}.practice-scaffold-body{padding-top:12px;min-width:0}
+.practice-scaffold label{display:grid;gap:6px;font-size:14px}.practice-scaffold select{width:100%;min-width:0;max-width:100%}
+.practice-scaffold-actions,.practice-scaffold-previous{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.practice-scaffold-actions{align-items:center}.practice-scaffold-previous{margin-top:0}
+.practice-scaffold button{min-height:36px;font-size:13px;white-space:normal}.practice-scaffold-status,.practice-scaffold-note{font-size:12px;line-height:1.7;overflow-wrap:anywhere}
+.practice-scaffold-note{margin:8px 0 2px}.practice-scaffold-text{border-left:3px solid var(--accent,#328264);padding:10px 12px;background:var(--panel,#f1f6ef);border-radius:6px;font-size:14px;line-height:1.85;overflow-wrap:anywhere}

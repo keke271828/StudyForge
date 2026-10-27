@@ -1,0 +1,27 @@
+.teaching-review { margin:10px 0; border:1px solid var(--line,#bdcbbf); border-radius:12px; color:var(--ink,#203d32); background:var(--surface,var(--panel,#f8faf6)); overflow:hidden; min-width:0; }
+.teaching-review > summary { padding:12px; font-weight:650; cursor:pointer; overflow-wrap:anywhere; }
+.teaching-review :is(summary,button,input):focus-visible,.teaching-review-body:focus-visible { outline:2px solid currentColor; outline-offset:-3px; border-radius:6px; }
+.teaching-review-body { max-height:min(65vh,600px); overflow:auto; overscroll-behavior:contain; scrollbar-gutter:stable; padding:0 12px 14px; overflow-wrap:anywhere; font-size:14px; line-height:1.65; }
+.teaching-review-body :is(p,h4,h5,h6) { margin:8px 0; color:inherit; }
+.teaching-review-body h4 { font-size:16px; }.teaching-review-body :is(h5,h6) { font-size:14px; }
+.teaching-review-intro,.teaching-review-help { padding:10px; border:1px solid var(--line,#bdcbbf); border-radius:8px; }
+.teaching-review-issue { border-top:1px solid var(--line,#bdcbbf); padding:10px 0; }
+.teaching-review-status { font-weight:650; }
+.teaching-review-field { margin:10px 0; min-width:0; }.teaching-review-field > strong { display:block; }
+.teaching-review-text { white-space:pre-wrap; overflow-wrap:anywhere; }
+.teaching-review-text pre { white-space:pre-wrap; overflow-wrap:anywhere; font:inherit; margin:8px 0; }
+.teaching-review-before,.teaching-review-after { padding:10px; border-left:3px solid currentColor; border-radius:4px; background:color-mix(in srgb,currentColor 6%,transparent); }
+.teaching-review-before { border-left-style:dashed; }.teaching-review-after { border-left-style:solid; }
+.teaching-review-edits > summary { cursor:pointer; font-weight:650; padding:8px 0; }
+.teaching-review-edit + .teaching-review-edit { border-top:1px solid var(--line,#bdcbbf); padding-top:8px; }
+.teaching-review-pager { display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin:8px 0 14px; }
+.teaching-review-pager label { display:flex; flex-wrap:wrap; align-items:center; gap:5px; min-width:0; }
+.teaching-review-pager input { width:68px; min-width:0; padding:5px; }
+.teaching-review button { min-height:36px; max-width:100%; white-space:normal; overflow-wrap:anywhere; }
+html:root[data-readability=on] body .teaching-review { background:var(--readable-fill,#f8faf6)!important; color:var(--readable-ink,#203d32)!important; -webkit-text-stroke:0; }
+@media(max-width:480px) {
+  .item > .teaching-review { margin-inline:-10px; }
+  .teaching-review-body { max-height:62vh; padding:0 8px 12px; }
+  .teaching-review-intro,.teaching-review-help { padding:6px; border:0; border-left:2px solid var(--line,#bdcbbf); border-radius:0; }
+  .teaching-review-pager { gap:5px; }.teaching-review-pager button { padding:6px 9px; }
+}

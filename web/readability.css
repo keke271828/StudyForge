@@ -1,0 +1,105 @@
+/* Wallpaper readability is an independent, opt-out information layer.
+   Use a near-solid fill: blur alone cannot guarantee text contrast. */
+:root{--readable-fill:color-mix(in srgb,var(--surface) 97%,transparent);--readable-ink:var(--theme-ink);--readable-muted:#526157;--readable-line:color-mix(in srgb,var(--line) 85%,var(--surface));--readable-danger-ink:#943525;--readable-danger-fill:#ffe9e2;}
+:root[data-theme=night]{--readable-muted:#bdcec5;--readable-danger-ink:#ffb8a7;--readable-danger-fill:#462d2c;}
+html:root[data-readability=on] body dialog .section-head{--ink:var(--readable-ink);--muted:var(--readable-muted);background:var(--readable-fill)!important;color:var(--readable-ink);}
+html:root[data-readability=on] body dialog .section-head :is(h2,h3){color:var(--readable-ink);-webkit-text-stroke:0;}
+html:root[data-readability=on] body dialog .section-head .eyebrow{color:var(--readable-muted);opacity:1;-webkit-text-stroke:0;}
+.readable-panel{margin-bottom:18px;}
+.readable-panel>h3{font-size:16px;margin:0 0 12px;}
+.profile-self-assessment .profile-form{max-width:none;margin:12px 0;flex-wrap:wrap;align-items:end;}
+.profile-self-assessment .profile-form>input{flex:1 1 250px;min-height:42px;}
+.profile-self-assessment .profile-form label{display:grid;gap:5px;font-size:12px;}
+.profile-self-assessment .profile-form input[type=number]{width:90px;}
+.profile-self-assessment .profile-form button{min-height:42px;}
+.profile-evaluation .profile-scoring{margin:10px 0 14px;padding:0;border:0;box-shadow:none;background:transparent;}
+.profile-memory-controls .profile-memory-heading{margin-top:0;gap:12px;margin-bottom:12px;}
+.profile-memory-controls .profile-memory-heading h3{font-size:16px;margin:0;}
+.artifact-overview .artifact-toolbar{margin-bottom:14px;}
+.artifact-overview .job-history-toggle{margin-bottom:0;align-items:flex-start;line-height:1.8;}
+.artifact-overview .job-history-toggle input{flex:none;margin-top:4px;}
+.readability-settings{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:18px 20px;border:1px solid var(--line);border-radius:14px;background:var(--surface);}
+.readability-settings h4{font-size:16px;margin:4px 0 8px;}
+.readability-settings p{font-size:12px;line-height:1.8;margin:0 0 8px;max-width:660px;}
+.readability-settings>label{flex:none;display:grid;gap:7px;font-size:12px;}
+.readability-settings select{width:230px;max-width:100%;padding:9px;}
+
+/* Existing cards keep their layout; only their information layer is protected. */
+html:root[data-readability=on] body :is(.card,.job-card,.profile-card,.memory-card,.artifact-folder-panel,.library-group-head,.reading-bar,.learning-mode-bar,.conversation-heading,.composer,.conversation-panel>.section-head,.agent-approval-card){
+  --ink:var(--readable-ink);--muted:var(--readable-muted);--lesson-ink:var(--theme-lesson-ink);
+  color:var(--readable-ink);background:var(--readable-fill)!important;
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);-webkit-text-stroke:0;
+}
+html:root[data-readability=on] body :is(.card,.job-card,.profile-card,.memory-card,.artifact-folder-panel) :is(select,button:not(.primary)){color:var(--accent-ink);background:var(--accent-soft)!important;-webkit-text-stroke:0;}
+html:root[data-readability=on] body .message .message-content{
+  --ink:var(--readable-ink);--muted:var(--readable-muted);--lesson-ink:var(--theme-lesson-ink);
+  color:var(--readable-ink);background:var(--readable-fill);border:1px solid var(--readable-line);border-radius:14px;padding:14px 16px;-webkit-text-stroke:0;
+}
+html:root[data-readability=on] body .message.assistant .message-content{color:var(--theme-lesson-ink);}
+html:root[data-readability=on] body .message .role{width:fit-content;padding:3px 7px;background:var(--readable-fill);border-radius:6px;color:var(--readable-muted);}
+html:root[data-readability=on] body #prompt{color:var(--readable-ink);background:var(--readable-fill)!important;border:1px solid var(--readable-line);border-radius:12px;padding:12px;-webkit-text-stroke:0;}
+html:root[data-readability=on] body #prompt::placeholder{color:var(--readable-muted);opacity:1;}
+html:root[data-readability=on] body .composer :is(select,input:not([type=range]):not([type=checkbox]):not([type=color]):not([type=file])){color:var(--readable-ink);background:var(--surface-alt)!important;-webkit-text-stroke:0;}
+html:root[data-readability=on] body .composer button:not(.primary){color:var(--accent-ink);background:var(--accent-soft)!important;-webkit-text-stroke:0;}
+html:root[data-readability=on] body :is(.composer,.agent-approval-card) button.primary{color:var(--primary-ink);background:var(--accent)!important;-webkit-text-stroke:0;}
+body .agent-approval-card{background:var(--surface);color:var(--ink);}
+
+/* Full information groups: labels, descriptions and actions share one bubble. */
+html:root[data-readability=on] body :is(.readable-panel,.page-heading,.library-tools,.list-heading,.model-toolbar,.surface-settings-heading,.profile-pagination,.artifact-empty,.empty-state){
+  --ink:var(--readable-ink);--muted:var(--readable-muted);--lesson-ink:var(--theme-lesson-ink);
+  color:var(--readable-ink);background:var(--readable-fill)!important;
+  border:1px solid var(--readable-line);border-radius:var(--card-radius,16px);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  box-shadow:0 6px 24px #172b2610;-webkit-text-stroke:0;
+  padding:18px 20px;
+}
+html:root[data-readability=on] body :is(.readable-panel,.page-heading,.library-tools,.list-heading,.model-toolbar,.surface-settings-heading,.profile-pagination,.artifact-empty,.empty-state) :is(h1,h2,h3,h4,label){color:var(--readable-ink);}
+html:root[data-readability=on] body :is(.readable-panel,.page-heading,.library-tools,.list-heading,.model-toolbar,.surface-settings-heading,.profile-pagination,.artifact-empty,.empty-state) :is(p,small,.small-note,.eyebrow,.model-status,.job-history-toggle,#sourceCount,#profileScoringStatus){color:var(--readable-muted);opacity:1;}
+html:root[data-readability=on] body .readable-panel>p{font-size:13px;line-height:1.9;margin:10px 0 0;}
+html:root[data-readability=on] body .artifact-overview .artifact-folder-heading{padding:0 0 16px;border-color:var(--readable-line);}
+html:root[data-readability=on] body .artifact-overview .artifact-folder-heading .eyebrow{font-size:11px;letter-spacing:.8px;}
+html:root[data-readability=on] body .artifact-overview .artifact-folder-heading h3{font-size:26px;margin:8px 0;}
+html:root[data-readability=on] body :is(.library-tools,.list-heading,.model-toolbar,.profile-pagination){padding:12px 16px;margin-bottom:16px;}
+html:root[data-readability=on] body .list-heading h3{margin:0;}
+html:root[data-readability=on] body .library-tools .inline-form{margin:0;}
+html:root[data-readability=on] body .model-toolbar{margin:8px 12px;border-radius:12px;box-shadow:none;padding:10px 12px;}
+html:root[data-readability=on] body .profile-pagination{width:fit-content;max-width:100%;margin:20px auto;}
+html:root[data-readability=on] body .empty-state{max-width:410px;padding:26px;margin:auto;}
+html:root[data-readability=on] body .artifact-empty{padding:36px 24px;}
+/* Inputs inside protected groups use the same palette, even with custom regional colors. */
+html:root[data-readability=on] body :is(.readable-panel,.page-heading,.library-tools,.model-toolbar,.surface-settings-heading) :is(select,input:not([type=range]):not([type=checkbox]):not([type=color]):not([type=file])){color:var(--readable-ink);background:var(--surface-alt)!important;-webkit-text-stroke:0;border-color:var(--readable-line);}
+html:root[data-readability=on] body :is(.readable-panel,.library-tools) input::placeholder{color:var(--readable-muted);opacity:1;}
+html:root[data-readability=on] body :is(.readable-panel,.page-heading,.library-tools,.list-heading,.model-toolbar,.surface-settings-heading,.profile-pagination,.artifact-empty) button:not(.primary){--ink:var(--readable-ink);--muted:var(--readable-muted);color:var(--accent-ink);background:var(--accent-soft)!important;-webkit-text-stroke:0;}
+
+/* Compact local shields keep navigation and quick references visible at 0% region fill. */
+html:root[data-readability=on] body :is(.workspace-heading,.brand,.navigation-heading,.navigation-row,.navigation-tip,.side-bottom,.quick-group,.context-footer,.context-panel>.section-head,.study-drop-zone,.surface-preset-bar,.surface-preview-column>.small-note,.background-preview-column>p,.navigation-empty,.quick-empty,#categoriesManager>.small-note,#profile>.small-note,#learningMemory>.small-note,#exercises>.small-note,#removedLegacyProfiles){
+  --ink:var(--readable-ink);--muted:var(--readable-muted);
+  background:var(--readable-fill)!important;color:var(--readable-ink);
+  border-radius:10px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);-webkit-text-stroke:0;
+}
+html:root[data-readability=on] body :is(.workspace-heading,.navigation-heading,.navigation-tip,.navigation-empty,.quick-empty,.surface-preview-column>.small-note,.background-preview-column>p,#categoriesManager>.small-note,#profile>.small-note,#learningMemory>.small-note,#exercises>.small-note,#removedLegacyProfiles){padding:10px 12px;line-height:1.8;}
+html:root[data-readability=on] body :is(.workspace-heading,.brand,.navigation-row,.context-footer,.context-panel>.section-head,.quick-group) :is(small,.small-note,.eyebrow,.selected-label,.navigation-chat-meta){color:var(--readable-muted);opacity:1;}
+html:root[data-readability=on] body :is(.quick-group,.context-footer,.context-panel>.section-head) :is(button,select){color:var(--readable-ink);background:var(--surface-alt)!important;-webkit-text-stroke:0;}
+html:root[data-readability=on] body .sidebar :is(.studio-nav button:not(.active),.new-project){background:var(--readable-fill)!important;color:var(--readable-ink);border-radius:10px;}
+html:root[data-readability=on] body .brand{padding:12px;margin-bottom:12px;}
+html:root[data-readability=on] body .navigation-row{margin-bottom:3px;}
+html:root[data-readability=on] body .navigation-row.active{background:var(--accent-soft)!important;color:var(--accent-ink);}
+html:root[data-readability=on] body .navigation-row:hover:not(.active){background:var(--surface-alt)!important;}
+html:root[data-readability=on] body .navigation-tip{font-size:10px;margin-top:6px;}
+html:root[data-readability=on] body .side-bottom{padding:10px 12px;border:0;margin-top:10px;}
+html:root[data-readability=on] body .quick-group{padding:10px;border:1px solid var(--readable-line);margin-bottom:10px;}
+html:root[data-readability=on] body .context-footer{margin:0 12px;padding:12px;}
+html:root[data-readability=on] body .context-panel>.section-head{margin:10px 12px 0;padding:12px;}
+html:root[data-readability=on] body .study-drop-zone{color:var(--readable-muted);}
+html:root[data-readability=on] body .surface-preset-bar{padding:10px;}
+/* Approval / delete actions retain their semantic colors inside protected cards. */
+html:root[data-readability=on] body button.danger-action,
+html:root[data-readability=on] body :is(.readable-panel,.card,.job-card,.profile-card,.memory-card,.artifact-folder-panel,.composer,.navigation-dialog,.navigation-context) button.danger-action{color:var(--readable-danger-ink)!important;background:var(--readable-danger-fill)!important;-webkit-text-stroke:0;}
+@media(max-width:760px){
+  .readability-settings{align-items:stretch;flex-direction:column;gap:14px;}
+  .readability-settings select{width:100%;}
+  html:root[data-readability=on] body :is(.readable-panel,.page-heading,.library-tools,.surface-settings-heading){padding:16px;}
+  html:root[data-readability=on] body .library-tools{align-items:stretch;}
+  html:root[data-readability=on] body .workspace-heading{min-width:0;padding:6px 10px;}
+  html:root[data-readability=on] body .model-toolbar{margin-inline:8px;}
+}

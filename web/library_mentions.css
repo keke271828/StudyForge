@@ -1,0 +1,28 @@
+.book-mention-button{white-space:nowrap;font-weight:650}
+.book-composer-references{display:flex;flex-wrap:wrap;gap:7px;padding:6px 2px 9px;max-height:112px;overflow:auto}
+.book-composer-references[hidden]{display:none}
+.book-composer-chip{display:flex;align-items:center;gap:5px;max-width:100%;min-width:0;border:1px solid #9abca9;border-radius:11px;background:#e7f1e8;color:#254b3c;padding:4px 6px}
+.book-composer-chip button,.book-composer-chip select{border:0;background:transparent;color:inherit;font-size:12px;padding:4px;min-width:0}
+.book-composer-chip .book-composer-label{max-width:240px;overflow:hidden;white-space:nowrap;text-align:left;font-weight:650;display:flex;flex-direction:column;gap:2px}
+.book-composer-label span,.book-composer-label small{max-width:100%;overflow:hidden;text-overflow:ellipsis}.book-composer-label small{font-size:10px;font-weight:400}
+.book-composer-chip select{width:90px;flex-shrink:0}.book-composer-chip button:last-child{flex-shrink:0}
+.book-mention-picker{position:fixed;inset:auto;margin:0;box-sizing:border-box;overflow:auto;overscroll-behavior:contain;padding:15px;border:1px solid #99b4a2;border-radius:16px;background:#fbfdf9;color:#213e35;box-shadow:0 14px 55px #12281e40;z-index:10000;font-family:inherit;font-size:13px;line-height:1.6}
+.book-mention-picker[hidden]{display:none}.book-mention-picker:popover-open{display:block;animation:book-mention-appear .12s ease-out}
+.book-mention-picker header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}.book-mention-picker header strong{font-size:16px}
+.book-mention-picker button{font:inherit;color:inherit}.book-mention-picker header button{border:0;background:transparent;font-size:18px;padding:4px 9px}
+.book-mention-picker input,.book-mention-picker select{width:100%;min-width:0;box-sizing:border-box;background:#fff;color:#213e35;border:1px solid #9eb8a7;border-radius:9px;padding:9px;font:inherit}
+.book-mention-options{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px;margin-top:9px}.book-mention-options label{display:flex;flex-direction:column;gap:4px}
+.book-mention-picker p,.book-mention-picker footer{color:#4b6556;font-size:12px;margin:10px 0;overflow-wrap:anywhere}.book-mention-picker footer{margin-bottom:0;border-top:1px solid #ccdbcf;padding-top:9px}
+#bookMentionResults{max-height:220px;overflow:auto;overscroll-behavior:contain;display:grid;gap:5px}
+.book-mention-row{width:100%;text-align:left;min-width:0;box-sizing:border-box;border:1px solid transparent;background:#f2f7ef;border-radius:10px;padding:9px 11px;cursor:pointer}
+.book-mention-row[aria-selected=true],.book-mention-row:hover{background:#e1efe4;border-color:#6b9b7f}.book-mention-row:focus-visible{outline:2px solid #28684e;outline-offset:-2px}
+.book-mention-row strong,.book-mention-row span,.book-mention-row small{display:block;overflow-wrap:anywhere}.book-mention-row span{color:#4b6556;font-size:12px;margin-top:2px}.book-mention-row small{color:#496553;font-size:11px;margin-top:4px}
+:is([data-theme=dark],[data-theme=night]) .book-mention-picker{background:#24392f;color:#e6f1e6;border-color:#88ab92}
+:is([data-theme=dark],[data-theme=night]) .book-mention-picker p,:is([data-theme=dark],[data-theme=night]) .book-mention-picker footer,:is([data-theme=dark],[data-theme=night]) .book-mention-row span,:is([data-theme=dark],[data-theme=night]) .book-mention-row small{color:#c0d6c4}
+:is([data-theme=dark],[data-theme=night]) .book-mention-picker input,:is([data-theme=dark],[data-theme=night]) .book-mention-picker select{background:#304b3c;color:#edf6ee}
+:is([data-theme=dark],[data-theme=night]) .book-mention-row,:is([data-theme=dark],[data-theme=night]) .book-composer-chip{background:#304b3c;color:#edf6ee}
+:is([data-theme=dark],[data-theme=night]) .book-mention-row[aria-selected=true]{background:#466751}
+@media(max-width:650px){.book-composer-chip{flex-wrap:wrap}.book-composer-chip .book-composer-label{max-width:170px}.book-composer-references{max-height:90px}.book-mention-picker{padding:12px}.book-mention-options{gap:7px}}
+@media(max-width:430px){.composer-tools:has(.book-mention-button){flex-wrap:wrap}.composer-tools:has(.book-mention-button)>.source-chip{order:-1;flex:0 0 100%;max-width:none;min-height:28px;text-align:left;padding:3px 7px;font-size:12px}}
+@keyframes book-mention-appear{from{opacity:0}to{opacity:1}}
+@media(prefers-reduced-motion:reduce){.book-mention-picker:popover-open{animation:none}}

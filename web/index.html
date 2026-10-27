@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>StudyForge · 学习工作台</title>
+  <link rel="stylesheet" href="/style.css" />
+  <link rel="stylesheet" href="/operation_errors.css" />
+  <script src="/operation_errors.js"></script>
+  <link rel="stylesheet" href="/source_evidence.css" />
+  <link rel="stylesheet" href="/refined.css" />
+  <link rel="stylesheet" href="/studio.css" />
+  <link rel="stylesheet" href="/navigation.css" />
+  <link rel="stylesheet" href="/learning_profile.css" />
+  <link rel="stylesheet" href="/surfaces.css" />
+  <link rel="stylesheet" href="/parallel.css" />
+  <link rel="stylesheet" href="/homework.css" />
+  <link rel="stylesheet" href="/homework_reader.css" />
+  <link rel="stylesheet" href="/repair_picker.css" />
+  <link rel="stylesheet" href="/conversation_display.css" />
+  <link rel="stylesheet" href="/notifications.css" />
+  <link rel="stylesheet" href="/desktop_notifications.css" />
+  <link rel="stylesheet" href="/readability.css" />
+  <link rel="stylesheet" href="/assessment.css" />
+  <link rel="stylesheet" href="/learning_goals.css" />
+  <link rel="stylesheet" href="/user_guide.css" />
+  <link rel="stylesheet" href="/library.css" />
+  <link rel="stylesheet" href="/vendor/katex.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand"><div class="brand-icon">∑</div><div><strong>StudyForge</strong><small>把知识学深、学透</small></div></div>
+      <nav class="tabs studio-nav" aria-label="主要工作区"><button data-view="study" class="active">学习工作台</button><button data-view="goals">学习路线</button><button data-view="sources">资料库</button><button data-view="artifacts">成果文档</button><button data-view="exercises">练习与作业</button><button data-view="profile">学习画像</button><button data-view="settings">设置与联动</button></nav>
+      <button class="new-project" id="newProject">＋ 新建学习项目</button>
+      <form id="projectForm" class="project-form" hidden><input id="projectName" maxlength="120" placeholder="项目名称" required><div><button type="submit">创建</button><button type="button" id="cancelProject">取消</button></div></form>
+      <div class="navigation-heading"><span>项目与对话</span><button id="newConversation" type="button" aria-label="在当前项目新建对话" title="新建对话 · Ctrl+N">＋</button><button id="openProjectRecycle" type="button" title="项目回收站" aria-label="打开项目回收站">♲</button></div>
+      <div class="navigation-tools"><input id="navigationSearch" type="search" placeholder="搜索项目或对话" aria-label="搜索项目或对话 · Ctrl+P" autocomplete="off"><select id="navigationSort" aria-label="项目与对话排序"><option value="manual">固定顺序 · 可拖动</option><option value="recent">最近消息</option><option value="name">名称</option></select></div>
+      <div id="projects" class="project-list navigation-tree" role="tree" aria-label="学习项目和对话"></div>
+      <div id="conversations" class="navigation-parking" hidden></div>
+      <div class="navigation-tip">右键管理 · F2 重命名 · 拖动排序</div>
+      <button class="user-guide-entry" id="openUserGuide" type="button" data-open-user-guide="start" aria-haspopup="dialog"><span>使用指南 · 零基础上手</span><kbd>F1</kbd></button>
+      <div class="side-bottom"><span class="local-dot"></span><span>学习资料保存在本机</span></div>
+    </aside>
+    <main class="main">
+      <header class="topbar"><div class="workspace-heading"><div class="eyebrow" id="viewLabel">学习工作台</div><h1 id="projectTitle">选择或创建一个项目</h1></div><div class="workspace-actions"><button id="desktopNoticeBell" class="desktop-notice-bell" type="button" title="查看通知" hidden><span aria-hidden="true">♧</span>通知<span id="desktopNoticeBadge" class="desktop-notice-badge" hidden></span></button><div id="status" class="status-pill">本机工作台</div><button id="toggleFocus" type="button" aria-pressed="false" title="专注模式 · Ctrl+Shift+F">专注模式</button><button id="openAppearance" type="button" title="主题、字号与动画">外观</button></div></header>
+      <section id="view-study" class="view active">
+        <div class="study-layout">
+          <div class="conversation-panel"><div class="section-head"><div><span class="eyebrow">AI TUTOR</span><h2>你的学习导师</h2></div><select id="provider" aria-label="AI 服务"><option value="codex">Codex</option><option value="deepseek">DeepSeek</option></select></div>
+            <div class="model-toolbar"><label for="studyModel">模型<select id="studyModel"><option value="">按设置使用默认模型</option></select></label><button id="reloadStudyModels" type="button" title="重新读取 Codex 模型列表" aria-label="刷新模型列表">↻</button><label for="reasoningEffort">Codex 推理强度<select id="reasoningEffort"><option value="">自动</option><option value="low">低 · 更快</option><option value="medium">中</option><option value="high">高</option><option value="xhigh">极高</option><option value="max">最高</option><option value="ultra">超高</option></select></label><span id="modelStatus" class="model-status" role="status">正在读取模型…</span></div>
+            <div class="learning-mode-bar"><label for="learningMode">学习模式<select id="learningMode" aria-describedby="learningModeHint"><option value="overview">概览</option><option value="deep" selected>精学</option><option value="research">研究</option></select></label><span id="learningModeHint">为什么这样想、每一步的理由 · 对话与讲解共用</span><button id="openModeGuide" class="secondary" type="button" aria-haspopup="dialog">模式指南</button><button id="openLearningGoals" class="secondary" type="button">学习路线</button><span id="focusedGoalName" class="focused-goal-name" hidden></span><button id="clearLearningGoal" class="secondary" type="button" aria-label="解除当前对话的学习目标" hidden>×</button></div>
+            <div class="conversation-heading"><strong id="conversationTitle">新对话</strong><button id="renameConversation" type="button" aria-label="重命名当前对话">重命名</button></div>
+            <form id="renameConversationForm" class="conversation-rename" hidden><input id="conversationName" aria-label="对话名称" maxlength="100" required><button type="submit">保存</button><button id="cancelConversationRename" type="button">取消</button></form>
+            <div id="readingBar" class="reading-bar" data-status="idle"><span id="readingStatus" role="status">可直接提问；使用资料时，先解析范围并勾选，通读可选</span><button id="readMaterials" type="button">通读资料</button><button id="readingTaskControl" type="button" class="secondary" hidden>暂停通读</button><button id="showReadingNotes" type="button" hidden>阅读笔记</button><button id="showKnowledge" type="button" hidden>知识结构</button></div>
+            <div id="messages" class="messages"><div class="empty-state"><div class="empty-symbol">✦</div><h3>从一个问题开始</h3><p>直接输入问题就能聊天。想学自己的资料：上传后选要读的部分，完成解析并勾选，再提问。需要 Word、PDF 等文件时，点“生成讲解”。</p></div></div>
+            <div id="lessonFeedbackNotice" class="lesson-feedback-notice" hidden></div>
+            <div class="composer"><textarea id="prompt" aria-label="向导师提问或提出讲解要求" placeholder="提出你的问题，也可以告诉导师：这份资料希望怎么讲、哪里还没懂…"></textarea><div class="composer-actions"><input id="composerFiles" type="file" multiple hidden><button id="attachFiles" title="保存文件到当前项目；上传后再选择解析范围">＋ 文件</button><button id="attachUrl" title="先保存网址，再点资料旁的“解析网址”读取内容">🔗 网址</button><button id="recordVoice" title="开始或结束语音输入">🎙 语音</button><label><input id="speakReplies" type="checkbox"> 朗读回复</label><span id="sendKeyHint" class="composer-key-hint">Enter 发送 · Shift+Enter 换行</span><button id="sendMessage" class="primary">发送 →</button></div><form id="composerUrlForm" class="inline-form" hidden><input id="composerUrl" type="url" placeholder="https://… 公开网页、文档或视频" required><button type="submit" class="secondary">导入网址</button></form>
+              <div class="generation-intro"><div><strong>生成学习成果</strong><span>聊天回复在上方；需要可下载的文件时，在这里生成</span></div><span class="generation-kicker" id="generationProviderLabel">CODEX · GENERATE</span></div>
+              <div class="generation-bar"><div class="control"><label for="outputFormat">讲解格式</label><select id="outputFormat"><option value="docx">Word · DOCX</option><option value="pdf">PDF</option><option value="pptx">PPTX</option><option value="mm">思维导图 · MM</option><option value="apkg">Anki · APKG</option><option value="py">Python · PY</option><option value="ipynb">Jupyter · IPYNB</option><option value="js">JavaScript · JS</option><option value="ts">TypeScript · TS</option><option value="cpp">C++ · CPP</option><option value="m">MATLAB · M</option><option value="wl">Mathematica · WL</option><option value="zip">代码包 · ZIP</option></select></div>
+                <div class="control summary-control"><label for="summaryLevel">概括性强弱 <b id="summaryLabel">平衡</b></label><input id="summaryLevel" type="range" min="1" max="5" value="3"><div class="range-ends"><span>主干凝练</span><span>细节丰富</span></div></div>
+                <div class="control"><label for="reviewMode">讲解检查方式</label><select id="reviewMode" aria-describedby="reviewModeHint"><option value="express">极速 · 由写作 AI 自查</option><option value="fast">快速 · 额外检查 1 次</option><option value="balanced">平衡 · 检查后修订重要问题</option><option value="strict">严谨 · 三项审查与必要复核</option></select><small id="reviewModeHint" class="small-note"></small></div>
+                <button id="generate" class="secondary">✦ 生成讲解</button></div>
+              <label class="setting-check web-video-toggle"><input id="allowWebVideo" type="checkbox">是否允许 AI 读取网页视频</label><div class="generation-extras"><label class="exercise-toggle"><input id="withExercises" type="checkbox"><span>同步生成举一反三习题<small>习题默认单独输出 DOCX；勾选后总耗时会增加</small></span></label><details class="advanced-generation"><summary>讲解与生成选项</summary><div class="advanced-grid"><div class="control"><label for="explanationStyle">讲解风格 · 对话与文档共用</label><select id="explanationStyle" aria-describedby="explanationStyleHint"><option value="clear">通俗清晰</option><option value="balanced">直观与专业并重</option><option value="academic">学术专业</option></select><small id="explanationStyleHint" class="small-note"></small></div><div class="control"><label for="outputLanguage">讲解语言 · 对话与文档共用</label><select id="outputLanguage" aria-describedby="outputLanguageHint"><option value="zh">中文</option><option value="bilingual">中英双语</option><option value="en">英语</option></select><small id="outputLanguageHint" class="small-note"></small></div><div class="control" id="exerciseFormatWrap" hidden><label for="exerciseFormat">习题格式（特别指定）</label><select id="exerciseFormat"><option value="docx">默认 DOCX</option><option value="pdf">PDF</option><option value="pptx">PPTX</option><option value="mm">思维导图 MM</option><option value="apkg">Anki APKG</option></select></div></div></details></div>
+            </div>
+          </div>
+          <aside class="context-panel"><div class="section-head"><div><span class="eyebrow">SOURCE CONTEXT</span><h2>资料快选</h2></div><span id="selectedCount" class="count-pill">0 份已选</span></div><div class="context-toolbar"><input id="sourceSearch" type="search" placeholder="搜索资料或分类" aria-label="搜索资料或分类"><div class="quick-actions"><button id="selectAllSources" type="button">选用全部</button><button id="clearSources" type="button">清空选择</button></div></div><div id="studyDropZone" class="study-drop-zone" role="button" tabindex="0">⇧ 拖入文件 · 先保存，之后选范围解析</div><div id="quickSources" class="quick-sources"></div><div class="context-footer"><div class="selected-label">当前对话使用</div><div id="selectedSources" class="selected-chips"></div><label for="quickImportCategory">新资料存入<select id="quickImportCategory"></select></label><div class="quick-actions"><button id="quickAddFile" type="button">＋ 文件</button><button id="quickAddUrl" type="button">🔗 网址</button></div><button class="subtle" data-view="sources">管理资料与分类 →</button></div></aside>
+        </div>
+        <div id="studyDropOverlay" class="study-drop-overlay" hidden><strong>松开即可导入当前项目</strong><span>先保存到当前项目；之后选择解析范围，不会立即读整份文件</span></div>
+      </section>
+      <section id="view-sources" class="view"><div class="page-heading"><span class="eyebrow">LIBRARY</span><h2>资料库</h2><p>在这里上传文件、建立分类。到学习工作台勾选文件或整个分类，就能让导师使用这些资料。</p></div><div class="library-tools"><label for="importCategory">新资料存入<select id="importCategory"></select></label><form id="createCategoryForm" class="inline-form"><input id="categoryName" maxlength="80" placeholder="新分类名称，例如：经典力学" required><button type="submit" class="secondary">＋ 新建分类</button></form></div><div id="categoriesManager" class="category-manager"></div><div class="upload-grid"><label class="upload-card" id="dropZone"><input id="fileInput" type="file" multiple hidden><span class="upload-icon">⇧</span><strong>拖入或选择本地文件</strong><small>先保存原文件；选择范围解析后，再勾选用于当前对话</small></label><div class="url-card"><strong>导入公开网址</strong><form class="inline-form" id="libraryUrlForm"><input id="videoUrl" type="url" placeholder="https://… 网页、PDF、视频等" required><button type="submit" class="secondary">导入</button></form><small>保存后点“解析网址”；网页需可访问，失败可试“浏览器读取”</small></div></div><div class="list-heading"><h3>项目资料</h3><span id="sourceCount"></span></div><div id="sources" class="library-groups"></div></section>
+      <section id="view-library" class="view" aria-label="全局书库"></section>
+      <section id="view-artifacts" class="view">
+        <div class="page-heading"><span class="eyebrow">OUTPUTS</span><h2>成果文档</h2><p>先在左侧选项目，再查看它生成的文件。任务进度会自动更新；完成后可以下载、改名或删除。</p></div>
+        <div class="artifact-library">
+          <aside class="artifact-folder-panel" aria-label="成果的学习项目文件夹">
+            <div class="artifact-folder-panel-head"><h3>项目文件夹</h3><span id="artifactFolderCount" class="small-note"></span></div>
+            <label class="artifact-folder-search" for="artifactFolderSearch"><span class="sr-only">搜索项目文件夹</span><input id="artifactFolderSearch" type="search" placeholder="搜索项目文件夹" autocomplete="off"></label>
+            <nav id="artifactFolders" class="artifact-folder-list" aria-label="选择成果项目"><p class="small-note">正在读取项目文件夹…</p></nav>
+          </aside>
+          <div class="artifact-folder-content">
+            <section class="artifact-overview readable-panel" aria-labelledby="artifactFolderTitle"><header class="artifact-folder-heading"><span class="eyebrow">当前项目文件夹</span><h3 id="artifactFolderTitle">选择一个学习项目</h3><p id="artifactFolderSummary" class="small-note" aria-live="polite"></p></header>
+            <div class="artifact-toolbar"><span class="small-note">这里只显示当前项目的成果；可以排序、改名、下载或删除。</span><label for="artifactSort">排序<select id="artifactSort"><option value="newest">最新生成在前</option><option value="oldest">最早生成在前</option><option value="name">按名称</option><option value="format">按文件格式</option></select></label></div>
+            <label class="job-history-toggle"><input id="showJobHistory" type="checkbox"> 显示已结束任务（最近 30 项），可删除记录</label></section><div id="jobs" class="job-list"></div><div id="artifacts" class="card-list"></div>
+          </div>
+        </div>
+      </section>
+      <section id="view-exercises" class="view"><div class="page-heading"><span class="eyebrow">PRACTICE</span><h2>练习与作业</h2><p>先完成并提交整套题，再下载答案解析。导师会另外批改和讲解错题；低于 80 分时，可选择补学方式。</p><div class="inline-form"><label for="codingLanguage">编程语言</label><select id="codingLanguage"><option value="python">Python</option><option value="javascript">JavaScript</option><option value="typescript">TypeScript</option><option value="cpp">C++</option><option value="matlab">MATLAB</option><option value="wolfram">Wolfram Language</option></select><button id="newCoding" class="secondary">＋ 根据选中资料布置编程作业</button></div><p class="small-note">Python、JavaScript、TypeScript、C++ 作业可运行测试，但电脑要先启动 Docker 并准备测试环境。MATLAB 和 Wolfram Language 目前只检查代码；未实际运行时不定最终成绩。</p></div>
+      <details id="reviewQueuePanel" class="review-queue"><summary>待复习的题 · 自愿加入 <span id="reviewQueueCount" class="count-pill"></span></summary><p class="small-note">想以后再做的题，可以加入这里。每次选 1—6 题开始复习，可来自不同项目；仅查看列表不会调用 AI。建议先不看笔记作答。</p><div class="review-toolbar"><label><input id="reviewDueOnly" type="checkbox"> 只看到期或进行中的复习题</label><span id="reviewSelectedCount" class="small-note"></span><button id="clearReviewSelection" class="secondary" type="button">清空选择</button><button id="startMixedReview" class="secondary" type="button">开始所选复习</button></div><div id="reviewQueueItems"></div><nav class="profile-pagination" aria-label="复习队列分页"><button id="reviewPrevious" class="secondary" type="button">上一页</button><span id="reviewPage" class="small-note"></span><button id="reviewNext" class="secondary" type="button">下一页</button></nav></details><datalist id="reviewIntervals"><option value="1"><option value="3"><option value="7"><option value="14"></datalist><div id="exercises" class="card-list"></div></section>
+      <section id="view-profile" class="view"><div class="page-heading"><span class="eyebrow">LEARNING PROFILE</span><h2>跨项目学习画像</h2><p>这里记录学过什么、哪里还不懂，帮助导师调整讲解。做题得分、你自己的讲解和自评会分别保留；上传或读过资料不会自动算学会。</p></div>
+        <details class="memory-settings"><summary>后台学习记忆 <span id="memoryStatus" role="status">正在读取…</span></summary><p class="small-note">学习结束、空闲约 45 秒后，AI 会整理少量近期学习记录，记住疑问和学习偏好。你可以关闭它，或限制每天整理几次；整理会使用当时所选 AI 的额度。</p><div class="inline-form"><label class="setting-check"><input id="backgroundLearningEnabled" type="checkbox"> 自动整理</label><label>最短间隔（分钟）<input id="backgroundLearningInterval" type="number" min="5" max="120" value="15"></label><label>每天最多调用<input id="backgroundLearningDailyLimit" type="number" min="1" max="24" value="6"></label><button id="saveMemorySettings" class="secondary">保存</button></div></details>
+        <section class="profile-self-assessment readable-panel" aria-labelledby="profileSelfTitle"><h3 id="profileSelfTitle">记录自己的理解</h3><div class="inline-form profile-form"><input id="ratingTopic" list="ratingTopics" maxlength="80" placeholder="选择已有知识点，或填写新知识点" aria-label="自评知识点"><datalist id="ratingTopics"></datalist><label>自评掌握度<input id="ratingValue" type="number" min="0" max="100" value="50"></label><label>主观难度<input id="difficultyValue" type="number" min="0" max="100" value="50"></label><button id="saveRating" class="secondary">记录自评</button></div>
+        <p class="small-note">自评掌握度描述你现在觉得自己理解到什么程度，主观难度帮助导师调整步骤与节奏。两者都供导师参考；自评掌握度还参与下方的综合分。使用与已有记录相同的知识点名称，才能合并到同一张卡片。</p></section>
+        <section class="profile-evaluation readable-panel" aria-labelledby="profileEvaluationTitle"><h3 id="profileEvaluationTitle">知识点评估</h3><div class="profile-scoring"><div><label for="profileSelfWeight">自评在综合分中的占比</label><output id="profileWeightValue" for="profileSelfWeight">20%</output><input id="profileSelfWeight" type="range" min="0" max="50" step="1" value="20"><p id="profileWeightFormula" class="small-note">作答参考分 × 80% + 最近有效自评 × 20%</p></div><button id="saveProfileScoring" class="secondary" type="button">应用占比</button><span id="profileScoringStatus" role="status" aria-live="polite"></span></div>
+        <p class="small-note">综合学习参考分供导师、讲解与出题调整详略和难度；缺少一项时显示已有依据，只有自评会标为“未测验”。实际作业成绩和 80 分过关条件依据作答，不被自评改写。这个占比是可调的教学约定。</p><p class="small-note">画像跨项目共享，聊天记录按对话隔离；只整理知识疑问、理解、学习困难、教学偏好、作答与自评。闲聊、软件操作和任务进度不进入画像。提示使用、独立论证与延迟记忆仍需更多证据验证。</p></section><div id="profile" class="profile-grid"></div><details id="removedLegacyProfiles" hidden><summary>已移出的早期汇总</summary><div></div></details>
+        <section class="profile-memory-controls readable-panel" aria-label="学习记忆筛选"><div class="profile-memory-heading"><h3>我的学习记忆</h3><span id="profileCount" class="small-note" role="status"></span></div>
+        <div class="profile-memory-toolbar"><input id="profileSearch" type="search" maxlength="120" placeholder="搜索知识点、判断或原话" aria-label="搜索学习记忆"><select id="profileCategory" aria-label="记忆来源"><option value="all">全部来源</option><option value="assessment">作答 / 费曼 / 编程</option><option value="self_report">自评 / 理解问卷</option><option value="chat">聊天观察</option><option value="exposure">导入 / 通读范围</option><option value="preference">偏好 / 教学建议</option></select><select id="profileStatus" aria-label="记忆状态"><option value="active">用于教学的记忆</option><option value="removed">已移出画像</option></select></div></section>
+        <div id="learningMemory" class="memory-sections"></div><nav class="profile-pagination" aria-label="记忆分页"><button id="profilePrevious" class="secondary" type="button">上一页</button><span id="profilePage" class="small-note"></span><button id="profileNext" class="secondary" type="button">下一页</button></nav></section>
+      <section id="view-goals" class="view">
+        <header class="section-intro goal-intro readable-panel"><span class="eyebrow">LEARNING ROUTE</span><h2>广泛探索，选择重点学透</h2><p>把兴趣留在路线中，为重点设定可观察的目标。检查按需发起，分开记录概念、方法理由和迁移；原资料、理解问卷及错题补讲继续由同一导师衔接。</p><div class="card-actions"><button id="newLearningGoal" type="button">＋ 新建学习目标</button><button id="goalFromKnowledge" class="secondary" type="button">从当前资料的知识结构加入</button><button id="refreshLearningGoals" class="secondary" type="button">刷新证据</button></div></header>
+        <div id="goalCounts" class="goal-counts" aria-live="polite"></div>
+        <div class="goal-filters"><input id="goalSearch" type="search" aria-label="搜索学习目标或领域" placeholder="搜索知识、领域或学习目标"><select id="goalIntentFilter" aria-label="筛选学习方向"><option value="all">全部方向</option><option value="explore">广泛了解</option><option value="deep">重点精学</option><option value="research">独立探究</option><option value="paused">暂缓目标</option></select><select id="goalDomainFilter" aria-label="筛选学科"><option value="">全部领域</option></select></div>
+        <p id="goalRouteStatus" class="small-note" role="status"></p><div id="learningGoals" class="goal-grid"></div>
+      </section>
+      <section id="view-settings" class="view"><div class="page-heading"><span class="eyebrow">YOUR WORKSPACE</span><h2>设置与联动</h2><p>调整讲解速度与风格，管理模型和外部工具。偏好保存到本机。</p></div>
+        <div class="settings-grid"><div class="settings-card"><div class="settings-card-head"><span>01 / 生成偏好</span><h3>速度与讲解</h3><p>风格、语言和审查默认值用于新对话；已有对话保存各自的选择。</p></div><label>新对话默认讲解检查方式<select id="defaultReviewMode"><option value="express">极速 · 由写作 AI 自查，无额外审查调用</option><option value="fast">快速 · 额外检查 1 次</option><option value="balanced">平衡 · 检查后修订重要问题</option><option value="strict">严谨 · 三项审查与必要复核</option></select></label><label>默认讲解风格<select id="defaultExplanationStyle"><option value="clear">通俗清晰</option><option value="balanced">直观与专业并重</option><option value="academic">学术专业</option></select></label><label>默认讲解语言<select id="defaultOutputLanguage"><option value="zh">中文</option><option value="bilingual">中英双语</option><option value="en">英语</option></select></label><label>默认讲解格式<select id="defaultOutputFormat"><option value="docx">DOCX</option><option value="pdf">PDF</option><option value="pptx">PPTX</option><option value="mm">思维导图 MM</option><option value="apkg">Anki APKG</option><option value="py">Python</option><option value="ipynb">Jupyter</option><option value="js">JavaScript</option><option value="ts">TypeScript</option><option value="cpp">C++</option><option value="m">MATLAB</option><option value="wl">Mathematica</option><option value="zip">代码包 ZIP</option></select></label><label class="setting-check"><input id="autoSelectImports" type="checkbox"> 新导入资料自动用于对话与生成</label><p class="small-note">极速模式没有独立审查，重要结论请对照原资料；快速模式只做一次综合核查。</p></div>
+        <div class="settings-card"><div class="settings-card-head"><span>02 / 模型与语音</span><h3>AI 服务</h3><p>导师与讲解共用学习对话中选择的模型和推理强度；选择会保存到本机。</p></div><label>AI 服务怎么联网<select id="apiConnectionMode"><option value="system">使用电脑当前网络设置（推荐）</option><option value="direct">直接连接（跳过环境代理）</option></select></label><p id="apiConnectionStatus" class="small-note" role="status">选择后立即保存，适用于 DeepSeek 和 API 接入的第三方服务。直连保留证书校验；Codex 与 Gemini 账号入口沿用各自网络配置。正在传输的请求不会切换线路。</p><label>DeepSeek API 密钥（服务商提供的访问凭证）<input id="apiKey" type="password" placeholder="已保存则留空"></label><label>DeepSeek 默认模型<input id="modelName" list="deepseekModels" value="deepseek-flash"></label><datalist id="deepseekModels"></datalist><p class="small-note">可以刷新模型列表，或填写服务商提供的模型名称。聊天和生成文档使用当前对话选中的模型。</p><button id="loadDeepSeekModels" type="button">刷新 DeepSeek 模型目录</button><label>画面分析模型<input id="visionModel" value="deepseek-flash"></label><label>Codex 默认模型（留空使用本机默认）<input id="codexModel" list="codexModels" placeholder="使用 Codex 默认模型"></label><p id="codexModelHelp" class="small-note"></p><datalist id="codexModels"></datalist><button id="loadCodexModels" type="button">查看 Codex 模型列表</button><label>音频转文字使用的模型<select id="whisperModel"><option value="small">small · 较准确</option><option value="base">base · 较快</option><option value="tiny">tiny · 最快</option><option value="medium">medium · 更大模型</option><option value="large-v3">large-v3 · 建议 GPU</option><option value="large-v3-turbo">large-v3-turbo · 建议 GPU</option></select></label><label>语音识别设备<select id="whisperDevice"><option value="auto">自动选择可用设备（推荐）</option><option value="cpu">只用 CPU · 兼容性较好</option><option value="cuda">优先用显卡 · 不可用时改用 CPU</option></select></label><button id="detectAsrDevice" type="button">检测语音识别设备</button><p id="asrDeviceStatus" class="small-note">使用你选中的模型识别完整音频。模型文件第一次需要下载；用显卡通常更快，是否可用请点上方检测。</p><label>语音输入语言<select id="voiceLanguage"><option value="zh">中文</option><option value="auto">自动识别</option></select></label><p id="keyStatus" class="small-note"></p><p id="networkStatus" class="small-note"></p><button id="testDeepSeek" type="button">检测 DeepSeek 连接</button></div>
+        <div class="settings-card integration-card"><div class="settings-card-head"><span>03 / 外部工作台</span><h3>Codex 与 DSH</h3><p>配置一次后，就能在 Codex 或 DSH 的对话里读取本软件的资料、处理作业。下面有操作步骤和可复制的示例。</p></div><div class="integration-grid"><div class="integration-guide"><b>VS Code Codex</b><ol><li>点击下方“配置 VS Code Codex”。</li><li>重新加载 VS Code 窗口或重启。</li><li>打开 Codex 对话，输入示例指令。</li></ol><button id="connectCodex" class="secondary">配置 VS Code Codex</button><button id="copyCodexPrompt" type="button">复制示例指令</button></div><div class="integration-guide"><b>DSH Desktop</b><ol><li>点击下方“配置 DSH Desktop”。</li><li>完全退出并重启 DSH Desktop。</li><li>在 DSH 对话中输入示例指令。</li></ol><button id="connectDsh" class="secondary">配置 DSH Desktop</button><button id="copyDshPrompt" type="button">复制示例指令</button></div></div><div class="code-block" id="mcpCommand"></div><p class="small-note">配置后不一定出现单独按钮。请把示例指令粘贴到 Codex 或 DSH 的对话中试用；它们需要和 StudyForge 使用同一个 Windows 用户账号。</p></div>
+        <div class="settings-card agent-settings"><div class="settings-card-head"><span>AI 工具与权限</span><h3>让导师实际处理学习任务</h3><p>导师可以按你的授权查网页、读文件和处理任务。聊天保存在 StudyForge 中；使用 DeepSeek 时不必打开 Codex。</p></div>
+<label class="setting-check"><input id="agentToolsEnabled" type="checkbox">启用 AI 学习工具</label>
+<label class="setting-check"><input id="agentNetworkEnabled" type="checkbox">允许联网查询与读取网页</label>
+<label class="setting-check"><input id="agentWriteEnabled" type="checkbox">允许在我指定的文件夹中创建和修改文件</label>
+<label class="setting-check"><input id="agentImageEnabled" type="checkbox">允许 AI 生成学习用的图片</label>
+<label>AI 可以读取哪些文件夹？（每行一个）<textarea id="agentReadRoots" rows="2" placeholder="默认可读取当前选中的资料和项目工作文件夹"></textarea></label><button id="chooseReadRoot" type="button">选择可读取的文件夹</button>
+<label>AI 可以修改哪些文件夹？（每行一个）<textarea id="agentWriteRoots" rows="2" placeholder="默认只能修改当前项目的工作文件夹；覆盖文件前会备份"></textarea></label><button id="chooseWriteRoot" type="button">选择可修改的文件夹</button>
+<label>每次回复最多调用工具次数<input id="agentToolBudget" type="number" min="1" max="30" value="12"></label>
+<details><summary>图片生成服务</summary><label>绘图 API 密钥（服务商提供的访问凭证）<input id="imageApiKey" type="password" placeholder="已保存则留空"></label><label>绘图 API 地址<input id="imageApiBase" value="https://api.openai.com/v1"></label><label>绘图模型<input id="imageModel" value="gpt-image-2.5-flare"></label><p id="imageKeyStatus" class="small-note"></p></details>
+<p class="small-note">联网优先常见学习平台，并核对关键来源。网页限制访问时会如实说明。视频依据字幕、转录和抽取画面读取。</p></div><div class="settings-card system-card"><div class="settings-card-head"><span>04 / 本机状态</span><h3>运行环境</h3></div><div id="healthDetails"></div><div id="desktopControls" hidden><h4>桌面后台运行</h4><p id="desktopRunStatus" class="small-note"></p><div class="inline-form"><button id="hideDesktop" type="button">隐藏到托盘</button><button id="quitDesktop" type="button">完全退出</button></div></div></div></div><div class="settings-save"><button id="saveSettings" class="secondary">保存全部设置</button><span>教学默认值用于新对话；已有对话请在工作台修改。</span></div>
+        <div id="desktopNotificationControls" class="settings-card">
+          <div class="settings-card-head"><span>桌面提醒</span><h3>Windows 通知</h3><p>成果完成、审批与待填写问卷会在右下角提醒。窗口隐藏到托盘后继续有效；点击通知回到对应项目与对话。</p></div>
+          <div class="desktop-notify-grid">
+            <label class="setting-check"><input id="desktopNotifyEnabled" type="checkbox" checked>启用 Windows 桌面通知</label>
+            <label class="setting-check"><input id="desktopNotifySound" type="checkbox" checked>通知声音</label>
+            <label class="setting-check"><input id="desktopNotifyForeground" type="checkbox" checked>窗口正在使用时也提醒</label>
+            <label class="setting-check"><input id="desktopNotifyComplete" type="checkbox" checked>成果、通读与资料导入完成</label>
+            <label class="setting-check"><input id="desktopNotifyApproval" type="checkbox" checked>AI 等待文件操作审批</label>
+            <label class="setting-check"><input id="desktopNotifyFailure" type="checkbox" checked>任务失败或本机服务停止</label>
+            <label class="setting-check"><input id="desktopNotifyQuestionnaire" type="checkbox" checked>批改暂停，等待错因问卷</label>
+            <label class="setting-check"><input id="desktopNotifyChat" type="checkbox" checked>切到其他应用后，导师回复完成</label>
+            <label class="setting-check"><input id="desktopNotifyUpdate" type="checkbox" checked>发现更新或更新下载完成</label>
+          </div>
+          <div class="card-actions"><button id="saveDesktopNotifications" type="button">保存通知设置</button><button id="testDesktopNotification" type="button">发送测试通知</button></div>
+          <p id="desktopNotifyStatus" class="small-note" role="status">Windows 通知需通过桌面版运行。若 Windows 开启了勿扰模式，可在通知中心查看；软件顶部也保留最近通知。</p>
+        </div>
+        <div id="updateControls" class="settings-card update-card" hidden>
+          <div class="settings-card-head"><span>05 / 版本与更新</span><h3>软件更新</h3><p>自动检查，可选后台下载。由你选择何时保存任务并重启安装。</p></div>
+          <p id="updateVersion" class="small-note"></p><p id="updateModeNote" class="small-note"></p>
+          <label>更新地址（发布者提供）<input id="updateFeed" type="url" maxlength="1500" placeholder="没有发布者提供的地址时，请留空"></label>
+          <label class="setting-check"><input id="updateAutoCheck" type="checkbox" checked>自动检测更新</label>
+          <label class="setting-check"><input id="updateAutoDownload" type="checkbox">发现新版本后自动下载</label>
+          <label>检查间隔（小时）<input id="updateInterval" type="number" min="1" max="168" value="24"></label>
+          <div class="card-actions"><button id="saveUpdateSettings" type="button">保存更新设置</button><button id="checkUpdates" type="button">立即检查</button></div>
+          <p id="updateStatus" role="status" aria-live="polite"></p>
+          <div id="updateProgress" class="progress" role="progressbar" aria-label="更新下载进度" aria-valuemin="0" aria-valuemax="100" hidden><i></i></div>
+          <p id="updateTransfer" class="small-note"></p>
+          <div class="card-actions"><button id="downloadUpdate" type="button" hidden>下载更新</button><button id="installUpdate" class="secondary" type="button" hidden>保存任务并重启更新</button></div>
+          <details id="updateNotes" hidden><summary>新版本说明</summary><pre></pre></details>
+          <details><summary>更新恢复</summary><p class="small-note">更新前会备份学习记录和设置，原文件仍保留。需要退回旧版时，可在这里检查可用版本；不会自动用旧记录覆盖现在的学习进度。</p><div class="card-actions"><button id="openUpdateRecovery" type="button">打开备份目录</button><button id="rollbackUpdate" type="button" disabled>暂无可回退版本</button></div></details>
+        </div>
+      </section>
+    </main>
+  </div>
+  <dialog id="desktopNoticesDialog" class="desktop-notices-dialog" aria-labelledby="desktopNoticesTitle"><header><div><span class="eyebrow">WINDOWS NOTIFICATIONS</span><h2 id="desktopNoticesTitle">最近通知</h2></div><button id="closeDesktopNotices" type="button" aria-label="关闭通知">✕</button></header><div id="desktopNoticeList" class="desktop-notice-list"></div><div class="notice-footer"><span class="small-note">点击回到对应项目 · 保留最近 50 条</span><button id="desktopNoticeSettings" type="button">通知设置</button></div></dialog>
+  <div id="toast" class="toast" popover="manual" hidden>
+    <span class="toast-message" role="status" aria-live="polite" aria-atomic="true"></span>
+    <button class="toast-close" type="button" aria-label="关闭通知" title="关闭通知"></button>
+  </div>
+  <dialog id="profileEvidenceDialog" class="profile-evidence-dialog" aria-labelledby="profileEvidenceTitle">
+    <header class="knowledge-header"><div><span class="eyebrow">YOUR LEARNING MEMORY</span><h2 id="profileEvidenceTitle">查看与纠正学习记忆</h2></div><button id="closeProfileEvidence" type="button" aria-label="关闭学习记忆">✕</button></header>
+    <div class="profile-evidence-content"><p id="profileEvidenceStatus" class="small-note" role="status"></p>
+      <div id="profileEvidenceBody" class="profile-evidence-layout" hidden><section><h3 id="profileEvidenceTopic"></h3><p id="profileEvidenceMeta" class="small-note"></p><label for="profileCorrection">这条记录应该改成什么？</label><textarea id="profileCorrection" rows="7" maxlength="1000"></textarea><p class="small-note">纠正会注明“用户纠正（未验证）”，不会改写原话、试卷成绩或把自述当作已经掌握。原分数不适合教学时，可将这条记录移出画像。</p><div class="profile-evidence-actions"><button id="saveProfileCorrection" type="button">保存纠正</button><button id="resetProfileCorrection" class="secondary" type="button">恢复原判断</button><button id="removeProfileInsight" class="secondary" type="button">移出画像</button><button id="restoreProfileInsight" class="secondary" type="button" hidden>恢复到画像</button></div><div id="profileRemovalConfirm" class="profile-removal-confirm" hidden><p>这条判断及其评估分数将停止影响后续教学。原对话、答卷与成绩保留；可在“已移出画像”恢复。相同证据的后台重试不会重新加入判断，新作答仍可产生新记录。</p><button id="confirmProfileRemoval" type="button">确认移出</button><button id="cancelProfileRemoval" class="secondary" type="button">取消</button></div></section>
+      <section class="profile-original-evidence"><h4>修改前的判断</h4><p id="profileOriginalObservation"></p><h4>当时引用了你的哪句话</h4><blockquote id="profileEvidenceQuote"></blockquote><h4>当时的记录或你的发言</h4><pre id="profileEvidenceText"></pre><p id="profileEvidenceFeedback"></p><p id="profileEvidenceSources" class="small-note"></p><p id="profileEvidenceNotice" class="small-note"></p></section></div>
+    </div>
+  </dialog>
+  <dialog id="readingNotesDialog" class="reading-notes-dialog" aria-labelledby="readingNotesTitle" aria-describedby="readingNotesContext">
+    <header class="reading-notes-header"><div><span class="eyebrow">阅读回顾</span><h2 id="readingNotesTitle">阅读笔记</h2><p id="readingNotesContext"></p></div><button id="closeReadingNotes" type="button" aria-label="关闭阅读笔记" autofocus>✕</button></header>
+    <div id="readingNotesBody" class="reading-notes-body" tabindex="0" aria-label="阅读笔记正文">
+      <details id="readingNotesMaterials" class="reading-notes-materials"><summary id="readingNotesSourceCount">所选资料</summary><ul id="readingNotesSources"></ul></details>
+      <article id="readingNotesText"></article>
+    </div>
+    <footer class="reading-notes-footer"><span id="readingNotesCopyStatus" role="status" aria-live="polite"></span><button id="copyReadingNotes" type="button">复制笔记</button><button id="returnFromReadingNotes" type="button" class="primary">返回对话</button></footer>
+  </dialog>
+  <dialog id="knowledgeDialog" class="knowledge-dialog" aria-labelledby="knowledgeTitle">
+    <header class="knowledge-header"><div><span class="eyebrow">KNOWLEDGE STRUCTURE</span><h2 id="knowledgeTitle">把知识连起来</h2></div><button id="closeKnowledge" type="button" aria-label="关闭知识结构">✕</button></header>
+    <div id="knowledgeContent" class="knowledge-content">
+    <p id="knowledgeStatus" role="status" class="small-note">查看资料有哪些知识点、先学什么，以及它们有什么联系</p>
+    <button id="knowledgeTaskControl" type="button" class="secondary" hidden>暂停整理</button>
+    <div class="knowledge-toolbar"><input id="knowledgeSearch" type="search" placeholder="搜索知识点或学科" aria-label="搜索知识点或学科"><button id="buildKnowledge" type="button" class="secondary">整理知识结构</button><button id="addKnowledgeGoals" type="button" class="secondary">加入学习路线</button></div>
+    <div id="knowledgeIntro" class="knowledge-intro">按需整理，不会自动多次审查或出题。使用当前模型读取所选完整原资料；相同资料和模型复用结果。结构将帮助同一导师组织后续讲解。</div>
+    <div id="knowledgeBody" class="knowledge-layout" hidden><nav id="knowledgeNodes" aria-label="知识点"></nav><article id="knowledgeDetail"></article></div>
+    <details id="knowledgeWarnings" hidden><summary>需要核对的结构问题</summary><ul></ul></details>
+    </div>
+  </dialog>
+  <dialog id="learningGoalDialog" class="learning-goal-dialog" aria-labelledby="goalEditorTitle">
+    <header class="knowledge-header"><div><span class="eyebrow">YOUR LEARNING TARGET</span><h2 id="goalEditorTitle">新建学习目标</h2></div><button id="closeLearningGoal" type="button" aria-label="关闭学习目标编辑">✕</button></header>
+    <form id="learningGoalForm"><div class="goal-editor-fields"><label>知识或主题<input id="goalName" maxlength="120" required placeholder="例如：高斯定律、规训权力、算法复杂度"></label><label>所属领域<input id="goalDomain" maxlength="80" placeholder="可自由填写；同名知识按领域区分"></label><label>学习方向<select id="goalIntent"><option value="explore">广泛了解</option><option value="deep">重点精学</option><option value="research">独立探究</option></select></label><label class="goal-pause"><input id="goalPaused" type="checkbox">暂缓，保留计划与证据</label><label class="goal-criterion">学到什么程度<textarea id="goalCriterion" rows="3" maxlength="1200" placeholder="用可观察的行为描述，例如：能解释适用条件并独立分析一个反例"></textarea></label></div>
+    <fieldset class="goal-picklist"><legend>目标资料 · 只关联本项目，不自动更改其他对话选材</legend><div id="goalSourceChoices"></div></fieldset>
+    <fieldset class="goal-picklist"><legend>建议先了解的知识 · 可多选，不代表你尚未掌握</legend><div id="goalPrerequisiteChoices"></div></fieldset>
+    <p id="goalEditorStatus" class="small-note" role="status"></p><div class="goal-editor-actions"><button id="saveLearningGoal" type="submit">保存学习目标</button><button id="cancelLearningGoal" class="secondary" type="button">取消</button></div></form>
+  </dialog>
+  <script src="/vendor/marked.js"></script>
+  <script src="/vendor/purify.js"></script>
+  <script src="/vendor/katex.js"></script>
+  <script src="/lesson_render.js"></script>
+  <script src="/message_history.js"></script>
+  <link rel="stylesheet" href="/lesson_passage.css">
+  <script src="/lesson_passage.js"></script>
+  <script src="/lesson_feedback.js"></script>
+  <script src="/task_controls.js"></script>
+  <script src="/knowledge.js"></script>
+  <script src="/learning_goals.js"></script>
+  <script src="/learning_profile.js"></script>
+  <script src="/practice.js"></script>
+  <script src="/surfaces.js"></script>
+  <script src="/appearance.js"></script>
+  <script src="/conversation_layout.js"></script>
+  <script src="/studio.js"></script>
+  <script src="/navigation.js"></script>
+  <script src="/conversations.js"></script>
+  <script src="/reading_notes.js"></script>
+  <script src="/artifact_folders.js"></script>
+  <script src="/parallel.js"></script>
+  <script src="/repair_picker.js"></script>
+  <link rel="stylesheet" href="/practice_hints.css">
+  <script src="/practice_hints.js"></script>
+  <script src="/homework_reader.js"></script>
+  <script src="/homework.js"></script>
+  <script src="/conversation_display.js"></script>
+  <link rel="stylesheet" href="/agent_permissions.css">
+  <link rel="stylesheet" href="/conversation_layout.css">
+  <script src="/agent_permissions.js"></script>
+  <script src="/notifications.js"></script>
+  <script src="/desktop_notifications.js"></script>
+  <link rel="stylesheet" href="/model_services.css">
+  <script src="/model_services.js"></script>
+  <dialog id="modeGuideDialog" class="mode-guide-dialog" aria-labelledby="modeGuideTitle"><div class="section-head"><div><div class="eyebrow">选择本次学习目标</div><h2 id="modeGuideTitle">三种模式怎样讲</h2></div><button id="closeModeGuide" class="secondary" type="button" aria-label="关闭模式指南">关闭</button></div><p id="modeGuideStatus" class="small-note" role="status">模式控制教学目标，风格控制表达，概括性控制详略。</p><div id="modeGuideCards" class="mode-guide-cards"></div><p class="small-note">对话和讲解共用当前模式；已启动任务保留启动时的选择。模式不改变联网、文件访问或是否同步出题。</p></dialog>
+  <link rel="stylesheet" href="/mode_guide.css">
+  <script src="/mode_guide.js"></script>
+  <script src="/task_retry.js"></script>
+  <script src="/source_evidence.js"></script>
+  <link rel="stylesheet" href="/teaching_review.css">
+  <script src="/teaching_review.js"></script>
+  <script src="/refresh_state.js"></script>
+  <link rel="stylesheet" href="/task_timing.css">
+  <script src="/task_timing.js"></script>
+  <script src="/app.js"></script>
+  <link rel="stylesheet" href="/document_exports.css">
+  <script src="/document_exports.js"></script>
+  <link rel="stylesheet" href="/message_focus.css">
+  <script src="/source_selection.js"></script>
+  <script src="/message_focus.js"></script>
+  <link rel="stylesheet" href="/desktop_startup.css">
+  <script src="/desktop_startup.js"></script>
+  <link rel="stylesheet" href="/mobile_connection.css">
+  <script src="/mobile_connection.js"></script>
+  <link rel="stylesheet" href="/source_scope.css">
+  <script src="/source_scope.js"></script>
+  <script src="/desktop_source_scope.js"></script>
+  <script src="/user_guide.js"></script>
+  <script src="/library_models.js"></script>
+  <script src="/library.js"></script>
+  <script src="/library_policy.js"></script>
+  <link rel="stylesheet" href="/library_mentions.css">
+  <script src="/library_mentions.js"></script>
+</body>
+</html>

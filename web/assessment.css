@@ -1,0 +1,17 @@
+/* Grading is teaching too: use the same readable prose and math renderer. */
+body :is(.grading-feedback,.practice-feynman,.practice-diagnosis,.practice-hint,.practice-attempt-options,.review-scheduling){background:var(--surface);color:var(--ink);border-color:var(--line);}
+body .grading-feedback :is(h4,h5){color:var(--ink);}
+body :is(.practice-feynman,.practice-hint,.practice-attempt-options,.review-scheduling) summary{color:var(--ink);}
+body .practice-diagnosis blockquote{color:var(--quote-ink);border-color:var(--line);}
+body :is(.practice-hint,.practice-attempt-options) select{background:var(--surface-alt);color:var(--ink);border-color:var(--line);}
+body .practice-hint [data-hint-text]{background:var(--surface-alt);color:var(--ink);border-color:var(--accent);}
+body .grading-feedback h5{margin:0 0 10px;font-size:.95rem;}
+body .grading-feedback p{white-space:normal;}
+.grading-item{padding:12px 0;border-bottom:1px solid var(--line);}
+.grading-item:last-of-type{margin-bottom:14px;}
+.grading-test-output{white-space:pre-wrap;overflow-wrap:anywhere;font-size:.85rem;}
+html:root[data-readability=on] body :is(.grading-feedback,.practice-feynman,.practice-diagnosis,.practice-hint,.practice-attempt-options,.review-scheduling){background:var(--readable-fill);color:var(--readable-ink);--ink:var(--readable-ink);--muted:var(--readable-muted);}
+.practice-diagnosis .lesson-explanation,.cause-prompt .lesson-explanation,.homework-clarification .lesson-explanation{font:inherit;color:inherit;line-height:1.85}
+.practice-diagnosis .lesson-explanation :is(p,li),.cause-prompt .lesson-explanation :is(p,li),.homework-clarification .lesson-explanation :is(p,li){font-size:inherit;line-height:inherit}
+.practice-diagnosis :is(pre,.display-math),.cause-prompt :is(pre,.display-math),.homework-clarification :is(pre,.display-math){max-width:100%;overflow-x:auto}
+.practice-diagnosis-next{margin-top:10px}

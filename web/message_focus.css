@@ -1,0 +1,29 @@
+.message-save-actions{gap:7px;flex-wrap:wrap}
+.message-focus-banner,.message-focus-history{box-sizing:border-box;max-width:100%;border:1px solid #a9c7b9;border-radius:12px;background:#edf5ee;color:#234d3d;padding:10px 13px;font-size:13px;line-height:1.65;margin:8px 0;overflow-wrap:anywhere}
+.message-focus-banner[hidden]{display:none!important}.message-focus-banner blockquote,.message-focus-history blockquote{white-space:pre-wrap;max-height:100px;overflow:auto;margin:5px 0;font-size:12px;padding:0;border:0;color:inherit}
+.message-focus-banner>div{display:flex;gap:9px}.message-focus-banner button{font:inherit;font-size:12px;color:inherit;background:transparent;border:1px solid #b6cebf;border-radius:8px;padding:4px 8px;cursor:pointer}.message-focus-history summary{cursor:pointer}
+.message-focus-dialog{box-sizing:border-box;width:min(780px,calc(100vw - 24px));max-height:calc(100dvh - 32px);overflow:auto;border:1px solid #b8d0c3;border-radius:22px;background:#f9fbf7;color:#233d32;padding:24px;box-shadow:0 24px 90px #102d3544}
+.message-focus-dialog::backdrop{background:#09262265;backdrop-filter:blur(5px)}.message-focus-dialog header,.message-focus-dialog footer,.message-focus-paging{display:flex;align-items:center;justify-content:space-between;gap:9px;flex-wrap:wrap}.message-focus-dialog h2{font-size:22px;margin:6px 0}.message-focus-dialog header span,.message-focus-dialog p{font-size:13px;line-height:1.8;overflow-wrap:anywhere}.message-focus-dialog textarea{box-sizing:border-box;display:block;width:100%;resize:vertical;min-height:180px;max-height:45dvh;padding:12px;border:1px solid #b8cfc0;border-radius:12px;background:#fff;color:#203e32;white-space:pre-wrap;font:14px/1.85 Consolas,'Microsoft YaHei',monospace}.message-focus-dialog button,.message-focus-dialog input{font:inherit;font-size:13px;line-height:1.5;padding:8px 11px;border:1px solid #bbcebf;border-radius:9px;background:#eff5ec;color:inherit}.message-focus-dialog button{cursor:pointer;min-height:38px}.message-focus-dialog button.primary{background:#28664e;color:white;border-color:#28664e}.message-focus-dialog button:disabled{opacity:.5;cursor:default}.message-focus-paging{justify-content:flex-start;margin-top:12px}.message-focus-paging label{display:flex;gap:6px;align-items:center;font-size:12px}.message-focus-paging input{width:80px;min-width:50px}.message-focus-dialog footer{justify-content:flex-end}.message-focus-dialog [data-focus-status]{min-height:2em;color:#566f60}
+:is(html[data-theme="dark"],html[data-theme="night"]) :is(.message-focus-dialog,.message-focus-banner,.message-focus-history){background:#22382e;color:#edf5ee;border-color:#587261}:is(html[data-theme="dark"],html[data-theme="night"]) .message-focus-dialog :is(textarea,input,button){background:#30483a;color:#edf5ee;border-color:#597362}:is(html[data-theme="dark"],html[data-theme="night"]) .message-focus-dialog [data-focus-status]{color:#c3d5c5}
+@media(max-width:480px){.message-focus-dialog{padding:17px;border-radius:17px}.message-focus-dialog footer button{flex:1}.message-focus-banner{margin:5px 0;padding:8px 10px}.message-focus-banner blockquote{max-height:65px}}
+.message-focus-dialog{width:min(940px,calc(100vw - 24px))}
+.message-focus-dialog [hidden]{display:none!important}
+.message-focus-view-tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.message-focus-view-tools button[aria-pressed="true"]{background:#28664e;color:#fff;border-color:#28664e}
+.message-focus-view-tools small{font-size:12px;line-height:1.7;color:#526d60;flex:1;min-width:160px}
+.message-focus-reading{box-sizing:border-box;width:100%;height:min(46dvh,460px);min-height:180px;max-height:65dvh;resize:vertical;overflow:auto;padding:18px 22px;border:1px solid #b8cfc0;border-radius:14px;background:#fff;color:#203e32;font:16px/1.9 "Segoe UI","Microsoft YaHei",sans-serif;user-select:text;overflow-wrap:anywhere;scrollbar-gutter:stable}
+.message-focus-reading:focus-visible{outline:2px solid #337c60;outline-offset:2px}
+.message-focus-reading .lesson-explanation{font:inherit;color:inherit}
+.message-focus-reading .lesson-explanation :is(p,li){font-size:inherit;line-height:inherit}
+.message-focus-reading .lesson-explanation :is(h1,h2,h3){line-height:1.6;margin:1em 0 .65em}
+.message-focus-reading .lesson-explanation :is(h1,h2){font-size:1.3em}
+.message-focus-reading .lesson-explanation h3{font-size:1.12em}
+.message-focus-reading .lesson-explanation>:first-child{margin-top:0}
+.message-focus-reading :is(.katex-display,pre,table){max-width:100%;overflow-x:auto}
+.message-focus-reading .katex-display{padding:6px 0}.message-focus-reading .katex{font-size:1.1em}
+.message-focus-banner .lesson-explanation,.message-focus-history .lesson-explanation{font:inherit;color:inherit}
+.message-focus-banner .lesson-explanation :is(p,h1,h2,h3,h4),.message-focus-history .lesson-explanation :is(p,h1,h2,h3,h4){font:inherit;margin:.3em 0}
+:is(html[data-theme="dark"],html[data-theme="night"]) .message-focus-reading{background:#263d32;color:#edf5ee;border-color:#597362}
+:is(html[data-theme="dark"],html[data-theme="night"]) .message-focus-view-tools small{color:#c3d5c5}
+:is(html[data-theme="dark"],html[data-theme="night"]) .message-focus-view-tools button[aria-pressed="true"]{background:#3b775a;color:#fff}
+@media(max-width:480px){.message-focus-reading{font-size:14px;padding:14px 12px;height:42dvh}.message-focus-view-tools small{flex-basis:100%}.message-focus-dialog h2{font-size:20px}}

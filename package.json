@@ -1,0 +1,71 @@
+{
+  "name": "studyforge-desktop",
+  "version": "0.4.6",
+  "private": true,
+  "description": "Windows local AI learning workbench",
+  "author": "StudyForge",
+  "main": "desktop/main.js",
+  "scripts": {
+    "start": "electron .",
+    "server": "python -m studyforge.server",
+    "check": "python -m pytest -q",
+    "build:backend": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/build_windows.ps1 -BackendOnly",
+    "build:win": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/build_windows.ps1"
+  },
+  "devDependencies": {
+    "dompurify": "3.4.16",
+    "electron": "^44.5.1",
+    "electron-builder": "^26.15.3",
+    "katex": "0.19.0",
+    "marked": "18.0.14"
+  },
+  "build": {
+    "appId": "org.studyforge.desktop",
+    "productName": "StudyForge",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "desktop/**/*",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "build/backend/StudyForgeBackend",
+        "to": "backend",
+        "filter": [
+          "**/*"
+        ]
+      }
+    ],
+    "electronDist": "node_modules/electron/dist",
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "desktop/assets/studyforge.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "perMachine": false,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "deleteAppDataOnUninstall": false,
+      "installerLanguages": [
+        "zh_CN",
+        "en_US"
+      ],
+      "displayLanguageSelector": true,
+      "artifactName": "StudyForge-Setup-${version}.exe"
+    }
+  },
+  "dependencies": {
+    "electron-updater": "6.8.9"
+  }
+}

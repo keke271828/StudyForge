@@ -1,0 +1,27 @@
+.document-export-dialog{width:min(560px,calc(100vw - 28px));max-height:calc(100dvh - 40px);box-sizing:border-box;border:1px solid #ccd5cf;border-radius:22px;padding:26px;color:#233c33;background:#fafbf8;box-shadow:0 24px 90px #0c28283d;overflow-y:auto}
+.document-export-dialog::backdrop{background:#09262265;backdrop-filter:blur(5px)}
+.document-export-dialog header{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.document-export-dialog h2{margin:7px 0 16px;font-size:23px;line-height:1.4}
+.document-export-eyebrow{font-size:12px;font-weight:650;letter-spacing:1px;color:#406956}
+.document-export-dialog p{font-size:14px;line-height:1.8;overflow-wrap:anywhere}
+.document-export-note{background:#e9f0e7;border:1px solid #cfdcce;padding:15px 17px;border-radius:14px}
+.document-export-dialog label{display:block;font-weight:650;margin:23px 0 10px}
+.document-export-dialog select{width:100%;box-sizing:border-box;font:inherit;color:inherit;background:#fff;border:1px solid #aabfb0;border-radius:12px;padding:12px;cursor:pointer}
+.document-export-dialog input{display:block;width:100%;box-sizing:border-box;font:inherit;color:inherit;background:#fff;border:1px solid #aabfb0;border-radius:12px;padding:12px;margin-top:10px}
+.message-save-actions{display:flex;justify-content:flex-end;margin-top:12px;white-space:normal}
+.message-save-actions button{font:inherit;font-size:12px;line-height:1.5;padding:6px 10px;border:1px solid #b1c5ba;border-radius:9px;color:#285641;background:#f2f7f0;cursor:pointer}
+:is(html[data-theme="dark"],html[data-theme="night"]) .message-save-actions button{color:#e2eee5;background:#30473c;border-color:#587362}
+:is(html[data-theme="dark"],html[data-theme="night"]) .document-export-dialog input{background:#27382f;border-color:#5b6d5f}
+.document-export-dialog .document-export-limit{font-size:12px;color:#52685e;margin:12px 0}
+.document-export-dialog footer{display:flex;justify-content:flex-end;gap:10px;margin-top:20px}
+.document-export-dialog button{font:inherit;color:inherit;border:1px solid #c3d2c5;background:#eff4ed;border-radius:11px;padding:10px 17px;cursor:pointer;min-height:42px}
+.document-export-dialog header button{padding:7px 13px}
+.document-export-dialog .document-export-submit{color:white;background:#28664e;border-color:#28664e;font-weight:650}
+.document-export-dialog button:disabled{opacity:.55;cursor:wait}
+.document-export-dialog [data-export-status]{color:#99412d;min-height:1em}
+:is(html[data-theme="dark"],html[data-theme="night"]) .document-export-dialog{color:#edf4ec;background:#202d28;border-color:#54655b}
+:is(html[data-theme="dark"],html[data-theme="night"]) .document-export-note,:is(html[data-theme="dark"],html[data-theme="night"]) .document-export-dialog button{color:#edf4ec;background:#33473b;border-color:#5b6d5f}
+:is(html[data-theme="dark"],html[data-theme="night"]) .document-export-dialog select{background:#27382f;border-color:#5b6d5f}
+:is(html[data-theme="dark"],html[data-theme="night"]) .document-export-eyebrow,:is(html[data-theme="dark"],html[data-theme="night"]) .document-export-dialog .document-export-limit{color:#c2d5c8}
+:is(html[data-theme="dark"],html[data-theme="night"]) .document-export-dialog [data-export-status]{color:#ffc4a8}
+@media(max-width:480px){.document-export-dialog{padding:20px;border-radius:18px}.document-export-dialog footer button{flex:1}}

@@ -1,0 +1,30 @@
+/* Opaque help panels remain legible even over a customized wallpaper. */
+.user-guide-dialog {padding:0;border:1px solid var(--line,#d6ded8);border-radius:20px;width:min(1200px,calc(100vw - 40px));max-width:none;height:min(900px,calc(100dvh - 40px));max-height:none;color:var(--ink,#24382f);background:var(--surface,#fffefa);overflow:hidden;box-shadow:0 22px 90px #0005;}
+.user-guide-dialog[open] {display:flex;flex-direction:column;}
+.user-guide-dialog::backdrop {background:#10231f88;backdrop-filter:blur(7px);}
+.user-guide-dialog .user-guide-header {display:flex;align-items:center;justify-content:space-between;gap:16px;flex:none;padding:15px 22px;border-bottom:1px solid var(--line,#d6ded8);background:var(--surface,#fffefa);}
+.user-guide-header>div {display:flex;align-items:center;gap:16px;}
+.user-guide-header strong {font-size:17px;}
+.user-guide-header span {font-size:12px;color:var(--muted,#627068);}
+.user-guide-header button {border:1px solid var(--line,#d6ded8);border-radius:9px;padding:7px 13px;background:var(--surface-alt,#eef2ed);color:inherit;}
+.user-guide-header kbd {font:inherit;font-size:11px;opacity:.65;margin-left:7px;}
+.user-guide-dialog iframe {border:0;width:100%;flex:1;min-height:0;background:var(--surface,#fffefa);}
+.user-guide-loading {padding:18px 24px;margin:0;}
+.user-guide-entry {display:flex;align-items:center;justify-content:space-between;width:100%;text-align:left;gap:8px;margin:8px 0;border:1px solid var(--line,#d6ded8);border-radius:10px;background:var(--surface,#fffefa);color:var(--ink,#24382f);padding:10px 12px;}
+.user-guide-entry kbd {font:inherit;font-size:11px;color:var(--muted,#627068);}
+.user-guide-entry:hover {background:var(--accent-soft,#e7efe4);}
+:root[data-theme=dark] .user-guide-dialog {--surface:#22302b;--surface-alt:#1b2a22;--ink:#e5eee8;--muted:#b2c5b9;--line:#3e5548;}
+:root[data-theme=dark] .user-guide-entry {background:#22302b;color:#e5eee8;border-color:#3e5548;}
+.user-guide-settings-entry {margin:10px 0;}
+@media (max-width:700px) {
+  .user-guide-dialog {width:calc(100vw - 12px);height:calc(100dvh - 12px);border-radius:14px;}
+  .user-guide-dialog .user-guide-header {padding:12px 14px;}
+  .user-guide-header>div {display:block;}
+  .user-guide-header span {display:block;margin-top:3px;font-size:11px;}
+  .user-guide-header kbd {display:none;}
+}
+.user-guide-context {display:inline-flex;align-items:center;align-self:flex-start;gap:5px;max-width:100%;margin:6px 0;padding:5px 9px;border:1px solid currentColor;border-radius:8px;background:var(--surface,var(--panel,#fffefa));color:var(--ink,#273d33);font:inherit;font-size:12px;line-height:1.6;cursor:pointer;white-space:normal;text-align:left;}
+.user-guide-context:hover {filter:brightness(.96);}
+.user-guide-context:focus-visible {outline:3px solid currentColor;outline-offset:3px;}
+.generation-intro>.user-guide-context {flex:none;}
+.generation-intro {flex-wrap:wrap;}

@@ -1,0 +1,27 @@
+/* Reset popover UA positioning; surfaces and their transparency cannot hide status text. */
+html:root body .toast {
+  position:fixed;inset:auto 24px 24px auto;z-index:2147483647;margin:0;
+  display:flex;align-items:flex-start;gap:12px;box-sizing:border-box;
+  width:max-content;max-width:min(560px,calc(100vw - 32px));max-height:none;
+  padding:13px 14px 13px 18px;border:1px solid #ffffff26;border-radius:13px;
+  background:#233d35!important;color:#fff!important;
+  box-shadow:0 12px 40px #14251d40;backdrop-filter:none;filter:none;
+  font-size:13px;font-weight:400;line-height:1.65;text-align:left;
+  -webkit-text-stroke:0;text-shadow:none;pointer-events:auto;
+  opacity:0;transform:translateY(8px);transition:opacity .16s ease,transform .16s ease;
+}
+html:root body .toast.show {opacity:1;transform:none;}
+html:root body .toast[hidden] {display:none;}
+.toast::backdrop {background:transparent;pointer-events:none;backdrop-filter:none;}
+.toast .toast-message {min-width:0;max-height:min(36dvh,320px);overflow:auto;overscroll-behavior:contain;white-space:pre-wrap;overflow-wrap:anywhere;scrollbar-width:thin;}
+html:root body .toast .toast-close {
+  flex:none;display:grid;place-items:center;width:26px;height:26px;min-height:0;margin:0;padding:0;
+  border:0;border-radius:7px;background:transparent!important;color:#fff!important;
+  box-shadow:none;font-size:19px;line-height:1;-webkit-text-stroke:0;text-shadow:none;
+}
+.toast-close::before {content:'×';}
+html:root body .toast .toast-close:hover {background:#ffffff26!important;filter:none;}
+html:root body .toast .toast-close:focus-visible {outline:2px solid #fff;outline-offset:2px;}
+@media(max-width:650px){html:root body .toast{inset:auto 16px 16px auto;max-width:calc(100vw - 32px);}}
+@media(prefers-reduced-motion:reduce){html:root body .toast{transition:none;transform:none;}}
+:root[data-motion=reduced] body .toast{transition:none;transform:none;}

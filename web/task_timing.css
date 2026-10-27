@@ -1,0 +1,7 @@
+.task-timing-dialog{box-sizing:border-box;width:min(680px,calc(100vw - 24px));max-height:90dvh;padding:22px;border:1px solid #b6c9c0;border-radius:20px;background:rgba(250,252,250,.97);color:#203c31;box-shadow:0 20px 70px #0004;overflow:auto}
+.task-timing-dialog::backdrop{background:#142e2859;backdrop-filter:blur(5px)}
+.task-timing-dialog header{display:flex;gap:20px;align-items:center;justify-content:space-between}
+.task-timing-dialog h2{margin:0;font-size:1.25rem}.task-timing-dialog p{line-height:1.65;color:inherit}
+.task-timing-card{padding:14px 16px;margin:10px 0;background:#f0f6f2;border:1px solid #cadbd1;border-radius:14px;overflow-wrap:anywhere}
+.task-timing-card p{margin:7px 0}.task-timing-card small{color:#486353}.task-timing-total{font-weight:600}
+.task-timing-note{font-size:.85rem;padding:12px;border-radius:12px;background:#e9f0ed}.task-timing-dialog button{color:#203c31;background:#edf4ee;border:1px solid #b6c9c0;padding:8px 13px;border-radius:10px}

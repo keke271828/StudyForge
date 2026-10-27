@@ -1,0 +1,11 @@
+.source-evidence { margin: 10px 0; border: 1px solid rgba(110, 133, 122, .28); border-radius: 12px; overflow: hidden; }
+.source-evidence > summary { padding: 10px 12px; cursor: pointer; font-weight: 650; overflow-wrap: anywhere; }
+.source-evidence > summary:focus-visible { outline: 2px solid currentColor; outline-offset: -3px; border-radius: 10px; }
+.source-evidence-body { max-height: 360px; overflow-y: auto; overscroll-behavior: contain; scrollbar-gutter: stable; padding: 0 12px 12px; overflow-wrap: anywhere; }
+.source-evidence-body > p { margin-top: 0; }
+.source-evidence-body ol { padding-left: 22px; margin: 0; }
+.source-evidence-body li + li { margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(110, 133, 122, .22); }
+.source-evidence-body li p { margin: 5px 0; font-size: inherit; }
+#artifacts .card { align-self: start; }
+#artifacts .card-actions { flex-wrap: wrap; align-items: center; }
+#artifacts .card-actions > button, #artifacts .card-actions > a { flex: 0 0 auto; white-space: nowrap; }

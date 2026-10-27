@@ -1,0 +1,17 @@
+html:root body .operation-error-dialog{box-sizing:border-box;width:min(680px,calc(100vw - 24px));max-height:calc(100dvh - 28px);padding:0;border:1px solid #9db7a7;border-radius:18px;background:#f8faf6!important;color:#244739!important;box-shadow:0 20px 70px #0b1b1855;font-size:15px;line-height:1.8;overflow:hidden}
+.operation-error-dialog::backdrop{background:#102b2455;backdrop-filter:blur(3px)}
+.operation-error-dialog>header{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;padding:20px 22px;border-bottom:1px solid #b9cbbf}
+.operation-error-dialog h2{margin:0;font-size:21px;line-height:1.6;overflow-wrap:anywhere}
+.operation-error-dialog button{font:inherit;cursor:pointer;border:1px solid #9eb8a8;border-radius:9px;padding:6px 12px;background:#edf3e9;color:#244739}
+.operation-error-dialog>header button{flex:none}
+.operation-error-body{max-height:calc(100dvh - 150px);overflow:auto;overscroll-behavior:contain;padding:0 22px 20px;overflow-wrap:anywhere}
+.operation-error-body li{margin:10px 0}.operation-error-body ol{padding-left:24px}
+.operation-error-raw{border:1px solid #b9cbbf;border-radius:11px;padding:12px;margin:18px 0}
+.operation-error-raw summary{cursor:pointer;font-weight:600}
+.operation-error-raw pre{white-space:pre-wrap;overflow-wrap:anywhere;max-height:260px;overflow:auto;background:#eaf0e8;padding:12px;border-radius:8px;font-size:13px;color:#2d453b;user-select:text}
+.operation-error-note,.operation-copy-status{font-size:13px;color:#4b6658}
+html:root body .operation-error-dialog :is(h2,p,li,summary,pre){color:inherit!important;-webkit-text-stroke:0;text-shadow:none}
+html:root body .operation-error-action{white-space:normal;min-width:0;font-size:12px;line-height:1.6}
+html:root body .toast .operation-error-action{flex:none;max-width:135px;background:#fff;color:#234c3c;border:0;border-radius:8px;padding:6px 8px;cursor:pointer;align-self:center}
+html:root body .job-card[data-generation-status=failed] .progress i{background:#ad6546}
+@media(max-width:500px){.operation-error-dialog>header{padding:16px}.operation-error-body{padding:0 16px 16px}.operation-error-dialog h2{font-size:19px}html:root body .toast .operation-error-action{max-width:110px}}

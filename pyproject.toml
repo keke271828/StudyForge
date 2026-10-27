@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=75", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "studyforge"
+version = "0.1.0"
+description = "Local AI learning workbench"
+requires-python = ">=3.12"
+dependencies = [
+  "fastapi>=0.115,<1", "uvicorn[standard]>=0.32,<1", "python-multipart>=0.0.12",
+  "httpx>=0.28,<1", "keyring>=25,<27", "pymupdf>=1.24,<2",
+  "python-docx>=1.1,<2", "python-pptx>=1.0,<2", "Pillow>=11,<13", "numpy>=1.26,<3",
+  "rapidocr>=3,<4", "onnxruntime>=1.20,<2", "imageio-ffmpeg>=0.6,<1",
+  "tokenizers>=0.20,<0.23",
+  "faster-whisper>=1.1,<2", "av>=11,<19", "yt-dlp>=2025.1", "genanki>=0.13,<1",
+  "reportlab>=4,<5", "beautifulsoup4>=4.12,<5", "mcp>=1.0,<2",
+  "pyttsx3>=2.98,<3", "sympy>=1.13,<2", "PyYAML>=6,<7",
+  "matplotlib>=3.9,<4", "latex2mathml>=3.77,<4",
+  "zstandard>=0.23,<1",
+  "fonttools[woff]>=4.55,<5",
+  "cryptography>=44,<51", "qrcode>=8,<9",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8,<10", "pytest-asyncio>=0.25,<2"]
+
+[tool.setuptools.packages.find]
+include = ["studyforge*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

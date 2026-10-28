@@ -23,6 +23,7 @@
 - [数据、隐私与文件权限](#数据隐私与文件权限)
 - [实际限制和常见问题](#实际限制和常见问题)
 - [从源码运行](#从源码运行)
+- [开源许可](#开源许可)
 - [反馈问题](#反馈问题)
 
 ## 这个项目想做什么
@@ -319,6 +320,16 @@ PDF 页码从文件的第 1 页开始计算，可能与纸质书印刷页码不�
 npm start
 ```
 
+需要自行构建 Windows x64 安装包时，先完成上面的依赖安装，再执行：
+
+```powershell
+python -m pip install pyinstaller
+npm run build:win
+node scripts/check_windows_release.cjs
+```
+
+安装包输出到 `dist/`。可选 CUDA 运行组件不属于项目自有源码；未准备该组件时可构建使用 CPU 语音识别的安装包，详细组件说明见 `THIRD_PARTY_NOTICES.md`。
+
 目录大致分工：
 
 | 目录 | 内容 |
@@ -327,8 +338,17 @@ npm start
 | `studyforge/` | Python 后端、资料处理、AI 调用与成果生成 |
 | `web/` | 工作台、手机页面与软件内操作指南 |
 | `scripts/` | 构建和辅助脚本 |
+| `integrations/` | 可选的 Codex 与 DSH 连接脚本和配置模板 |
 | `tests/` | 现有测试用例 |
 | `docs/` | 专项说明与开发记录，按需查阅 |
+
+## 开源许可
+
+Copyright (C) 2026 keke271828。
+
+StudyForge 的自有代码与文档完整采用 [GNU Affero General Public License v3.0](LICENSE)（`AGPL-3.0-only`）开源，源码和构建脚本均在本仓库中公开。你可以使用、学习、修改和分发，也可以商用；分发时需遵守许可证并提供相应源码。如果你修改软件并让用户通过网络与它交互，需要按许可证向这些用户提供该修改版本的相应源码。项目不另加“仅供学习”或“禁止商用”等限制，完整条款见 `LICENSE`。
+
+第三方库、字体和运行时保留各自的许可，AI 服务、模型与用户导入的学习资料也遵循各自的条款；项目许可证不会替代这些授权。详见 [第三方组件与许可](THIRD_PARTY_NOTICES.md)。
 
 ## 反馈问题
 
@@ -377,6 +397,7 @@ Add textbooks, lecture notes, images, audio, video, or web pages to a project, c
 - [Data, privacy, and file access](#data-privacy-and-file-access)
 - [Practical limitations and common problems](#practical-limitations-and-common-problems)
 - [Running from source](#running-from-source)
+- [Open-source license](#open-source-license)
 - [Reporting problems](#reporting-problems)
 
 ## What this project is trying to do
@@ -665,6 +686,16 @@ If `dist/win-unpacked/StudyForge.exe` exists, `start_studyforge.cmd` opens that 
 npm start
 ```
 
+To build a Windows x64 installer, complete the dependency setup above, then run:
+
+```powershell
+python -m pip install pyinstaller
+npm run build:win
+node scripts/check_windows_release.cjs
+```
+
+The installer is written to `dist/`. Optional CUDA runtime components are not project-owned source code. Without those components, you can build an installer that uses CPU speech recognition. See `THIRD_PARTY_NOTICES.md` for component details.
+
 A rough guide to the directories:
 
 | Directory | Contents |
@@ -673,8 +704,17 @@ A rough guide to the directories:
 | `studyforge/` | Python backend, material processing, AI calls, and output generation |
 | `web/` | Desktop workspace, phone pages, and the in-app guide |
 | `scripts/` | Build and helper scripts |
+| `integrations/` | Optional Codex and DSH connection scripts and configuration templates |
 | `tests/` | Existing tests |
 | `docs/` | Topic-specific documentation and development records |
+
+## Open-source license
+
+Copyright (C) 2026 keke271828.
+
+StudyForge's own code and documentation are fully licensed under the [GNU Affero General Public License v3.0](LICENSE) (`AGPL-3.0-only`). The complete project source and build scripts are public in this repository. You may use, study, modify, and distribute the project, including commercially, subject to the license and its corresponding-source requirements. If you modify the program and let users interact with that version over a network, you must offer those users its Corresponding Source as required by the license. The project adds no separate “educational use only” or “non-commercial use” restrictions. See `LICENSE` for the full terms.
+
+Third-party libraries, fonts, and runtimes retain their own licenses. AI services, models, and imported study materials also remain subject to their respective terms; the project license does not replace those permissions. See [Third-party components and licenses](THIRD_PARTY_NOTICES.md).
 
 ## Reporting problems
 

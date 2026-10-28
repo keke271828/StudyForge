@@ -4,6 +4,7 @@ from PyInstaller.utils.hooks import collect_all, collect_data_files, collect_sub
 
 root = Path(SPECPATH).parent
 datas = [(str(root / 'web'), 'web')]
+datas += [(str(root / 'LICENSE'), 'licenses'), (str(root / 'THIRD_PARTY_NOTICES.md'), 'licenses')]
 if (root/'resources/asr-cuda/manifest.json').is_file():
     # Optional verified CUDA component. Keep licenses and relative DLL layout;
     # CPU execution remains available if this component is absent.

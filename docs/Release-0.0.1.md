@@ -2,6 +2,8 @@
 
 **初版 · Initial release**
 
+项目自有代码与文档采用 **AGPL-3.0-only** 完整开源，源码及构建脚本见[公开仓库](https://github.com/keke271828/StudyForge)。可使用、修改、分发和商用，须遵守[许可证](https://github.com/keke271828/StudyForge/blob/master/LICENSE)的源码提供要求；第三方组件保留各自许可。
+
 这是一个新手使用 Codex 纯 vibe coding 制作的个人项目，可能存在 Bug、卡顿、崩溃、兼容性及数据问题。请保留重要资料原件并做好备份。AI 的讲解、题目、批改和学习建议也可能出错，需要自行核对。
 
 StudyForge 是 Windows x64 本地 AI 学习工作台，用来管理教材与资料、和 AI 讨论、整理阅读笔记与知识结构、生成讲解文件和练习，并记录学习过程。
@@ -33,6 +35,8 @@ StudyForge 是 Windows x64 本地 AI 学习工作台，用来管理教材与资�
 This is a beginner's personal project built with Codex through pure vibe coding. Bugs, slowdowns, crashes, compatibility issues, and data problems are possible. Keep original copies and back up important materials. AI explanations, questions, grading, and advice may also be wrong and need checking.
 
 StudyForge is a local AI learning workspace for Windows x64. It brings study materials, tutor conversations, reading notes, knowledge structures, explanations, practice, and learning records together.
+
+The project's own code and documentation are fully open source under **AGPL-3.0-only**. Complete source and build scripts are available in the [public repository](https://github.com/keke271828/StudyForge). Use, modification, distribution, and commercial use are permitted subject to the [license](https://github.com/keke271828/StudyForge/blob/master/LICENSE), including its corresponding-source requirements. Third-party components retain their own licenses.
 
 ## Features
 

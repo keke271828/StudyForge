@@ -15,6 +15,8 @@ def test_product_versions_agree():
     from studyforge.server import app
     assert {package['version'], lock['version'], lock['packages']['']['version'],
             python['project']['version'], __version__, app.version} == {'0.0.1'}
+    assert {package['license'], lock['packages']['']['license'],
+            python['project']['license']} == {'AGPL-3.0-only'}
 
 
 def test_app_introductions_are_current_and_chinese():

@@ -1,0 +1,9 @@
+- insert:
+    - id: mcp-studyforge
+      name: '@deepseek-ai/dsh-mcp-client'
+      config:
+        serverName: studyforge
+        transport: stdio
+        command: python
+        args: ['-m', 'studyforge.mcp_server']
+        failOnStartupError: true

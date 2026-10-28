@@ -14,6 +14,16 @@ async function main(){
   const unpacked=path.join(root,'dist','win-unpacked'),archive=path.join(unpacked,'resources','app.asar');
   const bundled=JSON.parse(asar.extractFile(archive,'package.json').toString('utf8'));
   assert.equal(bundled.version,version,'Bundled version is stale');
+  assert.equal(bundled.license,'AGPL-3.0-only','Bundled license is stale');
+  const ffmpegLicense='third_party/ffmpeg/COPYING.GPLv3';
+  assert(asar.extractFile(archive,ffmpegLicense).equals(fs.readFileSync(path.join(root,ffmpegLicense))),'Missing FFmpeg GPL license in app archive');
+  assert(fs.readFileSync(path.join(unpacked,'licenses',ffmpegLicense)).equals(fs.readFileSync(path.join(root,ffmpegLicense))),'Missing installed FFmpeg GPL license');
+  for(const name of ['LICENSE','THIRD_PARTY_NOTICES.md']){
+    const source=fs.readFileSync(path.join(root,name));
+    assert(asar.extractFile(archive,name).equals(source),'Missing license in app archive: '+name);
+    assert(fs.readFileSync(path.join(unpacked,'licenses',name)).equals(source),'Missing installed license: '+name);
+    assert(fs.readFileSync(path.join(unpacked,'resources','backend','_internal','licenses',name)).equals(source),'Missing backend license: '+name);
+  }
   const desktop={};
   for(const source of files(path.join(root,'desktop'))){
     const native=path.relative(root,source),relative=native.split(path.sep).join('/'),shipped=asar.extractFile(archive,native);
@@ -33,7 +43,8 @@ async function main(){
     assert.equal(kept.bytes,row.bytes);assert.equal(kept.sha256.toLowerCase(),row.sha256);
   }
   const licenses=[];
-  for(const source of files(path.join(root,'resources','asr-cuda')).filter(p=>/licen[sc]e|notice/i.test(path.basename(p)))){
+  const cudaDirectory=path.join(root,'resources','asr-cuda');
+  for(const source of (fs.existsSync(cudaDirectory)?files(cudaDirectory):[]).filter(p=>/licen[sc]e|notice/i.test(path.basename(p)))){
     const relative=path.relative(path.join(root,'resources','asr-cuda'),source);
     assert(fs.readFileSync(path.join(internal,'resources','asr-cuda',relative)).equals(fs.readFileSync(source)),'CUDA license missing: '+relative);
     licenses.push(relative);

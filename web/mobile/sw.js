@@ -1,6 +1,6 @@
 /* Cache only the public application shell. Learning content and authenticated
    responses must never enter a service-worker cache. */
-const SHELL='studyforge-mobile-shell-0.0.1';
+const SHELL='studyforge-mobile-shell-0.0.1-agpl';
 const ASSETS=['/','/app.js','/homework.js','/lesson-feedback.js','/style.css','/source_scope.js','/source_scope.css','/user_guide.js','/user_guide.css','/help/guide.html','/help/guide.js','/help/guide.css','/icon.svg','/manifest.webmanifest','/vendor/marked.js','/vendor/purify.js','/vendor/katex.js','/vendor/katex.css'];
 ASSETS.push('/operation_errors.js','/operation_errors.css');
 ASSETS.push('/library.js','/library_models.js','/task_retry.js','/library.css','/library_policy.js','/library_mentions.js','/library_mentions.css','/lesson_render.js');

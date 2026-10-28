@@ -2,6 +2,8 @@
 
 **初版 · Initial release**
 
+**2026-10-28 更新包替换，版本号仍为 0.0.1。** 本次接通软件内的 GitHub 版本检查、发布说明与安装包下载，支持下载进度、取消、失败重试和完整性核对；更新地址留空即可使用官方 GitHub。源码版也能检查和下载，源码入口为 `start_studyforge_source.cmd`。下载后由你手动安装，未签名安装包不会被自动执行。已安装先前 0.0.1 的用户请重新下载下方安装器，保存任务并从托盘完全退出后覆盖安装；仅比较版本号无法区分这次同版本替换。
+
 项目自有代码与文档采用 **AGPL-3.0-only** 完整开源，源码及构建脚本见[公开仓库](https://github.com/keke271828/StudyForge)。可使用、修改、分发和商用，须遵守[许可证](https://github.com/keke271828/StudyForge/blob/master/LICENSE)的源码提供要求；第三方组件保留各自许可。
 
 这是一个新手使用 Codex 纯 vibe coding 制作的个人项目，可能存在 Bug、卡顿、崩溃、兼容性及数据问题。请保留重要资料原件并做好备份。AI 的讲解、题目、批改和学习建议也可能出错，需要自行核对。
@@ -26,11 +28,13 @@ StudyForge 是 Windows x64 本地 AI 学习工作台，用来管理教材与资�
 
 `StudyForge-source-0.0.1.zip` 供运行和修改源码使用。两个 `.sha256.txt` 文件用于核对下载完整性。安装器未做商业代码签名，Windows 可能显示未知发布者；请先确认文件来源。
 
-资料和成果保存在电脑本机；调用在线 AI 时，相关内容会发送给所选服务。AI 账号、密钥和额度需要自行准备。手机访问时电脑必须保持运行。当前没有启用自动安装，请使用本页安装包。
+资料和成果保存在电脑本机；调用在线 AI 时，相关内容会发送给所选服务。AI 账号、密钥和额度需要自行准备。手机访问时电脑必须保持运行。在“设置与联动 → 运行与更新 → 软件更新”可检查并下载安装包；自动重启安装尚未启用，下载完成后需手动运行安装器。
 
 详细介绍与操作见 [README](https://github.com/keke271828/StudyForge#readme)，问题可在 [Issues](https://github.com/keke271828/StudyForge/issues) 反馈。具体的反馈将帮助这个项目走得越来越远，在此谢谢各位。
 
 ---
+
+**Replacement build published on 2026-10-28; the version remains 0.0.1.** This build adds in-app checks for official GitHub releases, release notes, streamed installer downloads, progress, cancellation, retries, and integrity checks. Leave the advanced update URL empty to use the official GitHub repository. Source builds can also check and download; use `start_studyforge_source.cmd` to explicitly launch source. Installation remains manual; unsigned installers are never executed automatically. If an earlier 0.0.1 is installed, download the replacement installer below, save your work, fully exit the tray app, and install over the existing copy. Version-number comparison alone cannot distinguish this replacement.
 
 This is a beginner's personal project built with Codex through pure vibe coding. Bugs, slowdowns, crashes, compatibility issues, and data problems are possible. Keep original copies and back up important materials. AI explanations, questions, grading, and advice may also be wrong and need checking.
 
@@ -56,6 +60,6 @@ The project's own code and documentation are fully open source under **AGPL-3.0-
 
 `StudyForge-source-0.0.1.zip` is for running or modifying the source. The two `.sha256.txt` files let you check download integrity. The installer has no commercial code-signing certificate, so Windows may show an unknown-publisher warning. Check the file's source before running it.
 
-Materials and outputs are stored on your computer. Relevant content is sent to your chosen service when using online AI. Supply your own account, keys, and service quota. Your computer must remain running for phone access. Automatic installation is not enabled; use the installer on this page.
+Materials and outputs are stored on your computer. Relevant content is sent to your chosen service when using online AI. Supply your own account, keys, and service quota. Your computer must remain running for phone access. Check and download installers under 设置与联动 → 运行与更新 → 软件更新 (Settings and integrations → Runtime and updates → Software updates). Automatic installation is not enabled; run the downloaded installer manually.
 
 See the [README](https://github.com/keke271828/StudyForge#readme) for the complete introduction and instructions, or report problems through [Issues](https://github.com/keke271828/StudyForge/issues). Your specific feedback will help this project grow and go further. Thank you, everyone.

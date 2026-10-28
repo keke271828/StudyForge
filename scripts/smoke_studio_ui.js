@@ -67,7 +67,7 @@ app.whenReady().then(async()=>{
   assert.deepEqual(keyResult,{before:0,calls:1});
   await run(`showView('settings');showSettingsSection('appearance');document.querySelector('[data-settings-section=appearance]').focus();document.activeElement.dispatchEvent(new KeyboardEvent('keydown',{key:'End',bubbles:true,cancelable:true}));`);
   await until(`!$('settings-system').hidden&&$('updateControls').hidden===false`);
-  assert.equal(await run(`document.activeElement.dataset.settingsSection`),'system');assert.equal(await run(`$('checkUpdates').disabled`),true);await capture('runtime-settings');
+  assert.equal(await run(`document.activeElement.dataset.settingsSection`),'system');assert.equal(await run(`$('checkUpdates').disabled`),false);await capture('runtime-settings');
   await run(`showView('study')`);
   win.setSize(1080,700);await pause(300);const small=await viewportCheck();await capture('workbench-small');
   win.setSize(1480,960);await pause(200);
@@ -80,7 +80,7 @@ app.whenReady().then(async()=>{
   // Change the theme back for source acceptance, keeping only isolated data.
   await run(`saveStudioPreferences({ui_theme:'paper',ui_density:'comfortable',ui_text_size:'standard'})`);
   await run(`(async()=>{saveStudioPreferences({ui_theme:'forest'});await prepareDesktopExit();if(studioPending)throw new Error('exit did not await appearance');})()`);
-  win.destroy();for(const channel of ['status','save','check','download','install','rollback','recovery'])ipcMain.removeHandler('studyforge:update-'+channel);
+  win.destroy();for(const channel of ['status','save','check','download','install','rollback','recovery','cancel','release','reveal'])ipcMain.removeHandler('studyforge:update-'+channel);
   await open(data.urls[1]);
   assert.equal(await run(`studioPreferences.ui_send_key`),'ctrl-enter');assert.equal(await run(`studioPreferences.ui_motion`),'reduced');
   assert.equal(await run(`studioPreferences.ui_theme`),'forest');

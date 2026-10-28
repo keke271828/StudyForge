@@ -1041,12 +1041,18 @@ let updateState=null,updateActionBusy=false;
 function renderUpdateState(value){
   updateState=value;$('updateControls').hidden=false;
   const cfg=value.settings,busy=updateActionBusy||['checking','downloading','installing'].includes(value.status);
+  const github=value.provider==='github',manual=value.manual_install!==false;
   $('updateVersion').textContent=`StudyForge ${value.current_version}${value.packaged?' · 安装版':' · 源码运行'}`;
-  $('updateModeNote').textContent=!value.packaged?'当前运行源码；请从发布页面下载安装包。'
-    :!value.signature_configured?'自动安装尚未启用，请从发布页面下载安装包。':'更新安装前核验发布者签名和文件校验值。';
-  const labels={unconfigured:'未配置自动更新源，请从发布页面下载。',development:'更新设置可保存；源码模式不自动安装。',idle:'等待检查更新。',
-    checking:'正在检查更新…',current:'当前已是更新源提供的最新版本。',available:`发现新版本 ${value.candidate?.version||''}，可下载。`,
-    downloading:`正在下载 ${value.candidate?.version||''}…`,downloaded:`版本 ${value.candidate?.version||''} 已下载，等待你重启安装。`,
+  $('updateModeNote').textContent=!value.packaged?'源码版也能检查 GitHub 和下载安装包；不会自动改写你的项目文件。'
+    :manual?'可以检查和下载安装包。自动重启安装尚未启用，需要你手动运行安装器。':'自动安装前会核验发布者签名、保存任务并备份学习记录。';
+  $('updateSourceNote').textContent=github?'更新来源：官方 GitHub（keke271828/StudyForge）。已经接通，无需填写更新地址。'
+    :'更新来源：你在高级选项中保存的更新目录。留空并保存可恢复官方 GitHub。';
+  const labels={unconfigured:'尚未配置其他更新源。可清空高级地址并保存，使用官方 GitHub。',
+    development:'当前其他更新源需要安装版。清空高级地址并保存后，源码版也能检查 GitHub。',idle:'已准备好，点击“立即检查”查看最新正式版本。',
+    checking:'正在检查更新…',current:'当前版本与最新正式发布版本一致。',ahead:'当前运行版本比最新正式发布版本更新，不会下载旧版本覆盖它。',
+    available:`发现新版本 ${value.candidate?.version||''}，可查看说明并下载安装包。`,cancelled:'下载已取消，可以重新下载。',
+    downloading:`正在下载 ${value.candidate?.version||''}，可继续使用软件…`,
+    downloaded:`版本 ${value.candidate?.version||''} 已下载并核对完整性。${manual?'可打开所在文件夹，手动安装。':'可选择何时保存任务并重启安装。'}`,
     installing:'正在保存任务并准备重启安装…',error:'更新未完成，可核对设置后重试。'};
   $('updateStatus').textContent=(labels[value.status]||'更新状态待确认')+(value.error?' '+value.error:'')
     +(value.last_checked?' 上次检查：'+new Date(value.last_checked).toLocaleString('zh-CN'):'');
@@ -1054,11 +1060,19 @@ function renderUpdateState(value){
   if(progress){const percent=Math.round(progress.percent);$('updateProgress').setAttribute('aria-valuenow',String(percent));$('updateProgress').querySelector('i').style.width=percent+'%';
     $('updateTransfer').textContent=`${percent}% · ${(progress.transferred/1024**2).toFixed(1)} / ${(progress.total/1024**2).toFixed(1)} MB`;
   }else $('updateTransfer').textContent='';
-  $('saveUpdateSettings').disabled=busy;$('checkUpdates').disabled=busy||!value.packaged||!cfg.feed_url;
+  $('saveUpdateSettings').disabled=busy;$('checkUpdates').disabled=busy||!value.can_check;
+  $('checkUpdates').textContent=value.status==='error'?'重新检查':'立即检查';
+  $('updateAutoDownload').disabled=!value.can_check;
   $('downloadUpdate').hidden=!value.can_download;$('downloadUpdate').disabled=busy;
+  $('downloadUpdate').textContent=!value.packaged&&value.candidate?.version===value.current_version?'下载当前安装版':'下载安装包';
+  $('cancelUpdateDownload').hidden=!value.can_cancel;$('cancelUpdateDownload').disabled=false;
+  $('revealUpdateDownload').hidden=!value.can_reveal_download;$('revealUpdateDownload').disabled=busy;
   $('installUpdate').hidden=!value.can_install;$('installUpdate').disabled=busy;
   $('rollbackUpdate').disabled=busy||!value.can_rollback;$('rollbackUpdate').textContent=value.rollback_version?'恢复安装 '+value.rollback_version:'暂无可恢复安装包';
   $('updateNotes').hidden=!value.candidate?.notes;$('updateNotes').querySelector('pre').textContent=value.candidate?.notes||'';
+  $('updateInstallHelp').textContent=manual?'下载不会自动运行安装器。安装前先从托盘完全退出 StudyForge，再手动运行已下载的 EXE。下载时会校验文件完整性，当前安装包仍可能显示“未知发布者”。'
+    :'仅配置了可信签名的安装版提供“保存任务并重启更新”。普通退出不会自动安装。';
+  if(value.candidate?.size)$('updateInstallHelp').textContent=`安装包约 ${(value.candidate.size/1024**2).toFixed(0)} MB。`+$('updateInstallHelp').textContent;
 }
 async function refreshUpdateControls(){
   if(!window.studyforgeDesktop?.updateStatus)return;
@@ -1078,6 +1092,9 @@ $('saveUpdateSettings').onclick=()=>runUpdateAction(async()=>{const result=await
   interval_hours:Number($('updateInterval').value)});toast('更新设置已保存');return result;});
 $('checkUpdates').onclick=()=>runUpdateAction(()=>window.studyforgeDesktop.checkUpdates());
 $('downloadUpdate').onclick=()=>runUpdateAction(()=>window.studyforgeDesktop.downloadUpdate());
+$('cancelUpdateDownload').onclick=()=>window.studyforgeDesktop.cancelUpdateDownload().catch(error);
+$('openUpdateRelease').onclick=()=>window.studyforgeDesktop.openUpdateRelease().catch(error);
+$('revealUpdateDownload').onclick=()=>runUpdateAction(()=>window.studyforgeDesktop.revealUpdateDownload());
 $('installUpdate').onclick=()=>runUpdateAction(()=>window.studyforgeDesktop.installUpdate());
 $('rollbackUpdate').onclick=()=>runUpdateAction(()=>window.studyforgeDesktop.rollbackUpdate());
 $('openUpdateRecovery').onclick=()=>runUpdateAction(()=>window.studyforgeDesktop.openUpdateRecovery());

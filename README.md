@@ -306,13 +306,17 @@ PDF 页码从文件的第 1 页开始计算，可能与纸质书印刷页码不�
 
 软件内可以按 **F1** 或打开操作指南，查看更细的配置和处理说明。
 
+### 检查软件更新
+
+在“设置与联动 → 运行与更新 → 软件更新”点击“立即检查”，可查看官方 GitHub 最新正式版本及发布说明。高级更新地址留空即可；源码版也能使用。可以保存检查间隔，并自行选择是否在发现较新版本后自动下载安装包。下载支持进度显示、取消、失败重试和完整性校验；完成后打开安装包所在文件夹，先从托盘完全退出软件，再手动运行安装器。当前未启用自动重启安装。
+
 ## 从源码运行
 
 只想使用软件时，可以直接下载安装器。运行或修改源码时，需要 Python 3.12 或更新版本，以及 Node.js 22 或更新版本。
 
 1. 下载或克隆本仓库，进入项目根目录。
 2. 运行 `setup_studyforge.cmd`，安装 Python 与 Node 依赖。
-3. 安装完成后，运行 `start_studyforge.cmd`。
+3. 安装完成后，运行 `start_studyforge_source.cmd` 明确打开源码版。
 
 `start_studyforge.cmd` 会优先打开已有的 `dist/win-unpacked/StudyForge.exe`。需要明确运行当前源码时，安装依赖后在项目根目录执行：
 
@@ -672,13 +676,17 @@ Optional MCP integrations for external workspaces, including VS Code Codex and D
 
 Press **F1** or open the in-app guide for more detailed setup and troubleshooting instructions.
 
+### Checking for updates
+
+Open 设置与联动 → 运行与更新 → 软件更新 (Settings and integrations → Runtime and updates → Software updates) and choose 立即检查 (Check now). Leave the advanced update URL empty to use official GitHub releases. Source builds can check and download too. You can save a check interval and opt into automatic downloads of newer versions. Downloads show progress, support cancellation and retries, and verify file integrity. Open the completed file's folder, fully exit the tray app, then run the installer manually. Automatic restart and installation are not enabled.
+
 ## Running from source
 
 To use the app, you can download the installer. Running or modifying the source requires Python 3.12 or newer and Node.js 22 or newer.
 
 1. Download or clone this repository and enter the project root.
 2. Run `setup_studyforge.cmd` to install the Python and Node dependencies.
-3. After setup completes, run `start_studyforge.cmd`.
+3. After setup completes, run `start_studyforge_source.cmd` to explicitly open the source build.
 
 If `dist/win-unpacked/StudyForge.exe` exists, `start_studyforge.cmd` opens that executable first. To explicitly run the current source, install the dependencies and run this command from the project root:
 

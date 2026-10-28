@@ -18,7 +18,7 @@ exports.run=async function({app,window:win,lifecycle,backend,url,report,ownerTok
   await until(()=>evaluate('Boolean(state.settings && state.project)'), 'initialized');
   await evaluate(`(async()=>{clearTimeout(readingTimer);state.selected.clear();showView('settings');await refreshUpdateControls();})()`);
   assert.equal(await evaluate(`$('updateControls').closest('.view').id`),'view-settings');
-  assert.equal(await evaluate(`$('checkUpdates').disabled`),true);
+  assert.equal(await evaluate(`$('checkUpdates').disabled`),false);
   await evaluate(`$('updateFeed').value='https://updates.example.test/windows';$('updateInterval').value=12;$('updateAutoCheck').checked=false;$('saveUpdateSettings').click();`);
   await until(()=>sourceManager.snapshot().settings.interval_hours===12,'source save');
   result.source_settings_saved=sourceManager.snapshot().settings.feed_url==='https://updates.example.test/windows/';
@@ -68,7 +68,7 @@ exports.run=async function({app,window:win,lifecycle,backend,url,report,ownerTok
       assert.equal(check.status,0);assert.deepEqual(JSON.parse(check.stdout),['paused',85]);result.running_generation_saved_in_backup=true;
       fs.writeFileSync(report,JSON.stringify(result,null,2));
     }});
-  for(const name of ['status','save','check','download','install','rollback','recovery'])ipcMain.removeHandler('studyforge:update-'+name);
+  for(const name of ['status','save','check','download','install','rollback','recovery','cancel','release','reveal'])ipcMain.removeHandler('studyforge:update-'+name);
   registerUpdateHandlers(ipcMain,new URL(url).origin,()=>win,manager,()=>true,()=>false);
   app.on('will-quit',()=>{manager.dispose();feed.closeAllConnections();feed.close();});
   try{

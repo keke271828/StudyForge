@@ -111,7 +111,7 @@ function createNotificationManager({Notification,icon,getWindow,showWindow,readF
     if(!['available','downloaded'].includes(state.status)||!state.candidate?.version)return;
     local({notice_key:'update:'+state.status+':'+state.candidate.version,category:'update',target:{view:'settings',settings_section:'system'},
       title:state.status==='downloaded'?'更新已下载，等待你安装':'发现新版本 '+state.candidate.version,
-      body:state.status==='downloaded'?'点击查看更新并选择何时重启安装。':'点击查看版本说明与下载选项。'});
+      body:state.status==='downloaded'?(state.manual_install?'点击打开安装包所在文件夹，由你选择何时手动安装。':'点击查看更新并选择何时重启安装。'):'点击查看版本说明与下载选项。'});
   }
   function backendStopped(){local({notice_key:'backend-stopped',category:'failure',title:'本机学习服务意外停止',
     body:'当前任务无法继续，请重新打开 StudyForge。已保存的资料和成果仍保留。',target:{view:'settings',settings_section:'system'}});}

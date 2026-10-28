@@ -1,4 +1,4 @@
-const { app, BrowserWindow, clipboard, dialog, ipcMain, session, Tray, Menu, shell, Notification } = require('electron');
+const { app, BrowserWindow, clipboard, dialog, ipcMain, session, Tray, Menu, shell, Notification, net:electronNet } = require('electron');
 const {randomBytes} = require('node:crypto');
 const { spawn, spawnSync } = require('node:child_process');
 const fs = require('node:fs');
@@ -9,6 +9,8 @@ const { registerBrowserImporter } = require('./browser_import');
 const {createDesktopLifecycle,registerDesktopHandlers} = require('./lifecycle');
 const {attachWindowControls,registerWindowHandlers}=require('./window_controls');
 const {createUpdateManager,registerUpdateHandlers}=require('./updates');
+const {createGitHubReleaseClient}=require('./github_releases');
+const {createUpdateRequest,environmentProxy,createBackendUpdateRequest}=require('./update_network');
 const {createNotificationManager,registerNotificationHandlers}=require('./notifications');
 const {ensureNotificationIdentity}=require('./notification_identity');
 const {registerMobileHandlers}=require('./mobile');
@@ -182,10 +184,19 @@ async function createWindow() {
   await openMainWindow();
   if(!smokeReport)await notificationManager.start();
   const releaseConfig=require('./release-config.json');
+  let directUpdates;const updateProxy=environmentProxy();
+  const updateRequest=createUpdateRequest({systemFetch:(address,options)=>electronNet.fetch(address,options),
+    configuredFetch:updateProxy?createBackendUpdateRequest(url,desktopToken):undefined,
+    directFetch:async(address,options)=>{
+      if(!directUpdates)directUpdates=(async()=>{const isolated=session.fromPartition('studyforge-updates-direct');
+        await isolated.setProxy({mode:'direct'});return isolated;})();
+      return (await directUpdates).fetch(address,options);
+    }});
   const requestUpdateQuit=action=>{if(desktopLifecycle.status().quitting)throw new Error('应用正在退出');updateExit=action;
     setImmediate(()=>{try{desktopLifecycle.quitAfterSave(action);}catch(error){updateExit=null;action.onFailure(error);}});};
   updateManager=createUpdateManager({currentVersion:app.getVersion(),packaged:app.isPackaged,
     storageDirectory:app.getPath('userData'),publishers:releaseConfig.publishers,initialFeed:releaseConfig.feed_url,
+    releaseClient:createGitHubReleaseClient({request:updateRequest}),
     createUpdater:options=>new (require('electron-updater').NsisUpdater)(options),
     requestQuit:requestUpdateQuit,
     launchInstaller,
@@ -196,8 +207,14 @@ async function createWindow() {
     async()=>{const result=await dialog.showMessageBox(window,{type:'question',title:'恢复软件安装',
       message:`使用已保存的 ${updateManager.snapshot().rollback_version} 安装包恢复安装？`,
       detail:'将备份当前数据库和设置，再重新安装。学习资料继续保留；请确认所选安装包支持当前学习数据。',
-      buttons:['取消','保存并恢复安装'],defaultId:0,cancelId:0});return result.response===1;});
+      buttons:['取消','保存并恢复安装'],defaultId:0,cancelId:0});return result.response===1;},
+    address=>shell.openExternal(address),file=>shell.showItemInFolder(file));
   updateManager.start();app.on('will-quit',()=>updateManager.dispose());
+  if(smokeReport&&['1','live'].includes(process.env.STUDYFORGE_SMOKE_GITHUB_UPDATES)){
+    const acceptance=require('../scripts/smoke_github_updates');
+    await acceptance[process.env.STUDYFORGE_SMOKE_GITHUB_UPDATES==='live'?'runLive':'run']({app,window,lifecycle:desktopLifecycle,backend,url,report:smokeReport,
+      ownerToken:desktopToken,sourceManager:updateManager,updateRequest});return;
+  }
   if(smokeReport&&process.env.STUDYFORGE_SMOKE_STARTUP==='1'){
     await require('../scripts/smoke_desktop_startup').run({app,window,lifecycle:desktopLifecycle,backend,url,report:smokeReport,
       startupManager,ownerToken:desktopToken});return;
@@ -312,6 +329,17 @@ async function runStartupSmoke(launch) {
       provider: document.getElementById('provider').value,
       codexRequests: ${JSON.stringify(smokeCodexRequests)}
     })`);
+    ui.updateControls=await window.webContents.executeJavaScript(`(async()=>{
+      const value=await window.studyforgeDesktop.updateStatus();
+      await window.studyforgeDesktop.saveUpdateSettings({...value.settings,auto_check:false,auto_download:false});
+      showView('settings');showSettingsSection('system');await refreshUpdateControls();
+      const valid=$('updateControls').checkVisibility()&&!$('checkUpdates').disabled&&value.can_check
+        &&value.provider==='github'&&value.packaged===${app.isPackaged}&&!value.can_install
+        &&typeof window.studyforgeDesktop.cancelUpdateDownload==='function'
+        &&typeof window.studyforgeDesktop.revealUpdateDownload==='function'
+        &&$('updateSourceNote').textContent.includes('GitHub');
+      showView('study');return valid;
+    })()`);
     ui.quoteStyles = await window.webContents.executeJavaScript(`(() => {
       const container = message('assistant', '> 原文引用\\n\\nAI 讲解\\n<img src=x onerror=alert(1)>');
       const quote = container.querySelector('.lesson-quote');
@@ -394,7 +422,7 @@ async function runStartupSmoke(launch) {
         && host.children.length === 2 && Boolean(original.querySelector('.katex'))
         && history.matches(host,rows,'native-test');
     })()`);
-    if (!health.ok || !project.id || job.status !== 'completed' || !ui.projectForm || !ui.desktopBridge || !ui.quoteStyles || !ui.assessmentControls || !ui.apiNetworkControls || !ui.userGuide || !ui.historyRenderer)
+    if (!health.ok || !project.id || job.status !== 'completed' || !ui.projectForm || !ui.desktopBridge || !ui.updateControls || !ui.quoteStyles || !ui.assessmentControls || !ui.apiNetworkControls || !ui.userGuide || !ui.historyRenderer)
       throw new Error(`安装版自检失败：${JSON.stringify({ health, project, job, ui })}`);
     let startup;
     try{

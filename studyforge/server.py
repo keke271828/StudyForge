@@ -550,6 +550,18 @@ def desktop_status(x_studyforge_desktop_token: str | None = Header(default=None)
     return task_status() | {'quitting':app.state.desktop_shutdown}
 
 
+@app.get('/api/desktop/update-transfer')
+async def desktop_update_transfer(kind: Literal['latest', 'asset'], asset_id: int | None = Query(default=None, ge=1, le=2**53-1),
+                                  range: str | None = Header(default=None),
+                                  x_studyforge_desktop_token: str | None = Header(default=None)):
+    require_desktop_owner(x_studyforge_desktop_token)
+    from .update_transfer import transfer
+    try:
+        return await transfer(kind, asset_id, range)
+    except ValueError as exc:
+        raise HTTPException(400, str(exc)) from exc
+
+
 @app.post('/api/desktop/shutdown')
 async def desktop_shutdown(x_studyforge_desktop_token: str | None = Header(default=None),
                            current_version: str | None = Query(default=None, max_length=24),

@@ -137,18 +137,20 @@
           <p class="small-note">本项目采用 AGPL-3.0 开源。<a href="https://github.com/keke271828/StudyForge/tree/v0.0.1" target="_blank" rel="noopener noreferrer">查看完整源码与构建说明</a> · <a href="https://github.com/keke271828/StudyForge/blob/v0.0.1/LICENSE" target="_blank" rel="noopener noreferrer">查看许可证</a></p>
         </div>
         <div id="updateControls" class="settings-card update-card" hidden>
-          <div class="settings-card-head"><span>05 / 版本与更新</span><h3>软件更新</h3><p>自动检查，可选后台下载。由你选择何时保存任务并重启安装。</p></div>
+          <div class="settings-card-head"><span>05 / 版本与更新</span><h3>软件更新</h3><p>从官方 GitHub 检查新版、查看更新内容并下载安装包。下载完成后，由你选择何时手动安装。</p></div>
           <p id="updateVersion" class="small-note"></p><p id="updateModeNote" class="small-note"></p>
-          <label>更新地址（发布者提供）<input id="updateFeed" type="url" maxlength="1500" placeholder="没有发布者提供的地址时，请留空"></label>
+          <p id="updateSourceNote" class="small-note"></p>
           <label class="setting-check"><input id="updateAutoCheck" type="checkbox" checked>自动检测更新</label>
           <label class="setting-check"><input id="updateAutoDownload" type="checkbox">发现新版本后自动下载</label>
           <label>检查间隔（小时）<input id="updateInterval" type="number" min="1" max="168" value="24"></label>
-          <div class="card-actions"><button id="saveUpdateSettings" type="button">保存更新设置</button><button id="checkUpdates" type="button">立即检查</button></div>
+          <div class="card-actions"><button id="saveUpdateSettings" type="button">保存更新设置</button><button id="checkUpdates" type="button">立即检查</button><button id="openUpdateRelease" type="button">打开官方发布页</button></div>
           <p id="updateStatus" role="status" aria-live="polite"></p>
           <div id="updateProgress" class="progress" role="progressbar" aria-label="更新下载进度" aria-valuemin="0" aria-valuemax="100" hidden><i></i></div>
           <p id="updateTransfer" class="small-note"></p>
-          <div class="card-actions"><button id="downloadUpdate" type="button" hidden>下载更新</button><button id="installUpdate" class="secondary" type="button" hidden>保存任务并重启更新</button></div>
+          <div class="card-actions"><button id="downloadUpdate" type="button" hidden>下载安装包</button><button id="cancelUpdateDownload" type="button" hidden>取消下载</button><button id="revealUpdateDownload" type="button" hidden>打开安装包所在文件夹</button><button id="installUpdate" class="secondary" type="button" hidden>保存任务并重启更新</button></div>
+          <p id="updateInstallHelp" class="small-note"></p>
           <details id="updateNotes" hidden><summary>发布说明</summary><pre></pre></details>
+          <details id="updateAdvanced"><summary>高级：使用发布者提供的其他更新源</summary><label>更新目录地址<input id="updateFeed" type="url" maxlength="1500" placeholder="留空使用官方 GitHub，无需自己填写地址"></label><p class="small-note">只有发布者明确提供了其他更新目录时才填写。这里不是仓库网址、发布页网址或 EXE 下载地址。留空并保存即可恢复 GitHub 检查；其他更新源的自动安装仍需发布者签名和安装前备份。</p></details>
           <details><summary>安装恢复与备份</summary><p class="small-note">安装前会备份学习记录和设置，原文件仍保留。可检查已保存的安装包；恢复安装不会自动覆盖当前学习进度。</p><div class="card-actions"><button id="openUpdateRecovery" type="button">打开备份目录</button><button id="rollbackUpdate" type="button" disabled>暂无可恢复安装包</button></div></details>
         </div>
       </section>

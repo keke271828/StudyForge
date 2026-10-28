@@ -16,11 +16,12 @@ async function main(){
   assert.equal(bundled.version,version,'Bundled version is stale');
   assert.equal(bundled.license,'AGPL-3.0-only','Bundled license is stale');
   const ffmpegLicense='third_party/ffmpeg/COPYING.GPLv3';
-  assert(asar.extractFile(archive,ffmpegLicense).equals(fs.readFileSync(path.join(root,ffmpegLicense))),'Missing FFmpeg GPL license in app archive');
+  assert(asar.extractFile(archive,path.join('third_party','ffmpeg','COPYING.GPLv3')).equals(fs.readFileSync(path.join(root,ffmpegLicense))),'Missing FFmpeg GPL license in app archive');
   assert(fs.readFileSync(path.join(unpacked,'licenses',ffmpegLicense)).equals(fs.readFileSync(path.join(root,ffmpegLicense))),'Missing installed FFmpeg GPL license');
   for(const name of ['LICENSE','THIRD_PARTY_NOTICES.md']){
     const source=fs.readFileSync(path.join(root,name));
-    assert(asar.extractFile(archive,name).equals(source),'Missing license in app archive: '+name);
+    // electron-builder's extraFiles puts these beside the executable and
+    // excludes the same input files from app.asar; verify the delivered copy.
     assert(fs.readFileSync(path.join(unpacked,'licenses',name)).equals(source),'Missing installed license: '+name);
     assert(fs.readFileSync(path.join(unpacked,'resources','backend','_internal','licenses',name)).equals(source),'Missing backend license: '+name);
   }
